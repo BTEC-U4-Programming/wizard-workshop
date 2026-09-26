@@ -1,0 +1,3 @@
+import {defineConfig,devices} from '@playwright/test';
+const preview=process.env.WORKSHOP_PREVIEW==='1';
+export default defineConfig({testDir:'./tests',testMatch:'**/*.spec.js',timeout:30000,fullyParallel:false,workers:1,reporter:'list',use:{baseURL:preview?'http://127.0.0.1:4173':'http://127.0.0.1:5173',viewport:{width:1366,height:768},trace:'retain-on-failure'},projects:[{name:'chromium',use:{...devices['Desktop Chrome'],viewport:{width:1366,height:768}}},{name:'firefox',use:{...devices['Desktop Firefox'],viewport:{width:1366,height:768}}}],webServer:{command:`node node_modules/vite/bin/vite.js ${preview?'preview --port 4173':'--port 5173'} --host 127.0.0.1`,url:preview?'http://127.0.0.1:4173':'http://127.0.0.1:5173',reuseExistingServer:!process.env.CI}});

@@ -1,0 +1,40 @@
+{
+  "name": "wizard-workshop",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0 <23 || >=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "6.20.3",
+    "@codemirror/commands": "6.11.1",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/language": "6.12.4",
+    "@codemirror/lint": "6.9.7",
+    "@codemirror/state": "6.7.6",
+    "@codemirror/view": "6.43.13",
+    "@jitl/quickjs-wasmfile-release-sync": "0.32.0",
+    "@lezer/highlight": "1.2.4",
+    "acorn": "8.18.0",
+    "acorn-walk": "8.3.5",
+    "canvas-confetti": "1.9.4",
+    "codemirror": "6.0.2",
+    "quickjs-emscripten": "0.32.0",
+    "quickjs-emscripten-core": "0.32.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "expressive-code": "0.44.2",
+    "hast-util-to-html": "9.0.5",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
+  }
+}

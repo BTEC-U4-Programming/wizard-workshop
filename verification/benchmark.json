@@ -1,0 +1,9 @@
+{
+  "node": "v22.19.0",
+  "platform": "win32",
+  "runs": 25,
+  "medianMs": 17.69,
+  "maxMs": 46.23,
+  "includes": "setup, independent probes, actions, snapshots",
+  "excludes": "initial WASM load and browser UI"
+}

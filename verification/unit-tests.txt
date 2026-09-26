@@ -1,0 +1,9 @@
+
+ RUN  v5.0.2 C:/Users/ehags6/dev/2026-27/programming-principles/wizard-workshop
+
+
+ Test Files  4 passed (4)
+      Tests  138 passed (138)
+   Start at  08:16:21
+   Duration  2.27s (tests 79%, import 12%, transform 8%, worker 1%)
+

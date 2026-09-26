@@ -1,0 +1,21 @@
+
+Running 16 tests using 1 worker
+
+  ok  1 [chromium] › tests\workshop.spec.js:15:1 › student journey, error and fix, inheritance and deterministic battle (13.1s)
+  ok  2 [chromium] › tests\workshop.spec.js:28:1 › saved drafts, hints, reset cancellation, backup recovery and import/export (2.7s)
+  ok  3 [chromium] › tests\workshop.spec.js:37:1 › loop recovery, edit cancellation, keyboard exit and reduced motion (5.5s)
+  ok  4 [chromium] › tests\workshop.spec.js:45:1 › desktop, tablet, phone and zoom layouts preserve usable editor (3.3s)
+  ok  5 [chromium] › tests\workshop.spec.js:56:1 › late worker results cannot overwrite an edited draft or a different checkpoint (6.0s)
+  ok  6 [chromium] › tests\workshop.spec.js:65:1 › keyboard-only first checkpoint and Enter do not auto-run (513ms)
+  ok  7 [chromium] › tests\workshop.spec.js:68:1 › blocked WASM produces retryable infrastructure feedback (1.6s)
+  ok  8 [chromium] › tests\workshop.spec.js:71:1 › oversized draft survives reload while Run remains blocked and last good scene remains (3.8s)
+  ok  9 [firefox] › tests\workshop.spec.js:15:1 › student journey, error and fix, inheritance and deterministic battle (13.3s)
+  ok 10 [firefox] › tests\workshop.spec.js:28:1 › saved drafts, hints, reset cancellation, backup recovery and import/export (2.9s)
+  ok 11 [firefox] › tests\workshop.spec.js:37:1 › loop recovery, edit cancellation, keyboard exit and reduced motion (5.7s)
+  ok 12 [firefox] › tests\workshop.spec.js:45:1 › desktop, tablet, phone and zoom layouts preserve usable editor (3.1s)
+  ok 13 [firefox] › tests\workshop.spec.js:56:1 › late worker results cannot overwrite an edited draft or a different checkpoint (6.1s)
+  ok 14 [firefox] › tests\workshop.spec.js:65:1 › keyboard-only first checkpoint and Enter do not auto-run (880ms)
+  ok 15 [firefox] › tests\workshop.spec.js:68:1 › blocked WASM produces retryable infrastructure feedback (12.4s)
+  ok 16 [firefox] › tests\workshop.spec.js:71:1 › oversized draft survives reload while Run remains blocked and last good scene remains (4.1s)
+
+  16 passed (1.5m)
