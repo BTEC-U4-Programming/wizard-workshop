@@ -114,7 +114,7 @@ For the OOP module, keep class defaults distinct from properties on an individua
 
 ## Build and development commands
 
-Run commands from this **application directory containing `package.json`**. Check the actual scripts with `npm run` first. The following scripts are configured; see `README.md` for the workstation npm-launcher workaround and `VERIFICATION.md` for prior run records. This documentation update did not rerun application checks:
+Run commands from this **application directory containing `package.json`**. Check the actual scripts with `npm run` first. The following scripts are configured; see `README.md` for the workstation npm-launcher workaround and `VERIFICATION.md` for run records:
 
 | Command | Purpose |
 |---|---|
@@ -127,7 +127,7 @@ Run commands from this **application directory containing `package.json`**. Chec
 
 Use the Node version declared by the implementation's `.nvmrc`/`package.json` and document prerequisites in its README. If creating the application for the first time, use `npm install` to establish the lockfile before relying on `npm ci`. Do not claim a lint command exists unless one is configured.
 
-Keep npm dependencies reproducible and install only packages used by the project. Update the lockfile with dependency changes. Verify Vite development **and** production preview when changing worker or WASM loading. No public deployment is implied by routine development work.
+Keep npm dependencies reproducible and install only packages used by the project. Update the lockfile with dependency changes. Verify Vite development **and** production preview when changing worker or WASM loading. Pushes to `main` deploy automatically to GitHub Pages, so keep `main` releasable. `vite.config.js` reads `PAGES_BASE_PATH` for the Pages build; do not hard-code `base`. Verify sub-path builds when changing worker, WASM or asset loading.
 
 ## Coding standards
 
