@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      pages: read  # configure-pages reads the Pages site for private repositories
+      pages: ${{ github.event_name != 'pull_request' && 'read' || 'none' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
