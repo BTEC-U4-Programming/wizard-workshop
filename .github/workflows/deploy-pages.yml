@@ -1,6 +1,7 @@
 # Builds Wizard Workshop and publishes it to GitHub Pages.
 # - Pull requests into main: install, test and build only (no deployment).
-# - Pushes to main (including merged PRs) and manual runs: test, build and deploy.
+# - Manual runs: install, test and build only (no deployment).
+# - Pushes to main (including merged PRs): test, build and deploy.
 name: Deploy to GitHub Pages
 
 on:
@@ -21,8 +22,8 @@ concurrency:
 
 jobs:
   build-pr:
-    name: Test and build (PR)
-    if: github.event_name == 'pull_request'
+    name: Test and build (validation)
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -52,7 +53,7 @@ jobs:
 
   build-deploy:
     name: Test and build (deploy prep)
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -94,7 +95,7 @@ jobs:
     name: Deploy
     needs: build-deploy
     # Only publish from main, never from pull requests.
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
