@@ -19,7 +19,7 @@ npm run build
 npm run preview
 ```
 
-Preview serves the production build at http://127.0.0.1:4173. Do not open `index.html` directly as a file: workers and module assets require the local HTTP server. Every push to `main` is published to https://btec-u4-programming.github.io/wizard-workshop/ by `.github/workflows/deploy-pages.yml`. Local use is unchanged.
+Preview serves the production build at http://127.0.0.1:4173. Do not open `index.html` directly as a file: workers and module assets require the local HTTP server. Every push to `main` triggers `.github/workflows/deploy-pages.yml`, and deployment to https://btec-u4-programming.github.io/wizard-workshop/ happens after the workflow checks pass. Local use is unchanged.
 
 **This workstation’s npm launcher:** its global shim incorrectly resolves an absent npm installation. If `npm` reports a missing `npm-cli.js`, this installation has a working CLI at `C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js`. For example:
 
