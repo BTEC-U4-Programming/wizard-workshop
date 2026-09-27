@@ -84,3 +84,14 @@ The final four-action fixture was run 25 times on this workstation using the rea
 - Development Chromium: all 16 Playwright checks passed. The new check opens all five introductions, confirms their optional explanations start closed, and opens the walkthrough with Enter. Existing journey, draft, review, runner and layout checks also passed.
 - Production Chromium preview: 2 selected introduction and section-journey checks passed.
 - Desktop Section 1 and 390px phone Section 3 captures were visually inspected. The topic, outcomes, key idea and finished example are visible in a clear reading order; the longer notes sit below the Start/Continue control in labelled disclosures. Phone layout has no horizontal overflow. Firefox remains unverified on this host for the profile-launch reason recorded above.
+
+## GitHub Pages deployment preparation — 27 September 2026
+
+The historical “Nothing was publicly deployed” statement above describes the earlier delivery. This update introduces a GitHub Actions Pages workflow; no remote deployment or live-site result was available to verify here.
+
+- Node 22.19.0 and npm 10.9.3: `npm ci` passed from the committed lockfile. `npm test` passed: 145 tests in 6 files.
+- Plain `npm run build` passed. `dist/index.html` contained two root `/assets/` references, as expected for local use.
+- `PAGES_BASE_PATH=/wizard-workshop npm run build` passed. The HTML script and stylesheet URLs used `/wizard-workshop/assets/`; the main bundle's worker URL and the worker/WASM loader URLs used the same prefix. No bare `"/assets/` references were found in `dist/index.html` or built JavaScript.
+- With `PAGES_BASE_PATH` set for both build and Vite preview, headless Chromium loaded `http://127.0.0.1:4174/wizard-workshop/` without HTTP errors or page exceptions. The worker and WASM returned 200, checkpoint C1.1a ran successfully, and its draft remained after reload. A first preview attempt without the variable on the preview command returned a JavaScript 404; the README now gives the working command.
+- Restored a plain `npm run build`. `npm run test:e2e` passed all 16 Chromium tests in development mode. Its 16 Firefox tests could not start because this host's Firefox process reported “Could not find profile folder”, the same issue recorded above. `WORKSHOP_PREVIEW=1 npm run test:e2e -- --project=chromium` passed all 16 Chromium tests against the plain production preview.
+- GitHub repository settings, a pull request run, a `main` deployment run and the live Pages URL still require remote verification after the workflow is pushed and Pages is enabled.

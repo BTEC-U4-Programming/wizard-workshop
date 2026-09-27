@@ -19,7 +19,7 @@ npm run build
 npm run preview
 ```
 
-Preview serves the production build at http://127.0.0.1:4173. Do not open `index.html` directly as a file: workers and module assets require the local HTTP server. Nothing is publicly deployed.
+Preview serves the production build at http://127.0.0.1:4173. Do not open `index.html` directly as a file: workers and module assets require the local HTTP server. Every push to `main` is published to https://btec-u4-programming.github.io/wizard-workshop/ by `.github/workflows/deploy-pages.yml`. Local use is unchanged.
 
 **This workstation’s npm launcher:** its global shim incorrectly resolves an absent npm installation. If `npm` reports a missing `npm-cli.js`, this installation has a working CLI at `C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js`. For example:
 
@@ -64,6 +64,8 @@ Limits: 30KB combined UTF-8 source; 30 actions; 200 displayed characters per log
 
 Progress uses `wizard-workshop:progress:v1` in localStorage, after 500ms idle and on navigation. It includes drafts, prior successful sources/previews, historical completion, section position and review answers, help depth, preferences and replacement backups. Older version-1 saves remain readable. The app stores no student profile; use fictional character names. Saved code never runs automatically. A restored preview is labelled as an earlier successful result; Next needs a fresh Run. Browser storage can be unavailable or cleared: download work at the end of each session.
 
+On the hosted site, progress stays in the learner's own browser and is not shared with other devices. All sites under `btec-u4-programming.github.io` share one browser storage origin; the workshop's namespaced key avoids a clash.
+
 Download work exports JSON containing both documents and per-checkpoint progress. Import accepts the current curriculum version and validates schema and size (2MB work file). Run enforces the 30KB source-pair limit; a temporarily oversized draft is retained for editing rather than discarded on reload. Recovery is bounded at 2MB per draft and 10MB per local save, subject to the browser’s smaller storage quota. Download code is a clearly labelled combined `.txt` file; copy its two sections into their matching virtual files when returning to the workshop.
 
 ## Verification
@@ -85,6 +87,19 @@ Remove-Item Env:WORKSHOP_PREVIEW
 
 The Playwright configuration starts a local server when needed. On Unix, use `WORKSHOP_PREVIEW=1 npm run test:e2e`. See [VERIFICATION.md](VERIFICATION.md) for the actual run record and limitations; tests alone do not constitute a visual or screen-reader audit.
 
+## Deployment
+
+Pull requests into `main` install dependencies, run `npm test` and build, but do not deploy. A push or merge to `main` publishes the site after those checks pass. A failed test blocks deployment. See runs in the repository's **Actions** tab. To rerun, open **Deploy to GitHub Pages**, choose **Run workflow**, select `main` and run it.
+
+To reproduce the Pages build locally, run:
+
+```sh
+PAGES_BASE_PATH=/wizard-workshop npm run build
+PAGES_BASE_PATH=/wizard-workshop npx vite preview --host 127.0.0.1 --port 4174
+```
+
+Open http://127.0.0.1:4174/wizard-workshop/. For PowerShell, set `$env:PAGES_BASE_PATH='/wizard-workshop'` before both commands and run `Remove-Item Env:PAGES_BASE_PATH` afterwards. Run `npm run build` again without the variable to restore a normal local preview.
+
 ## Specification review and documented choices
 
 Instructional code uses [Expressive Code](https://github.com/expressive-code/expressive-code). The Vite plugin in `scripts/lesson-highlighting.mjs` renders trusted curriculum content during development/build; no highlighting engine or remote assets are loaded in the browser. In curriculum prose, surround code with backticks (escape them inside JavaScript template strings). Snippets containing newlines become indented code blocks; shorter snippets stay inline. Worked solutions are highlighted automatically with filename captions. This is a deliberately small code-markup format, not a general Markdown renderer.
@@ -98,6 +113,6 @@ Correct, current Run results trigger a short [Canvas Confetti](https://github.co
 - One cohesive curriculum module replaces separate starter/solution/hint files; small UI responsibilities live together in `main.js`. All records still expose their data for teacher edits.
 - The second object is an inspector card. The canvas is decorative and backed by named health/level DOM summaries. Animation is a sequence of brief discrete pixel effects, not a game engine.
 - No console API is supplied; the visible log is generated solely from validated action calls. Exports use a combined labelled text file instead of a ZIP dependency, as permitted by the brief.
-- System fonts and original pixel masks avoid external font/image downloads. No accounts, external AI, sound, automatic enemy turns or public deployment were added.
+- System fonts and original pixel masks avoid external font/image downloads. No accounts, external AI, sound or automatic enemy turns were added. A static GitHub Pages deployment was added later; there is still no backend.
 
 The implementation uses the [Vite Node requirements](https://vite.dev/guide/), [CodeMirror extension interfaces](https://codemirror.net/docs/extensions/) and [QuickJS runtime limits and isolation APIs](https://github.com/justjake/quickjs-emscripten). Dependency versions are recorded in `package.json` and `package-lock.json`.
