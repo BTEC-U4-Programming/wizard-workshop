@@ -26,7 +26,6 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      pages: ${{ github.event_name != 'pull_request' && 'read' || 'none' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -45,15 +44,10 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Configure GitHub Pages
-        id: pages
-        if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-
       - name: Build site
         run: npm run build
         env:
-          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path || '/' }}
+          PAGES_BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name) }}
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
