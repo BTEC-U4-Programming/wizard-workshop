@@ -48,8 +48,6 @@ jobs:
 
       - name: Build site
         run: npm run build
-        env:
-          PAGES_BASE_PATH: /
 
   build-deploy:
     name: Test and build (deploy prep)

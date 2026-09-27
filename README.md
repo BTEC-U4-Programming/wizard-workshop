@@ -89,7 +89,7 @@ The Playwright configuration starts a local server when needed. On Unix, use `WO
 
 ## Deployment
 
-Pull requests into `main` install dependencies, run `npm test` and build, but do not deploy. A push or merge to `main` publishes the site after those checks pass. A failed test blocks deployment. See runs in the repository's **Actions** tab. To rerun, open **Deploy to GitHub Pages**, choose **Run workflow**, select `main` and run it.
+Pull requests into `main` install dependencies, run `npm test` and build, but do not deploy. A push or merge to `main` publishes the site after those checks pass. A failed test blocks deployment. See runs in the repository's **Actions** tab. **Run workflow** is for manual validation runs; publishing still happens on a push to `main`.
 
 To reproduce the Pages build locally, run:
 
