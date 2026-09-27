@@ -66,3 +66,21 @@ The final four-action fixture was run 25 times on this workstation using the rea
 - Vite reports a non-fatal bundle-size advisory; see the update above for the current main-bundle size. The synchronous WASM asset is approximately 503KB. All assets are served locally.
 - Browser storage is per device/profile and may be cleared or denied. Download work at session end. The app reports storage failures and keeps the current in-memory draft. Execution has a 30KB source limit; bounded draft recovery retains temporarily oversized code so it can be trimmed.
 - This is a local teaching application, not a formally audited sandbox for arbitrary public submissions. Reflection answers and historical imported badges are not secure assessments.
+
+## Section introductions and reviews — 27 September 2026
+
+- `npm test`: 145 passed across 6 files. This includes QuickJS execution of all five new worked examples, review question schema checks, answer checking and save compatibility.
+- `npm run build`: passed. The new `virtual:section-content` bundle was produced.
+- Development Chromium: 12 Playwright checks passed together, followed by 3 additional targeted checks, including the new intro/review flow, saved review answers, C3.1a/C3.1b guidance, existing learner journey, responsive layouts, keyboard editor use and worker recovery. The targeted checks covered section-boundary source carryover, C3.1b sequential entry, and every review blank rendering. Existing Playwright keyboard shortcuts were updated for this Mac host.
+- Production Chromium preview: 3 selected checks passed for the new section flow, file guidance and existing learner coding journey.
+- Firefox Playwright executable was installed, but it exits before opening a page with “Could not find profile folder”, including with `TMPDIR=/private/tmp`. Firefox UI behaviour remains unverified on this host.
+- The referenced `WIZARD_OOP_IMPLEMENTATION_BRIEF.md` was absent from this checkout and was not found under the local Downloads/project directories. The attached plan and current curriculum/tests supplied the implementation details used here.
+- No manual screen reader pass or actual browser zoom control test was performed. Browser tests cover keyboard answer entry and CSS viewport reflow.
+
+### Shorter introduction screens — 27 September 2026
+
+- `npm test`: 145 passed. The section fixture now checks a maximum of three objectives and concise opening, build and key-idea copy.
+- `npm run build`: passed with the updated pre-rendered introduction content.
+- Development Chromium: all 16 Playwright checks passed. The new check opens all five introductions, confirms their optional explanations start closed, and opens the walkthrough with Enter. Existing journey, draft, review, runner and layout checks also passed.
+- Production Chromium preview: 2 selected introduction and section-journey checks passed.
+- Desktop Section 1 and 390px phone Section 3 captures were visually inspected. The topic, outcomes, key idea and finished example are visible in a clear reading order; the longer notes sit below the Start/Continue control in labelled disclosures. Phone layout has no horizontal overflow. Firefox remains unverified on this host for the profile-launch reason recorded above.

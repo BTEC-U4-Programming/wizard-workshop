@@ -1,6 +1,7 @@
 import {ExpressiveCode,loadShikiTheme} from 'expressive-code';
 import {toHtml} from 'hast-util-to-html';
 import {checkpoints} from '../src/curriculum/checkpoints.js';
+import {sections} from '../src/curriculum/sections.js';
 
 // Runs in Node through Vite. Only escaped, pre-rendered curriculum HTML reaches
 // the browser; neither the highlighter nor student drafts enter this pipeline.
@@ -42,14 +43,31 @@ export async function renderLessons() {
       checklist:await Promise.all(c.objectiveChecks.map(prose)),
       hints:await Promise.all(c.hints.map(prose)),
       reflection:await prose(c.reflection),
+      fileNotice:c.fileNotice?await prose(c.fileNotice.body):'',
       solution:await Promise.all(Object.entries(c.solution).filter(([,s])=>s).map(([file,source])=>highlight(source,false,file==='characterSource'?'character.js':'actions.js'))),
     };
   }
-  return {lessons,css:[...styles].join('\n')};
+  const sectionContent={};
+  for(const section of sections){
+    const intro=section.intro;
+    sectionContent[section.id]={
+      hook:await prose(intro.hook),build:await prose(intro.build),summary:await prose(intro.summary),prerequisites:await prose(intro.prerequisites),
+      objectives:await Promise.all(intro.objectives.map(prose)),
+      concepts:await Promise.all(intro.concepts.map(async([term,definition])=>({term:await prose(term),definition:await prose(definition)}))),
+      example:await highlight(intro.example.code,false,'example.js'),
+      walkthrough:await Promise.all(intro.example.walkthrough.map(prose)),result:await prose(intro.example.result),
+      predict:await Promise.all(intro.predict.map(prose)),assignmentLink:await prose(intro.assignmentLink),
+      questions:await Promise.all(section.review.questions.map(async question=>({
+        prompt:await prose(question.prompt),code:question.type==='blank'?await highlight(question.code):null,
+        options:question.type==='choice'?await Promise.all(question.options.map(option=>prose(option.text))):null,
+      }))),
+    };
+  }
+  return {lessons,sectionContent,css:[...styles].join('\n')};
 }
 
 export function lessonHighlighting() {
-  const ids=['virtual:lesson-content','virtual:lesson-styles.css'];
+  const ids=['virtual:lesson-content','virtual:section-content','virtual:lesson-styles.css'];
   let data;
   return {
     name:'workshop-lesson-highlighting',
@@ -58,7 +76,7 @@ export function lessonHighlighting() {
       if(!ids.some(v=>id==='\0'+v))return;
       data??=renderLessons();
       const result=await data;
-      return id.endsWith('.css')?result.css:'export default '+JSON.stringify(result.lessons);
+      return id.endsWith('.css')?result.css:'export default '+JSON.stringify(id.endsWith('section-content')?result.sectionContent:result.lessons);
     },
     // The curriculum is imported by this config: Vite restarts on changes to it.
   };

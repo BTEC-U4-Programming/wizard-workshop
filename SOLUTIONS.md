@@ -2262,3 +2262,213 @@ wizard.levelUp();
 ```
 
 Self-check: How is a class different from an object? Why do shared methods belong in `Character`? What does `target` refer to in `castSpell`?
+
+# Section review answers
+
+## Section 1 — Classes and objects
+
+### S1-Q1 — What is the difference between a class and an object?
+
+Answer: A class is a reusable description; an object is one thing made from it.
+
+Correct. One class can create many objects.
+
+### S1-Q2 — In `constructor(name) { this.name = name; }`, what does `this` mean?
+
+Answer: The new object being created.
+
+Correct. The property belongs to this particular object.
+
+### S1-Q3 — If `apprentice.name` changes, what happens to `wizard.name`?
+
+Answer: It stays the same.
+
+Correct. The two objects are independent.
+
+### S1-Q4 — Create an object from a class.
+
+Answer: `new`
+
+Correct. `new` creates an object.
+
+### S1-Q5 — Name the function that runs when an object is created.
+
+Answer: `constructor`
+
+Correct. The constructor sets starting properties.
+
+### S1-Q6 — Start a class declaration.
+
+Answer: `class`
+
+Correct. JavaScript uses lowercase `class`.
+
+## Section 2 — Properties: defaults and your own object
+
+### S2-Q1 — Where do you put `this.wand = "oak";` so every new wizard starts with an oak wand?
+
+Answer: Inside the constructor.
+
+Correct. It sets a class default for every new object.
+
+### S2-Q2 — The default wand is oak. You set `wizard.wand = "crystal";`. What wand does a fresh wizard get?
+
+Answer: `"oak"`
+
+Correct. The constructor still sets oak.
+
+### S2-Q3 — Which line sets the level to the number 3?
+
+Answer: `wizard.level = 3;`
+
+Correct. Numbers have no quotes.
+
+### S2-Q4 — Set the workshop cloak default.
+
+Answer: `grey`
+
+Correct. `grey` is a workshop choice; JavaScript itself allows other strings.
+
+### S2-Q5 — Customise only one object.
+
+Answer: `.`
+
+Correct. The dot connects an object and its property.
+
+### S2-Q6 — Set the level default.
+
+Answer: `level`
+
+Correct. Every new wizard starts at level 1.
+
+## Section 3 — Methods and decisions
+
+### S3-Q1 — What is a method?
+
+Answer: A function that belongs to a class.
+
+Correct. Objects made from the class can call it.
+
+### S3-Q2 — Where does `castSpell()` belong?
+
+Answer: Inside the `Wizard` class, after its constructor.
+
+Correct. It must be inside the class but outside the constructor.
+
+### S3-Q3 — Why does defining `castSpell()` alone show no spell?
+
+Answer: It still needs a call such as `wizard.castSpell();`.
+
+Correct. A method runs when it is called.
+
+### S3-Q4 — Which checks whether the power is ice?
+
+Answer: `this.specialPower === "ice"`
+
+Correct. `===` compares values.
+
+### S3-Q5 — Send a result back.
+
+Answer: `return`
+
+Correct. `return` sends a value back.
+
+### S3-Q6 — Call the method in `actions.js`.
+
+Answer: `castSpell`
+
+Correct. The name must match the class method.
+
+### S3-Q7 — Recover twenty health.
+
+Answer: `+`
+
+Correct. This adds 20 to the current value.
+
+### S3-Q8 — Check whether the level is below 20.
+
+Answer: `<`
+
+Correct. The comparison stops level 20 increasing.
+
+## Section 4 — Inheritance: sharing code
+
+### S4-Q1 — Why create a `Character` class?
+
+Answer: To write shared properties and methods once.
+
+Correct. Wizard and Goblin can reuse them.
+
+### S4-Q2 — What does `super(name, 100)` do in `Wizard`?
+
+Answer: Calls the parent constructor with those values.
+
+Correct. The parent sets shared starting data.
+
+### S4-Q3 — Why does `wizard.recoverHealth()` work after removing its copy from `Wizard`?
+
+Answer: Wizard inherits the method from Character.
+
+Correct. `extends` provides the parent method.
+
+### S4-Q4 — Make Goblin inherit Character.
+
+Answer: `extends`
+
+Correct. `extends` connects the child and parent.
+
+### S4-Q5 — Call the parent constructor.
+
+Answer: `super`
+
+Correct. `super` sets up parent properties.
+
+### S4-Q6 — Stop health below zero.
+
+Answer: `0`
+
+Correct. `Math.max` picks zero when the subtraction is negative.
+
+## Section 5 — Objects working together
+
+### S5-Q1 — In `wizard.castSpell(goblin)`, what is `target`?
+
+Answer: The goblin object.
+
+Correct. The argument becomes the target parameter.
+
+### S5-Q2 — Why is `wizard.castSpell("goblin")` wrong here?
+
+Answer: It passes text, which has no `takeDamage` method.
+
+Correct. Pass the goblin object without quotes.
+
+### S5-Q3 — A level-3 fire wizard hits a goblin at 60 health. Damage is `12 + level * 2`. What health remains?
+
+Answer: 42
+
+Correct. Damage is 18, and 60 − 18 = 42.
+
+### S5-Q4 — If you press Run twice without editing, does the goblin keep losing health?
+
+Answer: No. Each Run creates fresh objects.
+
+Correct. The same script starts from fresh state each time.
+
+### S5-Q5 — Damage the target.
+
+Answer: `takeDamage`
+
+Correct. The target handles its own health.
+
+### S5-Q6 — Make the goblin hit the wizard.
+
+Answer: `wizard`
+
+Correct. Pass the object without quotes.
+
+### S5-Q7 — Use the wizard’s level in ice damage.
+
+Answer: `level`
+
+Correct. `this.level` reads the current wizard’s level.

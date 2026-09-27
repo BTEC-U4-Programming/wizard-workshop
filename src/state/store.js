@@ -1,14 +1,30 @@
 import {byId,checkpoints,curriculumVersion} from '../curriculum/checkpoints.js';
 import {LIMITS} from '../validation/parse.js';
 import {validResult} from '../runner/client.js';
+import {sectionByChapter,questionById} from '../curriculum/sections.js';
 export const STORAGE_KEY='wizard-workshop:progress:v1';
-export const emptyState=()=>({curriculumVersion,currentCheckpointId:checkpoints[0].id,draftsByCheckpoint:{},lastSuccessfulSourcesByCheckpoint:{},lastGoodSnapshotByCheckpoint:{},completedCheckpointIds:[],hintDepthByCheckpoint:{},backupsByCheckpoint:{},preferences:{codeFontSize:16,reduceMotion:false},activeRun:null});
+export const emptyState=()=>({curriculumVersion,currentCheckpointId:checkpoints[0].id,currentScreen:{type:'intro',chapter:1},seenIntroChapters:[],reviewByChapter:{},draftsByCheckpoint:{},lastSuccessfulSourcesByCheckpoint:{},lastGoodSnapshotByCheckpoint:{},completedCheckpointIds:[],hintDepthByCheckpoint:{},backupsByCheckpoint:{},preferences:{codeFontSize:16,reduceMotion:false},activeRun:null});
 export function validDraft(draft,limit=LIMITS.source) {return draft && typeof draft.characterSource==='string' && typeof draft.actionsSource==='string' && new TextEncoder().encode(draft.characterSource+draft.actionsSource).length <= limit;}
 export function parseImport(text,{localRestore=false}={}) {
   if(new TextEncoder().encode(text).length > (localRestore?10:2)*1024*1024) throw new Error('Work files must be under 2MB; local recovery is bounded at 10MB.');
   const value=JSON.parse(text);
   if(value.curriculumVersion!==curriculumVersion || !byId[value.currentCheckpointId] || !value.draftsByCheckpoint || typeof value.draftsByCheckpoint!=='object' || Array.isArray(value.draftsByCheckpoint)) throw new Error('This file is not a compatible Wizard Workshop save.');
   const state=emptyState();state.currentCheckpointId=value.currentCheckpointId;
+  const screen=value.currentScreen;
+  state.currentScreen=screen?.type==='checkpoint'?{type:'checkpoint',id:value.currentCheckpointId}:(['intro','review'].includes(screen?.type)&&sectionByChapter[screen.chapter]?{type:screen.type,chapter:screen.chapter}:{type:'checkpoint',id:value.currentCheckpointId});
+  state.seenIntroChapters=Array.isArray(value.seenIntroChapters)?[...new Set(value.seenIntroChapters.filter(chapter=>sectionByChapter[chapter]))]:[];
+  for(const section of Object.values(sectionByChapter)){
+    const saved=value.reviewByChapter?.[section.chapter];
+    if(!saved||typeof saved!=='object')continue;
+    const answers={};
+    for(const [id,item] of Object.entries(saved.answers||{})){
+      const question=questionById[id];
+      if(!question||!section.review.questions.includes(question)||typeof item?.response!=='string'||item.response.length>200)continue;
+      if(question.type==='choice'&&!question.options.some(option=>option.id===item.response))continue;
+      answers[id]={response:item.response};
+    }
+    state.reviewByChapter[section.chapter]={answers};
+  }
   for(const [id,draft] of Object.entries(value.draftsByCheckpoint)) {
     // Drafts may temporarily exceed the RUN limit (for example after a paste).
     // Preserve them so learners can undo or trim instead of losing their work.

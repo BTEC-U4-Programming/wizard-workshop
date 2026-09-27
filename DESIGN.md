@@ -201,6 +201,8 @@ Use the spacing tokens as common anchors, not a claim of a strict grid. Existing
 
 `AGENTS.md` requires a module introduction, section introductions with complete examples, supported practice, independent application, mixed-format section reviews and a recap. The current checkpoint screen is not evidence that all of these screens exist. When implementing them, reuse this palette, heading hierarchy, panel shapes and navigation. Introductions need clear objectives and Start/Continue controls; reviews need labelled answer fields, explanatory feedback and retry. Keep examples accessible while learners edit, and avoid punitive scoring or progress gates based on perfect review answers.
 
+Design introductions for a quick first read. The visible path is: topic and what the learner will make, up to three objectives, one short key idea, a complete highlighted example, its result and a prominent Start/Continue control. Put the longer walkthrough, glossary, prerequisite reminder, prediction and course or assignment notes in labelled disclosures after the main path. Keep those disclosures keyboard accessible and let students revisit them. Avoid repeating definitions in several visible blocks. Check the first view at 1366px and 390px widths so the next action remains easy to find.
+
 ## Elevation & Depth
 
 Most hierarchy comes from surface colour, whitespace and thin borders. Keep lesson copy directly on the page; use contained surfaces for editing, inspectors, hints and feedback.

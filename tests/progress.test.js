@@ -22,3 +22,14 @@ describe('local progress contract',()=>{
     const storage={getItem:k=>storage[k],setItem:(k,v)=>storage[k]=v};const s=emptyState();s.draftsByCheckpoint['C1.1a']={characterSource:'// '+ 'x'.repeat(40000),actionsSource:'',revision:1};saveState(s,storage);const restored=loadState(storage);expect(restored.error).toBeNull();expect(restored.state.draftsByCheckpoint['C1.1a'].characterSource).toBe(s.draftsByCheckpoint['C1.1a'].characterSource);expect(parseImport(storage[STORAGE_KEY]).draftsByCheckpoint['C1.1a'].characterSource.length).toBe(40003);
   });
 });
+describe('section progress compatibility',()=>{
+  it('starts new work at the introduction and restores old v1 saves to checkpoints',()=>{
+    expect(emptyState().currentScreen).toEqual({type:'intro',chapter:1});
+    const legacy=emptyState();delete legacy.currentScreen;delete legacy.reviewByChapter;delete legacy.seenIntroChapters;
+    expect(parseImport(JSON.stringify(legacy)).currentScreen).toEqual({type:'checkpoint',id:'C1.1a'});
+  });
+  it('round trips answers while ignoring stored correctness and unknown data',()=>{
+    const state=emptyState();state.currentScreen={type:'review',chapter:1};state.reviewByChapter={1:{answers:{'S1-Q1':{response:'0',correct:true},'unknown':{response:'x'},'S1-Q4':{response:'x'.repeat(201)}}}};
+    const restored=parseImport(JSON.stringify(state));expect(restored.currentScreen).toEqual({type:'review',chapter:1});expect(restored.reviewByChapter[1].answers).toEqual({'S1-Q1':{response:'0'}});
+  });
+});

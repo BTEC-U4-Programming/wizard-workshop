@@ -40,6 +40,8 @@ Every module must begin with a dedicated introductory screen before its first ac
 
 Do not treat a title banner or an unexplained list of activities as the introductory screen. Make the introduction available to revisit.
 
+Keep the first view brief. State what students will make, show a small set of clear objectives and a short route through the sections. Put extended course notes behind labelled disclosures so learners can start without reading a wall of text.
+
 ### Section introduction and worked example
 
 Every section must begin with an introduction to the principle being taught, followed by a simple, **finished and correct code example**. Present this before asking students to complete or write code.
@@ -49,6 +51,8 @@ Every section must begin with an introduction to the principle being taught, fol
 - Explain the important lines and show or describe the expected result.
 - Include a brief prediction or reflection prompt where useful.
 - Keep the worked example separate from the editable starter so students can refer back to it without losing their work.
+
+**Introduction screen text budget:** Make the default view quick to scan. Use one short opening sentence, one short statement of what students will make, no more than three objectives, one compact key-idea explanation, the complete example and its expected result. Define essential terms in the key idea before they appear in the example. Keep the full line-by-line explanation, prerequisite reminder, glossary, prediction and assignment link available in clearly labelled disclosures. Do not repeat the same explanation across the opening, objectives, glossary and walkthrough. Review the screen at classroom laptop and phone widths before adding more visible text. Apply this pattern to future modules and sections.
 
 For example, a section introducing class constructors should explain that the constructor runs when `new` creates an object and sets its starting properties, accompanied by a complete example:
 
@@ -102,7 +106,7 @@ Keep responsibilities separate:
 | State/persistence | Navigation, drafts, last successful results, completion, review answers, preferences and local save/export/import. |
 | Tests | Curriculum fixtures, validation and runner behaviour, progress persistence and browser journeys. |
 
-The implementation has `src/editor/`, `src/curriculum/`, `src/validation/`, `src/runner/`, `src/game/` and `src/state/`. UI markup and navigation currently live in `src/main.js`, with styling in `src/theme.css` and `src/styles.css`; there is no `src/ui/` directory. Prefer these actual boundaries when extending the application.
+The implementation has `src/editor/`, `src/curriculum/` (including `sections.js`), `src/review/`, `src/validation/`, `src/runner/`, `src/game/` and `src/state/`. UI markup and navigation currently live in `src/main.js`, with styling in `src/theme.css` and `src/styles.css`; there is no `src/ui/` directory. Prefer these actual boundaries when extending the application.
 
 Keep teaching content out of rendering and execution logic. Add module/section metadata and reusable review rendering rather than duplicating whole screens for each subject. Preserve stable content IDs so edits do not break saved progress; version or migrate saved data when schemas change.
 

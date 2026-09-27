@@ -1,6 +1,7 @@
 import './styles.css';
 import 'virtual:lesson-styles.css';
 import lessons from 'virtual:lesson-content';
+import sectionContent from 'virtual:section-content';
 import {createCelebration} from './game/celebration.js';
 import {checkpoints,byId,choices,curriculumVersion} from './curriculum/checkpoints.js';
 import {createCodeEditor} from './editor/createEditor.js';
@@ -8,13 +9,16 @@ import {parseSources,findClass} from './validation/parse.js';
 import {Runner} from './runner/client.js';
 import {loadState,saveState,replaceDraft,parseImport,canCommit} from './state/store.js';
 import {renderScene,TracePlayer,palettes} from './game/renderScene.js';
+import {sections,sectionByChapter} from './curriculum/sections.js';
+import {journey,nextScreen,previousScreen,screenId,parseScreen} from './curriculum/journey.js';
+import {renderSection} from './review/renderSection.js';
 
 document.querySelector('#app').innerHTML=`
   <header class="app-header"><a class="brand" href="#lesson"><span class="brand-mark" aria-hidden="true">✦</span><span>WIZARD <strong>WORKSHOP</strong><small>Small steps. Real JavaScript. Your creation.</small></span></a><div class="header-tools"><span id="saved" role="status">Saved locally</span><button id="download">Download work</button><details class="tools"><summary>Workspace tools</summary><div><button id="download-mobile">Download work (JSON)</button><button id="download-code">Download code</button><label class="file-button">Import work<input id="import" type="file" accept=".json,application/json"></label><button id="restore">Restore previous draft</button><label>Code size <select id="font-size"><option>14</option><option>16</option><option>18</option><option>20</option><option>24</option></select></label><label><input id="reduce-motion" type="checkbox"> Reduce motion</label><button id="retry">Reload code runner</button></div></details></div></header>
   <div class="course-bar"><label for="checkpoint">YOUR JOURNEY</label><select id="checkpoint" aria-label="Choose a checkpoint (teacher navigation)"></select><span id="progress"></span><a class="jump" href="#preview">Jump to preview ↓</a><button class="mobile-switch" id="view-switch">Show preview</button></div>
   <p id="save-warning" role="status" hidden></p>
-  <main><section id="lesson" class="workbench" aria-label="Code and lesson"><div class="lesson-card"><div class="eyebrow"><span id="stage"></span><span id="scaffold"></span></div><h1 id="title"></h1><p id="objective"></p><details id="instructions"><summary>Step instructions &amp; success checklist</summary><ol id="instruction-list"></ol><ul id="checklist"></ul><button id="locate">Find insertion point</button><p class="expected" id="expected"></p><p id="starter-note"></p><p>Run rebuilds every object from your source. Constructor changes affect these new objects; later override lines run again.</p></details><div id="comparison" hidden></div></div>
-    <div class="editor-shell"><div class="editor-tabs" role="tablist" aria-label="JavaScript files"><button role="tab" id="character-tab" aria-selected="true">character.js</button><button role="tab" id="actions-tab" aria-selected="false">actions.js</button><span id="dirty">Not run yet</span></div><div id="editor"></div><div class="editor-help">JavaScript · Ctrl/Cmd+Enter to run · Ctrl/Cmd+] to indent · Tab leaves editor · Ctrl+Space for choices</div></div>
+  <main><section id="lesson" class="workbench" aria-label="Code and lesson"><div class="lesson-card"><div class="eyebrow"><span id="stage"></span><span id="scaffold"></span></div><h1 id="title"></h1><p id="objective"></p><aside id="file-notice" class="file-notice" role="note" hidden><h2></h2><p></p><button type="button"></button></aside><details id="instructions"><summary>Step instructions &amp; success checklist</summary><ol id="instruction-list"></ol><ul id="checklist"></ul><button id="locate">Find insertion point</button><p class="expected" id="expected"></p><p id="starter-note"></p><p>Run rebuilds every object from your source. Constructor changes affect these new objects; later override lines run again.</p></details><div id="comparison" hidden></div></div>
+    <div class="editor-shell"><div class="editor-tabs" role="tablist" aria-label="JavaScript files"><button role="tab" id="character-tab" aria-selected="true">character.js</button><button role="tab" id="actions-tab" aria-selected="false">actions.js <span class="tab-badge" aria-hidden="true" hidden>NEW</span></button><span id="dirty">Not run yet</span></div><div id="editor"></div><div class="editor-help">JavaScript · Ctrl/Cmd+Enter to run · Ctrl/Cmd+] to indent · Tab leaves editor · Ctrl+Space for choices</div></div>
     <div class="run-bar"><button class="primary" id="run"><span aria-hidden="true">▶</span> Run code</button><button id="stop" disabled>Stop</button><button id="hint">Hint 1</button><button id="reset">Reset step</button><button id="gaps" hidden>Insert exercise gaps</button></div>
     <div id="result" class="result" role="status" aria-live="polite" aria-atomic="true">Ready when you are. Write a little code, then run it.</div><button id="error-link" hidden>Go to problem</button><details id="technical" hidden><summary>Technical detail</summary><pre></pre></details>
     <section id="hints" aria-label="Optional help" hidden></section><details id="reflection" hidden><summary>Predict, explain &amp; self-check</summary><p></p></details>
@@ -24,7 +28,7 @@ document.querySelector('#app').innerHTML=`
     <div class="inspector-heading"><h2>Look inside the objects</h2><span>READ ONLY</span></div><div class="inspectors"><section><h3>What a new Wizard starts with</h3><p>Values on a fresh probe object</p><dl id="defaults"></dl></section><section><h3>Your object</h3><p>Values after setup and actions</p><dl id="object"></dl></section></div><div id="apprentice" hidden></div>
     <details class="reference" open><summary>Property reference · exact choices to type</summary><p>These are the workshop’s rules, not JavaScript type restrictions.</p><div id="choices"></div></details>
     <details class="action-log" open><summary>Action log <span id="action-count">0 actions</span></summary><ol id="log"></ol><p id="empty-log">Methods run only when you call them. Each Run starts fresh.</p></details>
-  </section></main><footer>Made for learning, one object at a time. <span>No accounts. Progress stays in this browser.</span></footer>
+  </section></main><section id="section-screen" class="section-screen" tabindex="-1" aria-labelledby="section-title" hidden></section><footer>Made for learning, one object at a time. <span>No accounts. Progress stays in this browser.</span></footer>
   <dialog id="confirm-dialog"><form method="dialog"><h2 id="confirm-title">Replace this draft?</h2><p id="confirm-copy">A recoverable backup of your current draft will be kept.</p><div><button value="cancel">Keep my draft</button><button class="primary" value="confirm">Replace and keep backup</button></div></form></dialog>`;
 const $=selector=>document.querySelector(selector);
 let storage;
@@ -45,7 +49,7 @@ const editor=createCodeEditor($('#editor'),{completionFields:()=>cp().requiredFi
   draft()[sourceKey()]=source;draft().revision++;invalidate();text('#dirty','Changes not run');text('#saved','Saving…');saveTimer=setTimeout(save,500);
   clearTimeout(lintTimer);lintTimer=setTimeout(()=>{lastDiagnostics=parseSources(draft(),cp()).diagnostics;editor.diagnostics(lastDiagnostics,activeFile);},350);
 }});
-for(const item of checkpoints){const option=node('option',`${item.id} · ${item.title}`);option.value=item.id;$('#checkpoint').append(option);}
+for(const section of sections){const group=node('optgroup');group.label=`Section ${section.chapter} · ${section.title}`;for(const id of journey.filter(id=>id===`intro:${section.chapter}`||id===`review:${section.chapter}`||byId[id]?.chapter===section.chapter)){const label=id.startsWith('intro:')?`Section ${section.chapter} · Introduction`:id.startsWith('review:')?`Section ${section.chapter} · Review quiz`:`${id} · ${byId[id].title}`;const option=node('option',label);option.value=id;group.append(option);}$('#checkpoint').append(group);}
 for(const [key,values] of Object.entries(choices)){
   const group=node('div',undefined,'choice-group');group.append(node('strong',key));const row=node('div');
   for(const value of values){const card=node('code',JSON.stringify(value));if(key==='cloakColour'){const swatch=node('span');swatch.style.background=palettes[value];swatch.setAttribute('aria-hidden','true');card.prepend(swatch);}row.append(card);}
@@ -69,17 +73,20 @@ function initialise(id,sequential){
     }
     if(id==='C5.1a'){source.characterSource+='\nwizard.health = wizard.maxHealth;\ngoblin.health = goblin.maxHealth;\n';source.actionsSource='// Next, update castSpell(target) before writing its new call.\n';}
   }
+  if(id==='C3.1b'&&!source.actionsSource.trim())source.actionsSource=byId[id].starter.actionsSource;
   state.draftsByCheckpoint[id]={...source,revision:0};
 }
 function navigate(id,sequential=false){
-  save();invalidate();initialise(id,sequential);state.currentCheckpointId=id;activeFile=cp().activeFile;lastDiagnostics=[];showLesson();save();
+  save();invalidate();state.currentScreen=parseScreen(id);if(state.currentScreen.type==='checkpoint'){initialise(id,sequential);state.currentCheckpointId=id;activeFile=cp().activeFile;lastDiagnostics=[];}showScreen();save();
 }
+function showScreen(){const screen=state.currentScreen;const checkpoint=screen.type==='checkpoint';$('main').hidden=!checkpoint;$('#section-screen').hidden=checkpoint;$('#view-switch').hidden=!checkpoint;$('.jump').hidden=!checkpoint;$('#checkpoint').value=screenId(screen);text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);if(checkpoint)showLesson();else renderSection($('#section-screen'),screen,sectionContent,state,navigate,save);}
 function showLesson(){
-  const current=cp(),lesson=lessons[current.id];$('#checkpoint').value=current.id;text('#stage',`CHAPTER ${current.chapter} / ${current.id}`);text('#scaffold',current.scaffold);text('#title',current.title);$('#objective').innerHTML=lesson.objective;
+  const current=cp(),lesson=lessons[current.id];$('#checkpoint').value=current.id;text('#stage',`SECTION ${current.chapter} · ${sectionByChapter[current.chapter].title.toUpperCase()} / ${current.id}`);text('#scaffold',current.scaffold);text('#title',current.title);$('#objective').innerHTML=lesson.objective;
   $('#instruction-list').replaceChildren(...lesson.instructions.map(s=>lessonNode('li',s)));$('#checklist').replaceChildren(...lesson.checklist.map(s=>lessonNode('li','○ '+s)));
   text('#expected','Expected: '+current.expectedVisibleResult);text('#starter-note',current.starterStrategy==='prepared'?'This step starts from a prepared example. Earlier checkpoint drafts remain available.':'New sequential steps start from your previous successful code. Teacher jumps load a starting example, not an earned completion.');
-  $('#actions-tab').hidden=current.chapter<3;$('#gaps').hidden=!current.gap;$('#previous').disabled=current.index===0;$('#next').disabled=true;
-  $('#reflection').hidden=!current.reflection;$('#reflection p').innerHTML=lesson.reflection;$('#instructions').open=false;
+  $('#actions-tab').hidden=current.chapter<3;$('#actions-tab .tab-badge').hidden=current.id!=='C3.1b';$('#gaps').hidden=!current.gap;$('#previous').disabled=false;$('#next').disabled=true;
+  $('#file-notice').hidden=!current.fileNotice;if(current.fileNotice){text('#file-notice h2',current.fileNotice.title);$('#file-notice p').innerHTML=lesson.fileNotice;}
+  $('#reflection').hidden=!current.reflection;$('#reflection p').innerHTML=lesson.reflection;$('#instructions').open=!!current.openInstructions;
   text('#badge',state.completedCheckpointIds.includes(current.id)?'✓ Previously completed':'');text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);
   text('#dirty','Not run yet');setResult('Ready when you are. This draft needs a fresh Run.');$('#error-link').hidden=true;$('#technical').hidden=true;
   $('#comparison').hidden=current.id!=='C4.1';$('#comparison').replaceChildren();
@@ -90,7 +97,7 @@ function showLesson(){
   showFile(activeFile);showHints();showAccepted(true);
   if(state.completedCheckpointIds.length===checkpoints.length)text('#badge','✦ Course complete');
 }
-function showFile(file){activeFile=file;$('#character-tab').setAttribute('aria-selected',String(file==='character.js'));$('#actions-tab').setAttribute('aria-selected',String(file==='actions.js'));editor.show(cp().id,file,draft()[sourceKey()]);editor.diagnostics(lastDiagnostics,file);}
+function showFile(file){activeFile=file;$('#character-tab').setAttribute('aria-selected',String(file==='character.js'));$('#actions-tab').setAttribute('aria-selected',String(file==='actions.js'));editor.show(cp().id,file,draft()[sourceKey()]);editor.diagnostics(lastDiagnostics,file);if(cp().fileNotice)text('#file-notice button',file==='actions.js'?'Show my character.js':'Back to actions.js');}
 function summarise(snapshot){const w=snapshot?.wizard,g=snapshot?.goblin;
   text('#character-summary',w?`${w.name ?? 'Unnamed'}${w.level!==undefined?' · Level '+w.level:''}${w.health!==undefined?' · Health '+w.health+'/'+w.maxHealth:''}${w.specialPower?' · '+w.specialPower:''}`:'Your wizard will appear here after you create an object.');
   $('#character-summary').replaceChildren(node('span',$('#character-summary').textContent));
@@ -121,7 +128,7 @@ async function run(){
     const result=response.result;lastDiagnostics=result.diagnostics;editor.diagnostics(lastDiagnostics,activeFile);
     if(result.status==='success'||result.status==='validButIncomplete'){
       state.lastGoodSnapshotByCheckpoint[cp().id]=result;showAccepted();player.play(result,state.preferences.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches);
-      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=cp().index===checkpoints.length-1;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');celebration.play();}
+      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=false;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');celebration.play();}
       else setResult('○ Your code ran. Next, '+result.missing[0]+'.','validButIncomplete');
       text('#dirty','Run matches this draft');text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);
       if(state.completedCheckpointIds.length===checkpoints.length)text('#badge','✦ Course complete');
@@ -140,8 +147,9 @@ $('#run').onclick=run;$('#stop').onclick=()=>{invalidate();setResult('Run stoppe
 $('#retry').onclick=()=>{invalidate();setResult('Runner reset. Choose Run code to retry.');};
 $('#skip').onclick=()=>{celebration.stop();player.skip();};
 $('#checkpoint').onchange=e=>navigate(e.target.value);
-$('#previous').onclick=()=>navigate(checkpoints[cp().index-1].id);
-$('#next').onclick=()=>{if(verifiedRevision===draft().revision&&cp().index<checkpoints.length-1)navigate(checkpoints[cp().index+1].id,true);};
+$('#previous').onclick=()=>navigate(previousScreen(cp().id));
+$('#next').onclick=()=>{if(verifiedRevision===draft().revision)navigate(nextScreen(cp().id),true);};
+$('#file-notice button').onclick=()=>showFile(activeFile==='actions.js'?'character.js':'actions.js');
 $('#character-tab').onclick=()=>showFile('character.js');$('#actions-tab').onclick=()=>showFile('actions.js');
 $('#hint').onclick=()=>{state.hintDepthByCheckpoint[cp().id]=Math.min(3,(state.hintDepthByCheckpoint[cp().id]||0)+1);showHints();save();};
 $('#reset').onclick=()=>confirmReplacement(cp().starter,'Reset this checkpoint to its starting example?');
@@ -169,10 +177,9 @@ $('#gaps').onclick=()=>{
 $('#download').onclick=()=>{save();download('wizard-workshop-work.json',JSON.stringify({...state,activeRun:null},null,2),'application/json');};
 $('#download-mobile').onclick=()=>$('#download').click();
 $('#download-code').onclick=()=>download('wizard-workshop-code.txt',`// character.js\n${draft().characterSource}\n\n// actions.js\n${draft().actionsSource}`,'text/plain');
-$('#import').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>2*1024*1024)throw new Error('Work files must be under 2MB.');const imported=parseImport(await file.text());confirmAction('Import work and replace the saved drafts?',()=>{invalidate();const backups={...state.backupsByCheckpoint,...state.draftsByCheckpoint};state=imported;state.backupsByCheckpoint={...state.backupsByCheckpoint,...backups};initialise(state.currentCheckpointId,false);activeFile=cp().activeFile;for(const item of checkpoints)editor.invalidate(item.id);showLesson();save();});}catch(error){setResult('Import could not be read: '+error.message,'error');}e.target.value='';};
+$('#import').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>2*1024*1024)throw new Error('Work files must be under 2MB.');const imported=parseImport(await file.text());confirmAction('Import work and replace the saved drafts?',()=>{invalidate();const backups={...state.backupsByCheckpoint,...state.draftsByCheckpoint};state=imported;state.backupsByCheckpoint={...state.backupsByCheckpoint,...backups};initialise(state.currentCheckpointId,false);activeFile=cp().activeFile;for(const item of checkpoints)editor.invalidate(item.id);showScreen();save();});}catch(error){setResult('Import could not be read: '+error.message,'error');}e.target.value='';};
 $('#font-size').value=String(state.preferences.codeFontSize);$('#font-size').onchange=e=>{state.preferences.codeFontSize=Number(e.target.value);editor.fontSize();save();};
 $('#reduce-motion').checked=state.preferences.reduceMotion;$('#reduce-motion').onchange=e=>{state.preferences.reduceMotion=e.target.checked;celebration.stop();player.skip();save();};
 $('#view-switch').onclick=()=>{const preview=document.body.classList.toggle('preview-only');text('#view-switch',preview?'Show code':'Show preview');if(preview)$('#preview').focus();else editor.view.focus();};
 window.addEventListener('beforeunload',save);
-initialise(state.currentCheckpointId,false);activeFile=cp().activeFile;showLesson();if(loaded.error){text('#saved',loaded.error);text('#save-warning',loaded.error);$('#save-warning').hidden=false;}
-
+initialise(state.currentCheckpointId,false);activeFile=cp().activeFile;showScreen();if(loaded.error){text('#saved',loaded.error);text('#save-warning',loaded.error);$('#save-warning').hidden=false;}

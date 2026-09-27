@@ -32,7 +32,7 @@ This is a workstation repair/workaround, not an extra requirement for teachers w
 
 ## Use it
 
-Read the objective and expand the short instructions. Write real JavaScript in `character.js`; from chapter 3, use `actions.js` for method calls. Choose **Run code** or Ctrl/Cmd+Enter. Typing gives parser feedback but never executes the program. A successful run enables Next; it never advances automatically. The scene remains unchanged when a run fails.
+Start with the short course introduction, then look at each section’s complete example before editing. Open the optional explanations when you want more detail. Every section ends with multiple-choice and fill-in-the-blank questions. Reviews allow retries and never require a perfect score to continue. At a checkpoint, read the objective and expand the short instructions. Write real JavaScript in `character.js`; from chapter 3, use `actions.js` for method calls. Choose **Run code** or Ctrl/Cmd+Enter. Typing gives parser feedback but never executes the program. A successful run enables Next; it never advances automatically. The scene remains unchanged when a run fails.
 
 Three levels of optional help lead to a worked example. Replacing/resetting/importing asks for confirmation inside the app and keeps a recoverable draft backup. Workspace tools includes **Restore previous draft**, code size, reduced motion, export/import and runner reload. The checkpoint selector supports teacher jumps to starting examples without awarding completion.
 
@@ -42,6 +42,7 @@ The editor uses Tab for normal focus traversal. Ctrl/Cmd+] indents, Ctrl/Cmd+[ o
 
 For colours, typography, layout, components, responsive behaviour and motion, read [DESIGN.md](DESIGN.md). It maps the current styling to its implementation files and provides guidance for future UI changes.
 
+- `src/curriculum/sections.js` and `src/review/`: section introductions, worked examples, review questions and answer checking.
 - `src/curriculum/checkpoints.js`: stable IDs, progressive starters, complete solutions, objectives, prompts, hints, expected effects and teaching metadata.
 - `src/validation/`: Acorn ES2022 parsing, AST source-scope checks, supported values and structural objectives.
 - `src/runner/`: worker loading, bounded QuickJS execution, fresh-context probes, action guards, mutation contracts and plain-data result validation.
@@ -61,7 +62,7 @@ Limits: 30KB combined UTF-8 source; 30 actions; 200 displayed characters per log
 
 ## Saving and privacy
 
-Progress uses `wizard-workshop:progress:v1` in localStorage, after 500ms idle and on navigation. It includes drafts, prior successful sources/previews, historical completion, help depth, preferences and replacement backups. The app stores no student profile; use fictional character names. Saved code never runs automatically. A restored preview is labelled as an earlier successful result; Next needs a fresh Run. Browser storage can be unavailable or cleared: download work at the end of each session.
+Progress uses `wizard-workshop:progress:v1` in localStorage, after 500ms idle and on navigation. It includes drafts, prior successful sources/previews, historical completion, section position and review answers, help depth, preferences and replacement backups. Older version-1 saves remain readable. The app stores no student profile; use fictional character names. Saved code never runs automatically. A restored preview is labelled as an earlier successful result; Next needs a fresh Run. Browser storage can be unavailable or cleared: download work at the end of each session.
 
 Download work exports JSON containing both documents and per-checkpoint progress. Import accepts the current curriculum version and validates schema and size (2MB work file). Run enforces the 30KB source-pair limit; a temporarily oversized draft is retained for editing rather than discarded on reload. Recovery is bounded at 2MB per draft and 10MB per local save, subject to the browser’s smaller storage quota. Download code is a clearly labelled combined `.txt` file; copy its two sections into their matching virtual files when returning to the workshop.
 

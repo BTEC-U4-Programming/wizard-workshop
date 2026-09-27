@@ -25,6 +25,12 @@ Normal Next navigation carries forward the successful draft and cosmetic choices
 
 Use the top checkpoint selector to jump for a demonstration or recovery. A never-visited jump loads a starting example and does not count as earned completion. Press Run to validate it. Returning to a completed checkpoint still requires its current draft to be rerun before Next is enabled. Historical badges are retained.
 
+## Section introductions and reviews
+
+The course opens with an introduction and a complete example. Each later section also starts with a worked example; students can revisit it from the journey selector without losing their code draft. Each section finishes with multiple-choice and short code-completion questions. These are formative: feedback explains answers, retries are free, and no score blocks progress. Review answers are saved separately from code drafts.
+
+Use the journey selector to jump to an introduction or review for a class discussion. Edit the questions and explanations in `src/curriculum/sections.js`. The generated answer key is at the end of `SOLUTIONS.md`.
+
 ## Support and differentiation
 
 - Read the objective together, then ask the learner to predict the visible change before Run.
