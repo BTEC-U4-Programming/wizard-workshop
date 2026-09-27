@@ -19,7 +19,7 @@ The pace is adjustable. A checkpoint is a single edit or tightly connected pair 
 
 ## Begin and resume
 
-Install/run using the README, or share https://btec-u4-programming.github.io/wizard-workshop/ with learners. Each browser profile keeps its own local progress, including on the hosted site. Ask learners to use fictional names and download work at session end; browser cleanup or moving device can remove local progress.
+Install/run using the README, or share https://btec-u4-programming.github.io/wizard-workshop/ with learners once GitHub Pages is enabled and configured for GitHub Actions in the repository. Each browser profile keeps its own local progress, including on the hosted site. Ask learners to use fictional names and download work at session end; browser cleanup or moving device can remove local progress.
 
 Normal Next navigation carries forward the successful draft and cosmetic choices. Previously visited checkpoints keep their own drafts. A few transitions explicitly use prepared structures: remove the temporary apprentice; select fire for the first conditional demonstration; append the duplicated Goblin; clear old actions and restore full health when introducing targeted spells. Earlier checkpoint drafts remain available.
 
