@@ -40,6 +40,8 @@ The editor uses Tab for normal focus traversal. Ctrl/Cmd+] indents, Ctrl/Cmd+[ o
 
 ## Project structure
 
+For colours, typography, layout, components, responsive behaviour and motion, read [DESIGN.md](DESIGN.md). It maps the current styling to its implementation files and provides guidance for future UI changes.
+
 - `src/curriculum/checkpoints.js`: stable IDs, progressive starters, complete solutions, objectives, prompts, hints, expected effects and teaching metadata.
 - `src/validation/`: Acorn ES2022 parsing, AST source-scope checks, supported values and structural objectives.
 - `src/runner/`: worker loading, bounded QuickJS execution, fresh-context probes, action guards, mutation contracts and plain-data result validation.
@@ -88,7 +90,7 @@ Instructional code uses [Expressive Code](https://github.com/expressive-code/exp
 
 Correct, current Run results trigger a short [Canvas Confetti](https://github.com/catdad/canvas-confetti) burst from the Run code button. Incomplete, failed, cancelled and stale results do not celebrate. Editing, navigation, another run and Skip animation stop the burst. Both the workspace Reduce motion setting and the operating system preference disable it. The overlay is decorative and does not intercept input.
 
-- **Location:** source is in the active project workspace’s `wizard-workshop/`, rather than alongside the external OneDrive brief. Existing teaching resources and `DESIGN.md` were not changed.
+- **Location:** source is in the active project workspace’s `wizard-workshop/`, rather than alongside the external OneDrive brief. This application's root `DESIGN.md` documents its web UI; external teaching resources remain separate.
 - The specification contains **41** distinct stable checkpoint IDs when its lettered substeps are expanded.
 - Intermediate duplication during inheritance is accepted at the explicitly requested steps. Uncapped recovery is accepted only at C3.3b. C3.2a/b only test the requested power branches.
 - C2.7, C4.1 and C5.4 can run successfully from their prepared code. Their design/prediction/reflection activities are explicitly self-checks, not automated language assessment.

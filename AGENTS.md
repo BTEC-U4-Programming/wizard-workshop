@@ -8,9 +8,9 @@ The project is an interactive programming learning application for BTEC students
 
 Read [WIZARD_OOP_IMPLEMENTATION_BRIEF.md](WIZARD_OOP_IMPLEMENTATION_BRIEF.md) before changing the OOP module. It contains detailed learning checkpoints, domain rules, worked code, execution requirements and acceptance criteria. The brief uses the earlier working title **Wizard Workshop**; do not rename existing application labels or identifiers merely to reconcile the two names.
 
-**Workspace verification, 27 September 2026:** this directory contains the implementation brief and teaching resources. No application `package.json`, Vite configuration or Wizard application source was found here. The brief proposes a `wizard-workshop/` application directory. Architecture and commands below describe that intended application, not a verified existing build. If the implementation is supplied or located elsewhere, inspect its actual source, README, package scripts and any more specific `AGENTS.md` before editing. Do not recreate an existing application because its source is absent from this workspace. Update this guidance when implementation details become verifiable.
+**Workspace verification, 27 September 2026:** this directory is the application root and contains `package.json`, `vite.config.js`, `src/`, tests and a README. The implementation brief is not present in this checkout; obtain the referenced brief before work that requires it. Inspect the actual source, README, package scripts and any more specific `AGENTS.md` before editing. This source inspection does not establish that build or browser checks have passed.
 
-`DESIGN.md` describes interactive PowerPoint production. Its slide-specific rules are not application architecture or web UI requirements. The numbered folders contain existing course resources; do not reorganise or overwrite them as part of routine application work.
+Read [DESIGN.md](DESIGN.md) before changing application styling. It documents the current colours, typography, layout, components, responsive behaviour and motion, with links to their source files. Any PowerPoint design guidance or numbered course-resource folders outside this application remain separate teaching resources; do not reorganise or overwrite them as part of routine application work.
 
 ## Audience and instructional language
 
@@ -87,7 +87,7 @@ These module introductions and section reviews extend the earlier implementation
 
 ## General application architecture
 
-The intended stack is semantic HTML, CSS and vanilla JavaScript ES modules served by Vite. Avoid introducing a framework, backend, account system or external AI dependency without a concrete requirement. When modifying an existing implementation, preserve its established architecture unless the requested change warrants a migration.
+The implemented stack is semantic HTML, CSS and vanilla JavaScript ES modules served by Vite. Avoid introducing a framework, backend, account system or external AI dependency without a concrete requirement. Preserve its established architecture unless the requested change warrants a migration.
 
 Keep responsibilities separate:
 
@@ -102,7 +102,7 @@ Keep responsibilities separate:
 | State/persistence | Navigation, drafts, last successful results, completion, review answers, preferences and local save/export/import. |
 | Tests | Curriculum fixtures, validation and runner behaviour, progress persistence and browser journeys. |
 
-The brief suggests `src/editor/`, `src/curriculum/`, `src/validation/`, `src/runner/`, `src/game/`, `src/state/` and `src/ui/`. These are proposed boundaries, not evidence that those directories already exist. Prefer the implementation's actual structure once available.
+The implementation has `src/editor/`, `src/curriculum/`, `src/validation/`, `src/runner/`, `src/game/` and `src/state/`. UI markup and navigation currently live in `src/main.js`, with styling in `src/theme.css` and `src/styles.css`; there is no `src/ui/` directory. Prefer these actual boundaries when extending the application.
 
 Keep teaching content out of rendering and execution logic. Add module/section metadata and reusable review rendering rather than duplicating whole screens for each subject. Preserve stable content IDs so edits do not break saved progress; version or migrate saved data when schemas change.
 
@@ -110,7 +110,7 @@ For the OOP module, keep class defaults distinct from properties on an individua
 
 ## Build and development commands
 
-Run commands from the **application directory containing `package.json`**, not automatically from this teaching-resources root. Check the actual scripts with `npm run` first. The following are the expected commands from the implementation brief and have not been run against an application in this workspace:
+Run commands from this **application directory containing `package.json`**. Check the actual scripts with `npm run` first. The following scripts are configured; see `README.md` for the workstation npm-launcher workaround and `VERIFICATION.md` for prior run records. This documentation update did not rerun application checks:
 
 | Command | Purpose |
 |---|---|
@@ -118,7 +118,7 @@ Run commands from the **application directory containing `package.json`**, not a
 | `npm run dev` | Start the Vite development server. |
 | `npm run build` | Generate the production build. |
 | `npm run preview` | Serve the production build locally after building. |
-| `npm run test` | Run the configured automated tests; check whether the script uses watch mode. |
+| `npm run test` | Run Vitest once (`vitest run`). |
 | `npm run test:e2e` | Run the configured browser workflow tests. |
 
 Use the Node version declared by the implementation's `.nvmrc`/`package.json` and document prerequisites in its README. If creating the application for the first time, use `npm install` to establish the lockfile before relying on `npm ci`. Do not claim a lint command exists unless one is configured.
