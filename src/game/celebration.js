@@ -13,10 +13,11 @@ export function createCelebration(button,reducedMotion) {
   media.addEventListener('change',()=>{if(media.matches)stop();});
   return {
     stop,
-    play(){
+    // Bursts from the given element, or from the Run code button by default.
+    play(origin=button){
       stop();
       if(reducedMotion()||media.matches)return;
-      const rect=button.getBoundingClientRect();
+      const rect=origin.getBoundingClientRect();
       if(!rect.width||rect.bottom<0||rect.top>innerHeight)return;
       const current=generation;
       canvas.hidden=false;

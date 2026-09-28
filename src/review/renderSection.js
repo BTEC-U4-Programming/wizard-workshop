@@ -15,7 +15,7 @@ function addBlank(frame,question){
   target.replaceWith(document.createTextNode(before),input,document.createTextNode(after));
   return input;
 }
-export function renderSection(container,screen,content,state,navigate,save){
+export function renderSection(container,screen,content,state,navigate,save,{celebrate=()=>{}}={}){
   const section=sectionByChapter[screen.chapter],html=content[section.id];
   container.replaceChildren();
   container.append(element('p',screen.type==='intro'?`SECTION ${section.chapter} OF 5`:`SECTION ${section.chapter} REVIEW`,'eyebrow'));
@@ -52,7 +52,7 @@ export function renderSection(container,screen,content,state,navigate,save){
       const revisit=element('button',`Revisit ${question.revisit} · ${byId[question.revisit]?.title??'introduction'}`);revisit.hidden=true;revisit.onclick=()=>navigate(question.revisit);
       const reveal=element('button','Show answer');reveal.hidden=true;reveal.onclick=()=>{feedback.textContent=question.type==='choice'?`Answer: ${question.options.find(option=>option.correct).text}`:`Answer: ${question.accept.join(' or ')}`;};
       let attempts=0;
-      const submit=()=>{const response=readResponse();const result=checkAnswer(question,response);if(!response.trim()){feedback.textContent='Choose or type an answer first.';feedback.dataset.status='error';return;}chapterState.answers[question.id]={response};save();feedback.textContent=(result.correct?'Correct: ':'Not quite: ')+result.feedback;feedback.dataset.status=result.correct?'success':'error';revisit.hidden=result.correct;attempts+=result.correct?0:1;reveal.hidden=result.correct||attempts<2;refresh();};
+      const submit=()=>{const response=readResponse();const result=checkAnswer(question,response);if(!response.trim()){feedback.textContent='Choose or type an answer first.';feedback.dataset.status='error';return;}chapterState.answers[question.id]={response};save();feedback.textContent=(result.correct?'Correct: ':'Not quite: ')+result.feedback;feedback.dataset.status=result.correct?'success':'error';revisit.hidden=result.correct;attempts+=result.correct?0:1;reveal.hidden=result.correct||attempts<2;refresh();if(result.correct)celebrate(check);};
       check.onclick=submit;card.append(check,feedback,revisit,reveal);container.append(card);
       if(chapterState.answers[question.id]){const result=checkAnswer(question,chapterState.answers[question.id].response);feedback.textContent=(result.correct?'Correct: ':'Your saved answer: ')+result.feedback;feedback.dataset.status=result.correct?'success':'error';revisit.hidden=result.correct;}
     });

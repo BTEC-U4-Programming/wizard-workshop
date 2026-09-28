@@ -184,7 +184,7 @@ Existing peripheral labels range from 9–13px. Treat these as legacy metadata s
 
 ## Layout
 
-The header establishes identity and local workspace tools. The journey bar gives checkpoint selection and progress. Below it, the workbench contains the objective, instructions, editor, Run controls, feedback, optional help and previous/next navigation. The preview contains the scene, text summaries, object inspectors, property reference and action log.
+The header establishes identity and local workspace tools. The journey bar gives checkpoint selection and progress. In browsers that support a customisable `<select>` (`appearance: base-select`), the menu marks the current screen with a gold arrow and “You are here” pill, and earned screens with a green “✓ Done” pill; other browsers show the same “— ✓ Done” text in the native menu, so status never relies on colour or styling. Below it, the workbench contains the objective, instructions, editor, Run controls, feedback, optional help and previous/next navigation. The preview contains the scene, text summaries, object inspectors, property reference and action log.
 
 | Viewport | Existing layout contract |
 |---|---|
@@ -258,7 +258,7 @@ Review inputs are a future extension, not an existing visual component. Reuse co
 
 ### Motion
 
-Current trace playback waits 200ms before starting, then shows each action for 550ms. Keep Skip animation available and ensure it lands on the final validated state. A successful, current run produces one short confetti burst from Run code, using gold, lavender, green and blue. Never celebrate a failed, incomplete or stale result.
+Current trace playback waits 200ms before starting, then shows each action for 550ms. Keep Skip animation available and ensure it lands on the final validated state. A successful, current run produces one short confetti burst from Run code, using gold, lavender, green and blue. A correct review answer produces the same burst from its Check answer button. Never celebrate a failed, incomplete or stale result.
 
 Respect both the operating system's reduced-motion preference and the workspace setting. Reduced motion suppresses confetti and trace playback; the CSS media query also removes smooth scrolling, animations and transitions. Stop obsolete effects after edits, navigation or another run. Avoid looping ambient motion, flashing and effects that intercept input.
 

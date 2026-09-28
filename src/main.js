@@ -12,6 +12,7 @@ import {renderScene,TracePlayer,palettes} from './game/renderScene.js';
 import {sections,sectionByChapter} from './curriculum/sections.js';
 import {journey,nextScreen,previousScreen,screenId,parseScreen} from './curriculum/journey.js';
 import {renderSection} from './review/renderSection.js';
+import {isScreenComplete,chapterOfScreen,sectionProgress} from './state/journeyProgress.js';
 
 document.querySelector('#app').innerHTML=`
   <header class="app-header"><a class="brand" href="#lesson"><span class="brand-mark" aria-hidden="true">✦</span><span>WIZARD <strong>WORKSHOP</strong><small>Small steps. Real JavaScript. Your creation.</small></span></a><div class="header-tools"><span id="saved" role="status">Saved locally</span><button id="download">Download work</button><details class="tools"><summary>Workspace tools</summary><div><button id="download-mobile">Download work (JSON)</button><button id="download-code">Download code</button><label class="file-button">Import work<input id="import" type="file" accept=".json,application/json"></label><button id="restore">Restore previous draft</button><label>Code size <select id="font-size"><option>14</option><option>16</option><option>18</option><option>20</option><option>24</option></select></label><label><input id="reduce-motion" type="checkbox"> Reduce motion</label><button id="retry">Reload code runner</button></div></details></div></header>
@@ -42,6 +43,7 @@ const node=(tag,value,className)=>{const n=document.createElement(tag);if(value!
 // HTML is generated at build time solely from the trusted curriculum.
 const lessonNode=(tag,html)=>{const n=node(tag);n.innerHTML=html;return n;};
 const celebration=createCelebration($('#run'),()=>state.preferences.reduceMotion);
+const saveProgress=()=>{save();refreshJourney();};
 function save(){clearTimeout(saveTimer);const error=saveState(state,storage);text('#saved',error||'Saved locally');$('#save-warning').hidden=!error;text('#save-warning',error||'');}
 const runner=new Runner((status,message)=>{if(state.activeRun){state.activeRun.status=status;setResult(message,status);}});
 const player=new TracePlayer((snapshot,effect)=>{renderScene($('.scene canvas'),snapshot,effect);summarise(snapshot);});
@@ -49,7 +51,28 @@ const editor=createCodeEditor($('#editor'),{completionFields:()=>cp().requiredFi
   draft()[sourceKey()]=source;draft().revision++;invalidate();text('#dirty','Changes not run');text('#saved','Saving…');saveTimer=setTimeout(save,500);
   clearTimeout(lintTimer);lintTimer=setTimeout(()=>{lastDiagnostics=parseSources(draft(),cp()).diagnostics;editor.diagnostics(lastDiagnostics,activeFile);},350);
 }});
-for(const section of sections){const group=node('optgroup');group.label=`Section ${section.chapter} · ${section.title}`;for(const id of journey.filter(id=>id===`intro:${section.chapter}`||id===`review:${section.chapter}`||byId[id]?.chapter===section.chapter)){const label=id.startsWith('intro:')?`Section ${section.chapter} · Introduction`:id.startsWith('review:')?`Section ${section.chapter} · Review quiz`:`${id} · ${byId[id].title}`;const option=node('option',label);option.value=id;group.append(option);}$('#checkpoint').append(group);}
+// Each journey option holds its label plus a status span. Browsers with a
+// customisable select style these as badges; others show them as plain text.
+const journeyOptions=new Map(),journeyGroups=new Map();
+for(const section of sections){
+  const group=node('optgroup');journeyGroups.set(section.chapter,group);
+  for(const id of journey.filter(id=>chapterOfScreen(id)===section.chapter)){
+    const label=id.startsWith('intro:')?`Section ${section.chapter} · Introduction`:id.startsWith('review:')?`Section ${section.chapter} · Review quiz`:`${id} · ${byId[id].title}`;
+    const status=node('span',undefined,'journey-status');const option=node('option');option.value=id;
+    option.append(node('span',label,'journey-label'),status);journeyOptions.set(id,option);group.append(option);
+  }
+  $('#checkpoint').append(group);
+}
+function refreshJourney(){
+  for(const [id,option] of journeyOptions){
+    const done=isScreenComplete(id,state);option.classList.toggle('is-complete',done);
+    option.querySelector('.journey-status').replaceChildren(...(done?[node('span',' — ','journey-separator'),document.createTextNode('✓ Done')]:[]));
+  }
+  for(const section of sections){
+    const {done,total}=sectionProgress(section.chapter,state);
+    journeyGroups.get(section.chapter).label=`Section ${section.chapter} · ${section.title} — ${done===total?'✓ Section complete':`${done} of ${total} done`}`;
+  }
+}
 for(const [key,values] of Object.entries(choices)){
   const group=node('div',undefined,'choice-group');group.append(node('strong',key));const row=node('div');
   for(const value of values){const card=node('code',JSON.stringify(value));if(key==='cloakColour'){const swatch=node('span');swatch.style.background=palettes[value];swatch.setAttribute('aria-hidden','true');card.prepend(swatch);}row.append(card);}
@@ -79,7 +102,7 @@ function initialise(id,sequential){
 function navigate(id,sequential=false){
   save();invalidate();state.currentScreen=parseScreen(id);if(state.currentScreen.type==='checkpoint'){initialise(id,sequential);state.currentCheckpointId=id;activeFile=cp().activeFile;lastDiagnostics=[];}showScreen();save();
 }
-function showScreen(){const screen=state.currentScreen;const checkpoint=screen.type==='checkpoint';$('main').hidden=!checkpoint;$('#section-screen').hidden=checkpoint;$('#view-switch').hidden=!checkpoint;$('.jump').hidden=!checkpoint;$('#checkpoint').value=screenId(screen);text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);if(checkpoint)showLesson();else renderSection($('#section-screen'),screen,sectionContent,state,navigate,save);}
+function showScreen(){const screen=state.currentScreen;const checkpoint=screen.type==='checkpoint';$('main').hidden=!checkpoint;$('#section-screen').hidden=checkpoint;$('#view-switch').hidden=!checkpoint;$('.jump').hidden=!checkpoint;$('#checkpoint').value=screenId(screen);text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);if(checkpoint)showLesson();else renderSection($('#section-screen'),screen,sectionContent,state,navigate,saveProgress,{celebrate:button=>celebration.play(button)});refreshJourney();}
 function showLesson(){
   const current=cp(),lesson=lessons[current.id];$('#checkpoint').value=current.id;text('#stage',`SECTION ${current.chapter} · ${sectionByChapter[current.chapter].title.toUpperCase()} / ${current.id}`);text('#scaffold',current.scaffold);text('#title',current.title);$('#objective').innerHTML=lesson.objective;
   $('#instruction-list').replaceChildren(...lesson.instructions.map(s=>lessonNode('li',s)));$('#checklist').replaceChildren(...lesson.checklist.map(s=>lessonNode('li','○ '+s)));
@@ -128,7 +151,7 @@ async function run(){
     const result=response.result;lastDiagnostics=result.diagnostics;editor.diagnostics(lastDiagnostics,activeFile);
     if(result.status==='success'||result.status==='validButIncomplete'){
       state.lastGoodSnapshotByCheckpoint[cp().id]=result;showAccepted();player.play(result,state.preferences.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches);
-      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=false;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');celebration.play();}
+      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=false;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');refreshJourney();celebration.play();}
       else setResult('○ Your code ran. Next, '+result.missing[0]+'.','validButIncomplete');
       text('#dirty','Run matches this draft');text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);
       if(state.completedCheckpointIds.length===checkpoints.length)text('#badge','✦ Course complete');

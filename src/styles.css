@@ -20,3 +20,26 @@
 .course-recap{background:#1b293e;border:1px solid #384861;border-radius:8px;padding:16px;margin:16px 0}
 
 .section-screen .intro-hook{font-size:18px;font-weight:600;margin:8px 0 2px}.section-screen .intro-build{color:var(--muted);margin:2px 0 14px}.section-screen .intro-objectives{margin:8px 0 12px}.section-screen .intro-objectives li{margin:2px 0}.section-screen .intro-summary{background:#1b293e;border-left:3px solid #c4a5f2;border-radius:6px;padding:10px 14px;margin:14px 0}.section-screen .intro-result{margin-top:10px}.section-screen .intro-extra{border-top:1px solid #384861;padding:4px 2px}.section-screen .intro-extra summary{font-size:15px;min-height:44px;padding:10px 0}.section-screen .intro-extra[open]{padding-bottom:12px}.section-screen .prediction-answer{margin-left:12px;border-left:2px solid #685682;padding-left:12px}.section-screen .intro-extra .concept-list{margin-top:8px}
+
+/* Journey selector: progressive enhancement for browsers with a customisable
+   <select>. Elsewhere the native menu shows the same status as plain text
+   ("— ✓ Done"), so completion never depends on colour or this styling. */
+@supports (appearance:base-select){
+.course-bar select,.course-bar select::picker(select){appearance:base-select}
+.course-bar select::picker-icon{color:var(--muted)}
+.course-bar select::picker(select){background:#1b2538;color:var(--text);border:1px solid #576079;border-radius:10px;box-shadow:0 15px 60px #0009;padding:6px;margin-top:4px;max-height:min(70vh,560px);min-width:anchor-size(width);max-width:calc(100vw - 32px)}
+.course-bar optgroup{color:#b4a3d6;font-size:11px;font-weight:700;letter-spacing:.6px;padding:6px 0 4px}
+.course-bar optgroup+optgroup{border-top:1px solid #344058;margin-top:4px;padding-top:8px}
+.course-bar option{display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border-radius:6px;color:var(--text);font-size:14px;font-weight:400;letter-spacing:0}
+.course-bar option:hover,.course-bar option:focus-visible{background:#2b3650}
+.course-bar option:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.course-bar option::checkmark{content:'➜';color:var(--gold);width:1.1em}
+.course-bar option:checked{background:#2a2a45;box-shadow:inset 3px 0 var(--gold);font-weight:650}
+.course-bar option:checked::after{content:'You are here';font-size:11px;font-weight:700;color:#192132;background:var(--gold);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.course-bar option .journey-label{flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere}
+.course-bar option .journey-separator{display:none}
+.course-bar option .journey-status:empty{display:none}
+.course-bar option .journey-status{font-size:11px;font-weight:700;color:#c1e5c7;background:#1c302e;border:1px solid #587d68;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.course-bar option.is-complete .journey-label{color:#d2e6d6}
+@media(max-width:600px){.course-bar option{gap:8px;padding:6px 8px}.course-bar option:checked::after{content:'Here'}}
+}
