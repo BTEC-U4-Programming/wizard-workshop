@@ -34,6 +34,8 @@ This is a workstation repair/workaround, not an extra requirement for teachers w
 
 Start with the short course introduction, then look at each section’s complete example before editing. Open the optional explanations when you want more detail. Every section ends with multiple-choice and fill-in-the-blank questions. Reviews allow retries and never require a perfect score to continue. At a checkpoint, read the objective and expand the short instructions. Write real JavaScript in `character.js`; from chapter 3, use `actions.js` for method calls. Choose **Run code** or Ctrl/Cmd+Enter. Typing gives parser feedback but never executes the program. A successful run enables Next; it never advances automatically. The scene remains unchanged when a run fails.
 
+The Conjuring Room preview shows a hollow, dotted wizard outline as soon as a `Wizard` class exists but no object has been created (C1.1a); property names set by the constructor appear as labels above it (C1.1b). In a battle, a character whose health reaches zero lies on the floor and a **Game Over** banner names the winner. After the final review, **Finish course** opens a course summary with every major concept and a complete example; learners can download it, together with their last successful battle code, as `wizard-workshop-summary.md`.
+
 Three levels of optional help lead to a worked example. Replacing/resetting/importing asks for confirmation inside the app and keeps a recoverable draft backup. Workspace tools includes **Restore previous draft**, code size, reduced motion, export/import and runner reload. The checkpoint selector supports teacher jumps to starting examples without awarding completion. It marks the current screen and shows “✓ Done” beside earned screens (validated checkpoints, visited introductions and fully correct reviews), with a done count per section.
 
 The editor uses Tab for normal focus traversal. Ctrl/Cmd+] indents, Ctrl/Cmd+[ outdents, Ctrl+Space explicitly opens contextual completion. Each file and checkpoint has its own editing state and undo history during the session. Undo history is not persisted across reloads; source drafts are.
@@ -43,6 +45,7 @@ The editor uses Tab for normal focus traversal. Ctrl/Cmd+] indents, Ctrl/Cmd+[ o
 For colours, typography, layout, components, responsive behaviour and motion, read [DESIGN.md](DESIGN.md). It maps the current styling to its implementation files and provides guidance for future UI changes.
 
 - `src/curriculum/sections.js` and `src/review/`: section introductions, worked examples, review questions and answer checking.
+- `src/curriculum/recap.js` and `src/review/renderRecap.js`: the end-of-course summary screen and its Markdown download.
 - `src/curriculum/checkpoints.js`: stable IDs, progressive starters, complete solutions, objectives, prompts, hints, expected effects and teaching metadata.
 - `src/validation/`: Acorn ES2022 parsing, AST source-scope checks, supported values and structural objectives.
 - `src/runner/`: worker loading, bounded QuickJS execution, fresh-context probes, action guards, mutation contracts and plain-data result validation.

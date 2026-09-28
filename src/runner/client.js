@@ -9,6 +9,8 @@ export function validResult(result,checkpointId) {
     if (!result.snapshot || !Array.isArray(result.trace) || result.trace.length > 30 || !Array.isArray(result.missing)) return false;
     const plain = value => value === null || (typeof value === 'object' && !Array.isArray(value));
     if (!plain(result.snapshot.wizard) || !plain(result.snapshot.goblin) || !plain(result.snapshot.defaults)) return false;
+    const blueprint = result.snapshot.blueprint;
+    if (blueprint !== undefined && blueprint !== null && !(Array.isArray(blueprint.properties) && blueprint.properties.length <= 20 && blueprint.properties.every(p => typeof p === 'string' && p.length <= 40))) return false;
     if (!result.trace.every(a=>['wizard','goblin'].includes(a.actor) && ['castSpell','attack','recoverHealth','levelUp','takeDamage'].includes(a.method) && a.before && a.after && typeof a.change === 'number')) return false;
     const cp=byId[checkpointId];
     if(cp){

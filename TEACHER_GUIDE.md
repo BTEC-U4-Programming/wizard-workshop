@@ -21,6 +21,8 @@ The pace is adjustable. A checkpoint is a single edit or tightly connected pair 
 
 Install/run using the README, or share https://btec-u4-programming.github.io/wizard-workshop/ with learners once GitHub Pages is enabled and configured for GitHub Actions in the repository. Each browser profile keeps its own local progress, including on the hosted site. Ask learners to use fictional names and download work at session end; browser cleanup or moving device can remove local progress.
 
+Section 5 builds the targeted spell in five small steps so learners change one idea at a time: C5.1a adds the `target` parameter and a flat `target.takeDamage(10);` before the `if`; C5.1b passes the goblin object from `actions.js`; C5.1c stores the damage in a `let` variable; C5.1d swaps each branch's `return` for a damage value and moves the single `takeDamage` call and `return this.specialPower;` after the `if`; C5.1e adds the level bonus. Early steps accept any damage that reaches only the target; C5.1d checks fire 12, ice 10 and electricity 14 (and accepts the level bonus from learners who are ahead); from C5.1e the full formula is required. Feedback names the expected and actual health change.
+
 Normal Next navigation carries forward the successful draft and cosmetic choices. Previously visited checkpoints keep their own drafts. A few transitions explicitly use prepared structures: remove the temporary apprentice; select fire for the first conditional demonstration; append the duplicated Goblin; clear old actions and restore full health when introducing targeted spells. Earlier checkpoint drafts remain available.
 
 Use the top checkpoint selector to jump for a demonstration or recovery. A never-visited jump loads a starting example and does not count as earned completion. Press Run to validate it. Returning to a completed checkpoint still requires its current draft to be rerun before Next is enabled. Historical badges are retained.
@@ -50,6 +52,8 @@ Use the journey selector to jump to an introduction or review for a class discus
 - **Comparison versus assignment:** `===` compares values. `=` changes a value. Multiple probe states prevent a hardcoded answer for the currently selected power from passing the whole conditional activity.
 - **Recovery:** it adds up to 20, bounded by maxHealth. From 95 the actual recovery is 5; at full health it is 0.
 - **Inheritance:** temporary duplication in C4.2 and early C4.3 is intentional. Move shared methods before removing subclass copies. Call super before this. Goblin has no wizard-only properties.
+- **Class versus object on screen:** a class on its own draws only a dotted outline in The Conjuring Room. The outline gains a `name` label once the constructor sets it, and becomes a real wizard only when `new Wizard(...)` runs.
+- **`return` stops the method:** in C5.1d, a `takeDamage` line placed after branches that still `return` would never run. This is why the branches set `damage` instead.
 - **Target:** it is the object passed as an argument, not a quoted name. `wizard.castSpell(goblin)` permits the method to call the goblin’s inherited damage behaviour.
 - **Workshop guards:** living actors, valid targets and action-list rules are enforced by the runner before trial calls. This does not mean learners have already written those defensive checks inside their own methods.
 - **Atomic failure:** an invalid late action discards the entire trial trace. Earlier actions in that run are not committed. Correct the highlighted file/line and rerun; the last accepted scene remains.
@@ -67,7 +71,13 @@ wizard.recoverHealth();  // wizard 92 → 100, actual recovery 8
 wizard.levelUp();        // wizard level 2 → 3
 ```
 
-For a simple victory demonstration, use a level-1 fire wizard and five spell calls: damage is 14, 14, 14, 14 and finally 4. A sixth action fails because the battle has concluded. That pure victory trace can be demonstrated at C5.1b; C5.3 additionally requires a response and recovery somewhere in its complete script. A C5.3 victory can start with spell, goblin attack and recovery, followed by four more spells. Defeat is also a valid learning result; invite a change in action order.
+For a simple victory demonstration, use a level-1 fire wizard and five spell calls: damage is 14, 14, 14, 14 and finally 4. A sixth action fails because the battle has concluded. That pure victory trace can be demonstrated from C5.1e (at C5.1b–C5.1c each spell deals a flat 10); C5.3 additionally requires a response and recovery somewhere in its complete script. A C5.3 victory can start with spell, goblin attack and recovery, followed by four more spells. Defeat is also a valid learning result; invite a change in action order.
+
+When either character reaches zero health, the defeated sprite lies on the floor and a **Game Over** banner reads **Wizard Wins** or **Goblin Wins**. The result message and character summary give the same outcome as text.
+
+## Course summary
+
+**Finish course** on the Section 5 review opens a summary of every major concept, each with a complete example and a Unit 4 report link. **Download summary (.md)** saves it as Markdown, followed by the learner's last successful Section 5 code. The summary is also listed in the journey selector under “Course complete”. It is not a progress step and is never locked. Edit its content in `src/curriculum/recap.js`.
 
 ## Accessibility and classroom setup
 

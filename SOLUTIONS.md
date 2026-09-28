@@ -6,7 +6,7 @@ Generated from `src/curriculum/checkpoints.js`. Each solution is an executable f
 
 Declare an empty class called `Wizard`.
 
-Expected: Class ready — no object yet
+Expected: A dotted outline appears in The Conjuring Room: the recipe exists, but no wizard has been made yet.
 
 Support: guided.
 
@@ -22,7 +22,7 @@ class Wizard {
 
 Add `constructor(name)` and assign `this.name = name`.
 
-Expected: A new Wizard receives its name; the platform stays empty.
+Expected: A name label appears above the dotted outline. Every wizard made from this recipe will have a name.
 
 Support: guided.
 
@@ -1742,7 +1742,7 @@ wizard.castSpell();
 
 ## C4.5 — Share damage behaviour
 
-Add `takeDamage(amount)` to `Character` and call `goblin.takeDamage(14)` in `actions.js`.
+Add `takeDamage(amount)` to `Character` using `Math.max()` and call `goblin.takeDamage(14)` in `actions.js`.
 
 Expected: Goblin health is 46; a probe at 5 stops at zero.
 
@@ -1822,11 +1822,262 @@ const goblin = new Goblin("Grub");
 goblin.takeDamage(14);
 ```
 
-## C5.1a — Give the spell a target
+## C5.1a — A spell needs a target
 
-Refactor `castSpell(target)`: calculate power damage, call `target.takeDamage(damage)`, then `return` `this.specialPower`.
+Add a `target` parameter to `castSpell`, then make the spell hit it with `target.takeDamage(10);`.
 
-Expected: Independent probes verify each power at levels 1, 3 and 20.
+Expected: Hidden practice goblins lose 10 health when your spell is cast.
+
+Support: guided.
+
+### character.js
+
+```javascript
+class Character {
+  constructor(name, maxHealth) {
+    this.name = name;
+    this.level = 1;
+    this.maxHealth = maxHealth;
+    this.health = maxHealth;
+  }
+
+  recoverHealth() {
+    this.health = this.health + 20;
+    if (this.health > this.maxHealth) {
+      this.health = this.maxHealth;
+    }
+  }
+
+  levelUp() {
+    if (this.level < 20) {
+      this.level = this.level + 1;
+    }
+  }
+
+  takeDamage(amount) {
+    this.health = Math.max(0, this.health - amount);
+  }
+}
+
+class Wizard extends Character {
+  constructor(name) {
+    super(name, 100);
+    this.cloakColour = "grey";
+    this.cloakPattern = "plain";
+    this.wand = "oak";
+    this.beardType = "none";
+    this.specialPower = "fire";
+  }
+
+  castSpell(target) {
+    target.takeDamage(10);
+    if (this.specialPower === "fire") {
+      return "fire";
+    } else if (this.specialPower === "ice") {
+      return "ice";
+    } else {
+      return "electricity";
+    }
+  }
+}
+
+class Goblin extends Character {
+  constructor(name) {
+    super(name, 60);
+  }
+}
+
+const wizard = new Wizard("Aster");
+wizard.cloakColour = "purple";
+wizard.cloakPattern = "stars";
+wizard.wand = "crystal";
+wizard.beardType = "short";
+wizard.level = 3;
+wizard.specialPower = "electricity";
+const goblin = new Goblin("Grub");
+
+```
+
+### actions.js
+
+```javascript
+// No action calls needed yet.
+```
+
+Self-check: Predict: what would happen if `target.takeDamage(10);` were placed after the whole `if … else`? Each branch ends with `return`, and `return` stops the method straight away, so that line would never run.
+
+## C5.1b — Pass the goblin object
+
+In `actions.js`, call `wizard.castSpell(goblin);` without quotes around `goblin`.
+
+Expected: Your goblin loses 10 health: 60 → 50.
+
+Support: guided.
+
+### character.js
+
+```javascript
+class Character {
+  constructor(name, maxHealth) {
+    this.name = name;
+    this.level = 1;
+    this.maxHealth = maxHealth;
+    this.health = maxHealth;
+  }
+
+  recoverHealth() {
+    this.health = this.health + 20;
+    if (this.health > this.maxHealth) {
+      this.health = this.maxHealth;
+    }
+  }
+
+  levelUp() {
+    if (this.level < 20) {
+      this.level = this.level + 1;
+    }
+  }
+
+  takeDamage(amount) {
+    this.health = Math.max(0, this.health - amount);
+  }
+}
+
+class Wizard extends Character {
+  constructor(name) {
+    super(name, 100);
+    this.cloakColour = "grey";
+    this.cloakPattern = "plain";
+    this.wand = "oak";
+    this.beardType = "none";
+    this.specialPower = "fire";
+  }
+
+  castSpell(target) {
+    target.takeDamage(10);
+    if (this.specialPower === "fire") {
+      return "fire";
+    } else if (this.specialPower === "ice") {
+      return "ice";
+    } else {
+      return "electricity";
+    }
+  }
+}
+
+class Goblin extends Character {
+  constructor(name) {
+    super(name, 60);
+  }
+}
+
+const wizard = new Wizard("Aster");
+wizard.cloakColour = "purple";
+wizard.cloakPattern = "stars";
+wizard.wand = "crystal";
+wizard.beardType = "short";
+wizard.level = 3;
+wizard.specialPower = "electricity";
+const goblin = new Goblin("Grub");
+
+```
+
+### actions.js
+
+```javascript
+wizard.castSpell(goblin);
+```
+
+## C5.1c — Keep the damage in a variable
+
+Store the damage in a variable with `let damage = 10;`, then use `target.takeDamage(damage);`.
+
+Expected: The goblin still drops from 60 to 50: same result, clearer code.
+
+Support: guided.
+
+### character.js
+
+```javascript
+class Character {
+  constructor(name, maxHealth) {
+    this.name = name;
+    this.level = 1;
+    this.maxHealth = maxHealth;
+    this.health = maxHealth;
+  }
+
+  recoverHealth() {
+    this.health = this.health + 20;
+    if (this.health > this.maxHealth) {
+      this.health = this.maxHealth;
+    }
+  }
+
+  levelUp() {
+    if (this.level < 20) {
+      this.level = this.level + 1;
+    }
+  }
+
+  takeDamage(amount) {
+    this.health = Math.max(0, this.health - amount);
+  }
+}
+
+class Wizard extends Character {
+  constructor(name) {
+    super(name, 100);
+    this.cloakColour = "grey";
+    this.cloakPattern = "plain";
+    this.wand = "oak";
+    this.beardType = "none";
+    this.specialPower = "fire";
+  }
+
+  castSpell(target) {
+    let damage = 10;
+    target.takeDamage(damage);
+    if (this.specialPower === "fire") {
+      return "fire";
+    } else if (this.specialPower === "ice") {
+      return "ice";
+    } else {
+      return "electricity";
+    }
+  }
+}
+
+class Goblin extends Character {
+  constructor(name) {
+    super(name, 60);
+  }
+}
+
+const wizard = new Wizard("Aster");
+wizard.cloakColour = "purple";
+wizard.cloakPattern = "stars";
+wizard.wand = "crystal";
+wizard.beardType = "short";
+wizard.level = 3;
+wizard.specialPower = "electricity";
+const goblin = new Goblin("Grub");
+
+```
+
+### actions.js
+
+```javascript
+wizard.castSpell(goblin);
+```
+
+Self-check: Why bother with a variable if the result is the same? In the next step each power needs a different number. The variable gives that changing number one name.
+
+## C5.1d — Let the power choose the damage
+
+Make each branch set `damage` (fire 12, ice 10, electricity 14). Then hit the target once and `return this.specialPower;`.
+
+Expected: Fire hits for 12, ice for 10, electricity for 14.
 
 Support: guided.
 
@@ -1872,11 +2123,11 @@ class Wizard extends Character {
   castSpell(target) {
     let damage = 0;
     if (this.specialPower === "fire") {
-      damage = 12 + this.level * 2;
+      damage = 12;
     } else if (this.specialPower === "ice") {
-      damage = 10 + this.level * 2;
+      damage = 10;
     } else {
-      damage = 14 + this.level * 2;
+      damage = 14;
     }
     target.takeDamage(damage);
     return this.specialPower;
@@ -1903,14 +2154,16 @@ const goblin = new Goblin("Grub");
 ### actions.js
 
 ```javascript
-// No action calls needed yet.
+wizard.castSpell(goblin);
 ```
 
-## C5.1b — Pass the goblin object
+Self-check: Make a quick trace table: for each power, which test is true and what is `damage`? Why does `target.takeDamage(damage);` now appear once instead of three times?
 
-In `actions.js`, call `wizard.castSpell(goblin);` without quotes around `goblin`.
+## C5.1e — Stronger with every level
 
-Expected: The goblin loses health according to your spell and level.
+Add a level bonus to every branch, for example `damage = 12 + this.level * 2;`.
+
+Expected: Damage now grows with level: a level-3 fire spell deals 18.
 
 Support: guided.
 

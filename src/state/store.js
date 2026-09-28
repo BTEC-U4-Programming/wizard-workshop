@@ -11,7 +11,7 @@ export function parseImport(text,{localRestore=false}={}) {
   if(value.curriculumVersion!==curriculumVersion || !byId[value.currentCheckpointId] || !value.draftsByCheckpoint || typeof value.draftsByCheckpoint!=='object' || Array.isArray(value.draftsByCheckpoint)) throw new Error('This file is not a compatible Wizard Workshop save.');
   const state=emptyState();state.currentCheckpointId=value.currentCheckpointId;
   const screen=value.currentScreen;
-  state.currentScreen=screen?.type==='checkpoint'?{type:'checkpoint',id:value.currentCheckpointId}:(['intro','review'].includes(screen?.type)&&sectionByChapter[screen.chapter]?{type:screen.type,chapter:screen.chapter}:{type:'checkpoint',id:value.currentCheckpointId});
+  state.currentScreen=screen?.type==='recap'?{type:'recap'}:screen?.type==='checkpoint'?{type:'checkpoint',id:value.currentCheckpointId}:(['intro','review'].includes(screen?.type)&&sectionByChapter[screen.chapter]?{type:screen.type,chapter:screen.chapter}:{type:'checkpoint',id:value.currentCheckpointId});
   state.seenIntroChapters=Array.isArray(value.seenIntroChapters)?[...new Set(value.seenIntroChapters.filter(chapter=>sectionByChapter[chapter]))]:[];
   for(const section of Object.values(sectionByChapter)){
     const saved=value.reviewByChapter?.[section.chapter];

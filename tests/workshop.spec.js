@@ -52,8 +52,8 @@ test('confetti celebrates only correct runs and respects cancellation and reduce
 test('student journey, error and fix, inheritance and deterministic battle',async({page})=>{
   const external=[];page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:')&&!r.url().startsWith('data:')&&!r.url().startsWith('blob:'))external.push(r.url());});
   await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');await expect(page.locator('#character-summary')).toContainText('will appear');
-  await typeFile(page,'character.js','class Wizard {}');await run(page);await expect(page.locator('#character-summary')).toContainText('will appear');
-  await page.getByRole('button',{name:'Next step'}).click();await typeFile(page,'character.js',byId['C1.1b'].solution.characterSource);await run(page);
+  await typeFile(page,'character.js','class Wizard {}');await run(page);await expect(page.locator('#character-summary')).toContainText('dotted outline');
+  await page.getByRole('button',{name:'Next step'}).click();await typeFile(page,'character.js',byId['C1.1b'].solution.characterSource);await run(page);await expect(page.locator('#character-summary')).toContainText('Every new wizard will get: name');
   await page.getByRole('button',{name:'Next step'}).click();await typeFile(page,'character.js',byId['C1.1c'].solution.characterSource);await run(page);await expect(page.locator('#character-summary')).toContainText('Aster');
   await page.getByRole('button',{name:'Previous',exact:false}).click();await expect(page.locator('#title')).toHaveText('Give the recipe a constructor');await run(page);await page.getByRole('button',{name:'Next step'}).click();await expect(page.locator('.cm-content')).toContainText('const wizard');await run(page);
   await putSolution(page,'C2.1b');await run(page);await expect(page.locator('#object')).toContainText('purple');await expect(page.locator('#defaults')).toContainText('grey');
@@ -163,4 +163,17 @@ test('introductions stay concise with optional explanations available',async({pa
     await intro.getByText('Key terms and a quick reminder').click();
     await expect(intro.locator('.concept-list dt').first()).toBeVisible();
   }
+});
+
+test('course summary follows the final review and downloads as Markdown',async({page})=>{
+  await page.goto('/');await page.locator('#checkpoint').selectOption('review:5');
+  await page.getByRole('button',{name:'Finish course: see your summary →'}).click();
+  await expect(page.locator('#section-title')).toHaveText('Your Wizard Workshop spellbook');
+  await expect(page.locator('.recap-concept')).toHaveCount(15);
+  await expect(page.locator('.recap-concept .expressive-code').first()).toContainText('class Wizard');
+  const [download]=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Download summary (.md)'}).first().click()]);
+  expect(download.suggestedFilename()).toBe('wizard-workshop-summary.md');
+  for(const width of [1366,390]){await page.setViewportSize({width,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
+  await page.reload();await expect(page.locator('#section-title')).toHaveText('Your Wizard Workshop spellbook');
+  await page.getByRole('button',{name:'← Back to the final quiz'}).click();await expect(page.locator('#section-title')).toContainText('Check your understanding');
 });

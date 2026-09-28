@@ -58,7 +58,7 @@ export function renderSection(container,screen,content,state,navigate,save,{cele
     });
     refresh();container.append(summary);
     const navigation=element('nav',undefined,'section-actions');const back=element('button','← Previous checkpoint');back.onclick=()=>navigate(section.chapter===1?'C1.2':section.chapter===2?'C2.7':section.chapter===3?'C3.5':section.chapter===4?'C4.5':'C5.4');navigation.append(back);
-    const next=element('button',section.chapter===5?'Finish course':`Continue to section ${section.chapter+1} →`,'primary');next.onclick=()=>section.chapter===5?(()=>{summary.textContent='✦ Course complete. You can revisit any section or checkpoint.';next.disabled=true;})():navigate(`intro:${section.chapter+1}`);navigation.append(next);container.append(navigation);
+    const next=element('button',section.chapter===5?'Finish course: see your summary →':`Continue to section ${section.chapter+1} →`,'primary');next.onclick=()=>navigate(section.chapter===5?'recap':`intro:${section.chapter+1}`);navigation.append(next);container.append(navigation);
   }
   heading.focus();
 }

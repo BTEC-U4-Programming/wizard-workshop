@@ -43,3 +43,10 @@
 .course-bar option.is-complete .journey-label{color:#d2e6d6}
 @media(max-width:600px){.course-bar option{gap:8px;padding:6px 8px}.course-bar option:checked::after{content:'Here'}}
 }
+
+/* Course summary (recap) screen */
+.section-screen .recap-contents ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 18px;padding-left:0;list-style-position:inside;margin:8px 0 4px}.section-screen .recap-contents li{margin:0;font-size:15px}
+.section-screen .recap-section{border-top:1px solid #384861;margin-top:28px;padding-top:4px;scroll-margin-top:16px}
+.section-screen .recap-concept{border:1px solid #313d53;border-radius:8px;background:#1b2538;padding:16px 18px;margin:16px 0}.section-screen .recap-concept h3{font-size:17px;color:#e2cef6}.section-screen .recap-concept .worked-example{margin:10px 0}
+.section-screen .recap-report{border-left:3px solid var(--gold);padding:4px 0 4px 12px;color:#d2d9e6;font-size:15px}
+@media(max-width:600px){.section-screen .recap-concept{padding:12px}}

@@ -4,6 +4,8 @@ import {byId} from '../curriculum/checkpoints.js';
 
 export const timeoutMessage = 'This run took too long and was stopped. Check for a loop or a method calling itself.';
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+// How strictly a targeted spell's damage is checked at this checkpoint.
+export const spellRule = cp => cp.chapter < 5 ? null : atLeast(cp,'C5.1e') ? 'level' : atLeast(cp,'C5.1d') ? 'power' : 'any';
 const snapshotExpression = `({wizard: typeof wizard === 'undefined' ? null : wizard, goblin: typeof goblin === 'undefined' ? null : goblin, apprentice: typeof apprentice === 'undefined' ? null : apprentice})`;
 class RunError extends Error {
   constructor(message, node, file='character.js', code='behaviour', detail='') { super(message); this.diagnostic = {...diagnostic(message,node,file,code),detail}; }
@@ -50,8 +52,21 @@ function contract(before, after, actor, method, target, amount, power, battle) {
   else if (method === 'castSpell') {
     if (power !== obj.specialPower) return `The ${obj.specialPower} test returned ${String(power)}. Check which property the condition compares and what the method returns.`;
     if (battle) {
-      const damage = ({fire:12,ice:10,electricity:14})[power] + obj.level * 2;
-      expected[target].health = Math.max(0,expected[target].health - damage);
+      const start = before[target].health, end = after[target]?.health;
+      if (battle === 'any') {
+        // Early Section 5 steps only require that the spell really hits its target.
+        if (!(end < start)) return 'castSpell(target) did not damage its target. Inside castSpell, call target.takeDamage(10); before the if, so the target loses health.';
+        expected[target].health = end;
+      } else {
+        const base = ({fire:12,ice:10,electricity:14})[power], withLevel = base + obj.level * 2;
+        // The power step also accepts the level bonus, so learners who are ahead are not blocked.
+        const allowed = battle === 'power' ? [base, withLevel] : [withLevel];
+        const damage = allowed.find(amount => end === Math.max(0,start - amount)) ?? allowed.at(-1);
+        expected[target].health = Math.max(0,start - damage);
+        if (end !== expected[target].health) return battle === 'power'
+          ? `A ${power} spell should deal ${base} damage, so the target's health should go from ${start} to ${Math.max(0,start - base)}, but it went to ${end}. Check the damage value in the ${power} branch, and that target.takeDamage(damage); runs once, after the if.`
+          : `A level ${obj.level} ${power} spell should deal ${withLevel} damage (${base} + ${obj.level} × 2), so the target's health should go from ${start} to ${Math.max(0,start - withLevel)}, but it went to ${end}. Check the level bonus in the ${power} branch.`;
+      }
     }
   } else if (method === 'attack') expected[target].health = Math.max(0,expected[target].health - 8);
   return same(expected,after) ? null : `${method} changed the wrong value or amount. Recovery changes only health by up to 20; levelUp changes only level by one; attacks damage only their target.`;
@@ -99,7 +114,7 @@ function runProbes(QuickJS,sources,cp,parsed,deadline) {
       const before = vm.read(`({actor:__wwActor,target:__wwTarget,game:${snapshotExpression}})`);
       const returned = vm.evaluate(`__wwActor.${method}(${args})`);
       const after = vm.read(`({actor:__wwActor,target:__wwTarget,game:${snapshotExpression}})`);
-      const problem = contract(before,after,'actor',method,'target',amount,returned,cp.chapter >= 5);
+      const problem = contract(before,after,'actor',method,'target',amount,returned,spellRule(cp));
       if (problem) throw new RunError(`${owner}.${method}: ${problem}`, findMethod(owner === 'Wizard' ? wiz : owner === 'Goblin' ? gob : base,method) || findMethod(base,method));
     } finally {vm.dispose();}
   }
@@ -138,7 +153,10 @@ export function runProgram(QuickJS, request) {
     }
     Object.assign(data,vm.read(`({wizardInstance: typeof wizard !== 'undefined' && typeof Wizard !== 'undefined' && wizard instanceof Wizard, apprenticeInstance: typeof apprentice !== 'undefined' && apprentice instanceof Wizard, independent: typeof apprentice !== 'undefined' && typeof wizard !== 'undefined' && apprentice !== wizard, goblinInstance: typeof goblin !== 'undefined' && typeof Goblin !== 'undefined' && goblin instanceof Goblin, wizardInherited: typeof Character !== 'undefined' && typeof wizard !== 'undefined' && wizard instanceof Character && !Object.hasOwn(Wizard.prototype,'recoverHealth') && !Object.hasOwn(Wizard.prototype,'levelUp') && typeof Character.prototype.recoverHealth === 'function' && typeof Character.prototype.levelUp === 'function', goblinInherited: typeof Character !== 'undefined' && typeof goblin !== 'undefined' && goblin instanceof Character && !Object.hasOwn(Goblin.prototype,'recoverHealth') && !Object.hasOwn(Goblin.prototype,'levelUp') && typeof Character.prototype.recoverHealth === 'function' && typeof Character.prototype.levelUp === 'function'})`));
     if (data.wizard && !data.wizardInstance) throw new RunError('wizard must be an object created with new Wizard(...).');
-    data.setup = {wizard:data.wizard,goblin:data.goblin,apprentice:data.apprentice};
+    // Before any object exists, the preview draws the class as a hollow
+    // "blueprint" outline, labelled with the properties its constructor sets.
+    data.blueprint = wiz && !data.wizard ? {properties: data.defaults ? Object.keys(data.defaults) : []} : null;
+    data.setup = {wizard:data.wizard,goblin:data.goblin,apprentice:data.apprentice,blueprint:data.blueprint};
     runProbes(QuickJS,sources,cp,parsed,deadline);
     const trace = [];
     for (const action of parsed.actions) {
@@ -156,7 +174,7 @@ export function runProgram(QuickJS, request) {
       catch(e) {if(e.diagnostic) {e.diagnostic.from=action.from;e.diagnostic.to=action.to;} throw e;}
       const after = vm.snapshot();
       try {validateSnapshot(after,cp,allowMissing);}catch(e){if(e.diagnostic){e.diagnostic.file='actions.js';e.diagnostic.from=action.from;e.diagnostic.to=action.to;}throw e;}
-      const problem = contract(before,after,actor,method,target,amount,returned,cp.chapter >= 5);
+      const problem = contract(before,after,actor,method,target,amount,returned,spellRule(cp));
       if (problem) fail(problem);
       const healthTarget = target || actor;
       trace.push({...action,before,after,power:method === 'castSpell' ? returned : null,change: method === 'levelUp' ? after[actor].level-before[actor].level : (after[healthTarget]?.health ?? 0)-(before[healthTarget]?.health ?? 0)});

@@ -47,6 +47,12 @@ export function objectives(cp, parsed, data, trace) {
   if (cp.call) need(trace.some(a => a.method === cp.call), `call ${cp.call} in actions.js`);
   for (const [id,name] of [['C3.1a','castSpell'],['C3.3b','recoverHealth'],['C3.4a','levelUp']]) if(atLeast(cp,id))
     need(findMethod(wiz,name) || (wiz?.superClass?.name==='Character' && findMethod(base,name)), `keep the ${name} method available on Wizard`);
+  if(atLeast(cp,'C5.1a')) need(findMethod(wiz,'castSpell')?.value.params.length >= 1, 'give castSpell a parameter: castSpell(target)');
+  if(atLeast(cp,'C5.1c')) {
+    const spell=findMethod(wiz,'castSpell'),names=new Set();
+    contains(spell,n=>{if(n.type==='VariableDeclarator'&&n.id.type==='Identifier')names.add(n.id.name);return false;});
+    need(contains(spell,n=>n.type==='CallExpression'&&n.callee.property?.name==='takeDamage'&&n.arguments[0]?.type==='Identifier'&&names.has(n.arguments[0].name)), 'store the damage in a variable (let damage = 10;) and pass it: target.takeDamage(damage);');
+  }
   if(atLeast(cp,'C5.2')) need(findMethod(gob,'attack'),'keep Goblin.attack(target)');
   if (cp.branches || atLeast(cp,'C3.2c')) need(hasPowerDecision(findMethod(wiz,'castSpell')), 'use a conditional whose decision reads this.specialPower');
   if (cp.id === 'C3.3a') need(data.setup?.wizard?.health === 50 && data.defaults?.health === 100 && data.defaults?.maxHealth === 100 && hasAssignment(tree,'wizard','health'), 'add full-health defaults and set wizard.health = 50 for practice');

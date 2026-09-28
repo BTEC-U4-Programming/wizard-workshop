@@ -2,6 +2,7 @@ import {ExpressiveCode,loadShikiTheme} from 'expressive-code';
 import {toHtml} from 'hast-util-to-html';
 import {checkpoints} from '../src/curriculum/checkpoints.js';
 import {sections} from '../src/curriculum/sections.js';
+import {recap} from '../src/curriculum/recap.js';
 
 // Runs in Node through Vite. Only escaped, pre-rendered curriculum HTML reaches
 // the browser; neither the highlighter nor student drafts enter this pipeline.
@@ -63,6 +64,13 @@ export async function renderLessons() {
       }))),
     };
   }
+  // The course summary lives beside the sections under a reserved key.
+  sectionContent.recap={
+    intro:await prose(recap.intro),
+    sections:await Promise.all(recap.sections.map(async section=>({concepts:await Promise.all(section.concepts.map(async concept=>({
+      term:await prose(concept.term),explanation:await prose(concept.explanation),report:await prose(concept.report),code:await highlight(concept.code,false,'example.js'),
+    })))}))),
+  };
   return {lessons,sectionContent,css:[...styles].join('\n')};
 }
 

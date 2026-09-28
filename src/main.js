@@ -8,10 +8,11 @@ import {createCodeEditor} from './editor/createEditor.js';
 import {parseSources,findClass} from './validation/parse.js';
 import {Runner} from './runner/client.js';
 import {loadState,saveState,replaceDraft,parseImport,canCommit} from './state/store.js';
-import {renderScene,TracePlayer,palettes} from './game/renderScene.js';
+import {renderScene,TracePlayer,palettes,battleOutcome} from './game/renderScene.js';
 import {sections,sectionByChapter} from './curriculum/sections.js';
-import {journey,nextScreen,previousScreen,screenId,parseScreen} from './curriculum/journey.js';
+import {journey,nextScreen,previousScreen,screenId,parseScreen,RECAP} from './curriculum/journey.js';
 import {renderSection} from './review/renderSection.js';
+import {renderRecap} from './review/renderRecap.js';
 import {isScreenComplete,chapterOfScreen,sectionProgress} from './state/journeyProgress.js';
 
 document.querySelector('#app').innerHTML=`
@@ -63,6 +64,9 @@ for(const section of sections){
   }
   $('#checkpoint').append(group);
 }
+{const group=node('optgroup');group.label='Course complete';const option=node('option');option.value=RECAP;option.append(node('span','Course summary · download your spellbook','journey-label'));group.append(option);$('#checkpoint').append(group);}
+// The learner's most recent successful battle code, for the summary download.
+const finalCode=()=>{for(const item of [...checkpoints].reverse()){const code=state.lastSuccessfulSourcesByCheckpoint[item.id];if(code&&item.chapter===5)return code;}return null;};
 function refreshJourney(){
   for(const [id,option] of journeyOptions){
     const done=isScreenComplete(id,state);option.classList.toggle('is-complete',done);
@@ -94,7 +98,7 @@ function initialise(id,sequential){
       const reference=current.starter.characterSource;const tree=parseSources(current.starter,current).trees['character.js'];const goblin=findClass(tree,'Goblin');
       source.characterSource+=`\n${reference.slice(goblin.start,goblin.end)}\nconst goblin = new Goblin("Grub");\n`;
     }
-    if(id==='C5.1a'){source.characterSource+='\nwizard.health = wizard.maxHealth;\ngoblin.health = goblin.maxHealth;\n';source.actionsSource='// Next, update castSpell(target) before writing its new call.\n';}
+    if(id==='C5.1a'){source.characterSource+='\nwizard.health = wizard.maxHealth;\ngoblin.health = goblin.maxHealth;\n';source.actionsSource='// actions.js runs after character.js.\n// In the next step you will aim your spell at the goblin here.\n';}
   }
   if(id==='C3.1b'&&!source.actionsSource.trim())source.actionsSource=byId[id].starter.actionsSource;
   state.draftsByCheckpoint[id]={...source,revision:0};
@@ -102,7 +106,7 @@ function initialise(id,sequential){
 function navigate(id,sequential=false){
   save();invalidate();state.currentScreen=parseScreen(id);if(state.currentScreen.type==='checkpoint'){initialise(id,sequential);state.currentCheckpointId=id;activeFile=cp().activeFile;lastDiagnostics=[];}showScreen();save();
 }
-function showScreen(){const screen=state.currentScreen;const checkpoint=screen.type==='checkpoint';$('main').hidden=!checkpoint;$('#section-screen').hidden=checkpoint;$('#view-switch').hidden=!checkpoint;$('.jump').hidden=!checkpoint;$('#checkpoint').value=screenId(screen);text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);if(checkpoint)showLesson();else renderSection($('#section-screen'),screen,sectionContent,state,navigate,saveProgress,{celebrate:button=>celebration.play(button)});refreshJourney();}
+function showScreen(){const screen=state.currentScreen;const checkpoint=screen.type==='checkpoint';$('main').hidden=!checkpoint;$('#section-screen').hidden=checkpoint;$('#view-switch').hidden=!checkpoint;$('.jump').hidden=!checkpoint;$('#checkpoint').value=screenId(screen);text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);if(checkpoint)showLesson();else if(screen.type===RECAP)renderRecap($('#section-screen'),sectionContent,{navigate,download,finalCode:finalCode()});else renderSection($('#section-screen'),screen,sectionContent,state,navigate,saveProgress,{celebrate:button=>celebration.play(button)});refreshJourney();}
 function showLesson(){
   const current=cp(),lesson=lessons[current.id];$('#checkpoint').value=current.id;text('#stage',`SECTION ${current.chapter} · ${sectionByChapter[current.chapter].title.toUpperCase()} / ${current.id}`);text('#scaffold',current.scaffold);text('#title',current.title);$('#objective').innerHTML=lesson.objective;
   $('#instruction-list').replaceChildren(...lesson.instructions.map(s=>lessonNode('li',s)));$('#checklist').replaceChildren(...lesson.checklist.map(s=>lessonNode('li','○ '+s)));
@@ -122,7 +126,8 @@ function showLesson(){
 }
 function showFile(file){activeFile=file;$('#character-tab').setAttribute('aria-selected',String(file==='character.js'));$('#actions-tab').setAttribute('aria-selected',String(file==='actions.js'));editor.show(cp().id,file,draft()[sourceKey()]);editor.diagnostics(lastDiagnostics,file);if(cp().fileNotice)text('#file-notice button',file==='actions.js'?'Show my character.js':'Back to actions.js');}
 function summarise(snapshot){const w=snapshot?.wizard,g=snapshot?.goblin;
-  text('#character-summary',w?`${w.name ?? 'Unnamed'}${w.level!==undefined?' · Level '+w.level:''}${w.health!==undefined?' · Health '+w.health+'/'+w.maxHealth:''}${w.specialPower?' · '+w.specialPower:''}`:'Your wizard will appear here after you create an object.');
+  const blueprint=!w&&snapshot?.blueprint,outcome=battleOutcome(snapshot);
+  text('#character-summary',w?`${w.name ?? 'Unnamed'}${w.level!==undefined?' · Level '+w.level:''}${w.health!==undefined?' · Health '+w.health+'/'+w.maxHealth:''}${w.specialPower?' · '+w.specialPower:''}${outcome&&w.health===0?' · Defeated':''}${outcome?` · Game Over: ${outcome}`:''}`:blueprint?`Class Wizard is ready — the dotted outline is the recipe, not a wizard yet.${blueprint.properties.length?` Every new wizard will get: ${blueprint.properties.join(', ')}.`:''} No object exists until new Wizard(...) creates one.`:'Your wizard will appear here after you create an object.');
   $('#character-summary').replaceChildren(node('span',$('#character-summary').textContent));
   if(w?.health!==undefined){const meter=document.createElement('meter');meter.min=0;meter.max=w.maxHealth;meter.value=w.health;meter.setAttribute('aria-label','Wizard health');$('#character-summary').append(meter);}
   $('#goblin-summary').hidden=!g;if(g){text('#goblin-summary',`${g.name} · Level ${g.level} · Health ${g.health}/${g.maxHealth}${g.health===0?' · Defeated':''}`);const meter=document.createElement('meter');meter.min=0;meter.max=g.maxHealth;meter.value=g.health;meter.setAttribute('aria-label','Goblin health');$('#goblin-summary').append(meter);}
@@ -130,7 +135,7 @@ function summarise(snapshot){const w=snapshot?.wizard,g=snapshot?.goblin;
 function inspector(selector,object){const dl=$(selector);dl.replaceChildren();for(const key of ['name',...Object.keys(choices),'maxHealth','health']) {dl.append(node('dt',key),node('dd',object?.[key]===undefined?'Not added yet':String(object[key])));}}
 function showAccepted(restored=false){const accepted=state.lastGoodSnapshotByCheckpoint[cp().id];const snapshot=accepted?.snapshot||{};renderScene($('.scene canvas'),snapshot);summarise(snapshot);inspector('#defaults',snapshot.defaults);inspector('#object',snapshot.wizard);
   $('#apprentice').hidden=!snapshot.apprentice;if(snapshot.apprentice)text('#apprentice',`Second object · apprentice.name = ${JSON.stringify(snapshot.apprentice.name)}. Its properties belong to a separate instance.`);
-  text('#preview-note',accepted?(restored?'Last saved successful preview — rerun to verify this draft.':'Accepted result · Your last working wizard is still here.'):'Waiting for your first object.');
+  text('#preview-note',accepted?(restored?'Last saved successful preview — rerun to verify this draft.':snapshot.blueprint?'Accepted result · A class on its own is only a recipe (the dotted outline). The next step creates an object from it.':'Accepted result · Your last working wizard is still here.'):'Waiting for your first object.');
   $('#log').replaceChildren();const trace=accepted?.trace||[];text('#action-count',`${trace.length} actions`);$('#empty-log').hidden=trace.length>0;
   for(const a of trace){const health=a.after[a.target||a.actor]?.health;const summary=`${a.actor}.${a.method}(${a.target||a.amount||''})${a.power?' · '+a.power:''} · ${a.method==='levelUp'?'level '+a.after[a.actor].level: (a.change>0?'+':'')+a.change+(health!==undefined?' health → '+health:'')} · actions.js:${a.line}`;const li=node('li',summary.slice(0,200));$('#log').append(li);}
 }
@@ -151,7 +156,7 @@ async function run(){
     const result=response.result;lastDiagnostics=result.diagnostics;editor.diagnostics(lastDiagnostics,activeFile);
     if(result.status==='success'||result.status==='validButIncomplete'){
       state.lastGoodSnapshotByCheckpoint[cp().id]=result;showAccepted();player.play(result,state.preferences.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches);
-      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=false;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');refreshJourney();celebration.play();}
+      if(result.status==='success') {verifiedRevision=draft().revision;state.lastSuccessfulSourcesByCheckpoint[cp().id]=structuredClone(request.sources);if(!state.completedCheckpointIds.includes(cp().id))state.completedCheckpointIds.push(cp().id);$('#next').disabled=false;const w=result.snapshot.wizard,g=result.snapshot.goblin;const observation=cp().field?`Your object’s ${cp().field} is ${JSON.stringify(w[cp().field])}. A new wizard starts with ${JSON.stringify(result.snapshot.defaults[cp().field])}.`:cp().chapter===5&&g?`Your script ran: ${w.name} has ${w.health}/${w.maxHealth} health at level ${w.level}; ${g.name} has ${g.health}/${g.maxHealth} health.${battleOutcome(result.snapshot)?` Game Over — ${battleOutcome(result.snapshot)}!`:''}`:cp().expectedVisibleResult;setResult('✓ '+observation,'success');text('#badge','✓ Checkpoint complete');refreshJourney();celebration.play();}
       else setResult('○ Your code ran. Next, '+result.missing[0]+'.','validButIncomplete');
       text('#dirty','Run matches this draft');text('#progress',`${state.completedCheckpointIds.length} / ${checkpoints.length} completed`);
       if(state.completedCheckpointIds.length===checkpoints.length)text('#badge','✦ Course complete');

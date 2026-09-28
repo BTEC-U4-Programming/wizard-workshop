@@ -10,7 +10,7 @@ describe('section curriculum',()=>{
     expect(sections.map(section=>section.chapter)).toEqual([1,2,3,4,5]);
     expect(new Set(sections.map(section=>section.id)).size).toBe(5);
     expect(journey[0]).toBe('intro:1');expect(journey.at(-1)).toBe('review:5');
-    expect(journey.length).toBe(51);
+    expect(journey.length).toBe(54);
   });
   it('gives each section complete content and a runnable worked example',async()=>{
     const quickjs=await getQuickJS();
