@@ -97,16 +97,16 @@ Keep responsibilities separate:
 
 | Area | Responsibility |
 |---|---|
-| Application entry and UI | Initialise the application, render screens, handle navigation and accessible feedback. |
-| Curriculum/content | Module and section introductions, objectives, worked examples, activities, review questions, hints and solutions. Use stable identifiers. |
+| Application entry and UI | Route the library and tomes in `src/main.js`; render and navigate each tome in `src/oop/app.js` and `src/edp/app.js`, with accessible feedback. |
+| Curriculum/content | Tome I in `src/curriculum/`, Tome II in `src/edp/curriculum/`: introductions, objectives, worked examples, activities, reviews, hints and solutions with stable identifiers. |
 | Editor | CodeMirror 6 setup, per-document editor state, highlighting, diagnostics and keyboard behaviour. |
 | Validation | Acorn-based parsing and structural checks, allowed values, checkpoint objectives and behavioural tests. |
-| Runner | Execute learner code inside QuickJS in a Web Worker, with bounded execution and mapped errors. |
+| Runner | Execute learner code inside QuickJS in a Web Worker, with bounded execution and mapped errors. Tome II supplies a simulated DOM, virtual timers and seeded PRNG inside the guest, never the real host DOM or timers. |
 | Game/preview | Render pixel-art characters and animations from validated state and action traces. |
-| State/persistence | Navigation, drafts, last successful results, completion, review answers, preferences and local save/export/import. |
+| State/persistence | Independent tome saves: navigation, drafts, successful results, completion, reviews, activities, preferences and save/export/import. Shared links use `src/shared/moduleShell.js`. |
 | Tests | Curriculum fixtures, validation and runner behaviour, progress persistence and browser journeys. |
 
-The implementation has `src/editor/`, `src/curriculum/` (including `sections.js`), `src/review/`, `src/validation/`, `src/runner/`, `src/game/` and `src/state/`. UI markup and navigation currently live in `src/main.js`, with styling in `src/theme.css` and `src/styles.css`; there is no `src/ui/` directory. Prefer these actual boundaries when extending the application.
+The implementation has `src/editor/`, `src/curriculum/` (including `sections.js`), `src/review/`, `src/validation/`, `src/runner/`, `src/game/` and `src/state/`. The router lives in `src/main.js`; Tome I UI markup and navigation live in `src/oop/app.js`, and Tome II in `src/edp/app.js`. Tome II curriculum, state, runtime and stage boundaries are inside `src/edp/`. Shared review rendering uses module descriptors. Styling lives in `src/theme.css` and `src/styles.css`; there is no `src/ui/` directory. Prefer these actual boundaries when extending the application.
 
 Keep teaching content out of rendering and execution logic. Add module/section metadata and reusable review rendering rather than duplicating whole screens for each subject. Preserve stable content IDs so edits do not break saved progress; version or migrate saved data when schemas change.
 
@@ -161,3 +161,7 @@ Before completing a module or section change, verify:
 8. The affected screens work with keyboard navigation, a classroom laptop viewport, browser zoom and reduced motion where applicable.
 
 Summarise what changed, what was verified and any material limitation. Keep this file, the README and teacher guidance aligned with the implementation as it evolves.
+
+## Event-driven programming module
+
+Tome II implements `PLAN-event-driven-programming.md`, including a dedicated welcome screen before its first section introduction. Preserve the independent `wizard-workshop:edp:v1` save and the Tome I save unchanged. `spells.js` and `stage.html` are virtual documents. Learner code runs in QuickJS with a simulated DOM and virtual timers; never forward host objects or callbacks into the guest. Keep checkpoint IDs E1.1–E6.7 stable. Battle numbers are centralised in `src/edp/runtime/rules.js`; run the 1,000-seed balance test when changing them. `scripts/benchmark-edp.mjs` records 25 real runs per checkpoint. `scripts/generate-docs.mjs` regenerates `SOLUTIONS-EDP.md` alongside the original Tome I solutions.

@@ -89,6 +89,39 @@ Try the actual managed classroom browser before the first lesson. Policies that 
 
 ## All checkpoint solutions and expected outputs
 
-See [SOLUTIONS.md](SOLUTIONS.md). It contains all 41 complete two-file solutions, objectives, expected effects and reflection prompts generated from the same curriculum records used by the app. To regenerate after teacher curriculum changes, run `node scripts/generate-docs.mjs`.
+See [SOLUTIONS.md](SOLUTIONS.md). It contains all 44 complete two-file solutions, objectives, expected effects and reflection prompts generated from the same curriculum records used by the app. To regenerate after teacher curriculum changes, run `node scripts/generate-docs.mjs`.
 
 For deliberate debugging exercises, use the fixtures in `tests/runner.test.js` or change a colour to `"Purple"`, remove a brace, quote level `"3"`, use `castspell`, omit `super`, pass `"goblin"`, or add a sixth action after victory. Avoid asking beginners to understand the infrastructure in `src/runner`.
+
+## Tome II — Event-Driven Programming
+
+Open the Grand Library and choose Tome II, or use `/?tome=edp`. The welcome screen explains the project and prerequisites. Six sections teach listeners; click handlers and delegation; hover/focus pairs; keyboard buffers and validation; event-loop timers, state and custom events; then the Grubbledown Bridge battle. There are 31 coding checkpoints and 44 progress screens, including welcome, introductions and reviews. Teacher navigation can revisit any screen without awarding code completion.
+
+Learners write only `spells.js`; `stage.html` shows the page they control. The worked examples remain separate from drafts. Three help levels end in a complete example; replacement, reset and import preserve recoverable backups. Sorting, a locked prediction, truth and trace tables assess understanding separately from code. All reviews contain multiple-choice and fill-in-the-blank questions, explanatory feedback and retries. Activity attempts, rather than correctness, unlock their next step. E6.7 requires verified handlers and a live attempt; victory is optional.
+
+Tome II reads the latest validated Tome I wizard’s name and appearance without changing that save. **Refresh from Tome I** rereads it. Trial wizards are level one; live battle level is capped at three. Tome II save/export/import is independent. Ask learners to download their work each lesson. The final spellbook download includes their code, truth/trace tables, battle stats, Visual Basic comparison and report prompts; these prompts are not a report to submit.
+
+### Final battle rules and measured balance
+
+The plan permits tuning health in 100–140 and intent weights to meet both strategy targets. The original 130-health/40-25-20-10-5 mix measured 22.7% fire-only wins and 99.6% full-control wins. Final rules use **Grub health 110**, with Club Smash 10% (10 damage), Big Bonk 55% (20), Sneaky Stab 15% (12, ignores shields), Taunt 10% (lose 6 mana), and Snatch 10% (steal a potion, otherwise 10 damage). These values live in `src/edp/runtime/rules.js` and are used by the runtime and checkpoint trials.
+
+Wizard health is 100, maximum mana 20, with +3 mana each wizard turn and two potions. Fire/ice/electricity deal `12/10/14 + level × 2` damage and cost 4/3/6 mana. Ice reduces the next hit by four; shield halves the next hit, rounding down. Fireball costs eight and deals 30. Incorrect or expired incantations cost four and do no damage. Grub responds after 1,200 virtual milliseconds. Apprentice mode gives ten rather than five seconds to type IGNIS and multiplies incoming damage by 0.75, rounding down. No score penalty applies.
+
+`scripts/balance-edp.mjs` drives the actual reference listeners across seeds 1–1,000. Fire-only play won **360/1,000 (36%)**, mean 6.531 turns. Full controls (scry each turn; potion below 30 health; shield before Big Bonk; Fireball with eight mana; otherwise ice) won **840/1,000 (84%)**, mean 9.297 turns. Both meet the plan’s 25–45% and 75–90% targets. The unit suite repeats this measurement; results are recorded in `verification/balance-edp.json`.
+
+Use the Crystal Ball to discuss callback references versus calls, event targets versus objects, bubbling, event order, and why a long-running handler blocks other work. E5.2 intentionally times out; learners shorten the loop and retry. The visual slow queue does not change the code’s event order. Switch it off to compare normal behaviour.
+
+[ SOLUTIONS-EDP.md ](SOLUTIONS-EDP.md) is generated from the curriculum, including every complete solution and review answer. Screens and browser checks are recorded in VERIFICATION.md; manual VoiceOver verification must be distinguished from automated accessibility checks.
+
+### Suggested six-session route
+
+| Session | Outcome and practice | Discussion and misconceptions |
+|---|---|---|
+| 1 — Listening Stones | Connect named handlers, fix premature calls, use a short arrow; sort procedural/event-driven examples. | A callback is handed over for later. `fn()` runs now; `fn` supplies the function. Selectors need `#`. |
+| 2 — Click of Command | Check mana, read click coordinates, delegate from a spellbook, repair detached `this`. | The event target is a page element, not the wizard object. One parent listener also handles new cards. |
+| 3 — Hover Charm | Pair hover events, inspect health, glow the staff, disarm a trap and add focus/blur. | Two identical arrow expressions are distinct references. `once` and explicit removal solve different problems. Include touch and keyboard users. |
+| 4 — Rune Keys | Move with arrows; normalise text, collect a bounded buffer and guard input-box bubbling. | Key names such as Shift are longer than one character. Trace typical, extreme and erroneous input; overlapping listeners need guards. |
+| 5 — Owl’s Rounds | Predict 1–3–2, shorten a blocking loop, complete truth/trace tables and announce custom events. | Zero delay waits for the current script. A busy handler blocks the queue. State decides what an event means; custom events allow loose coupling. |
+| 6 — Grubbledown Bridge | Integrate all controls, attempt a battle, inspect stats, review and download the spellbook. | A turn check prevents conflicting input. Objects and events work together. Evaluate the program with evidence rather than claiming one paradigm is always best. |
+
+Each session begins with its finished example and ends with the mixed review. Adjust pacing to the class; retries and Apprentice mode carry no penalty. Edit learning content in `src/edp/curriculum/`, activity checking in `src/edp/activities/`, and domain rules in `src/edp/runtime/rules.js`. Tome II deliberately adds automatic enemy turns and seeded randomness; Tome I remains a deterministic script of student calls. The JavaScript and Visual Basic examples support A.P2 comparisons, but students must explain the similarities and differences themselves.

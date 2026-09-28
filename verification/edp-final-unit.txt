@@ -1,0 +1,12 @@
+
+> wizard-workshop@1.0.0 test
+> vitest run
+
+
+ RUN  v5.0.2 /Users/gs/dev/highlands/btec/programming/wizard-workshop
+
+
+ Test Files  11 passed (11)
+      Tests  243 passed (243)
+   Start at  23:57:17
+   Duration  8.61s (tests 93%, transform 5%, import 2%)

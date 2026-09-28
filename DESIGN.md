@@ -278,3 +278,11 @@ Respect both the operating system's reduced-motion preference and the workspace 
 ### Agent handoff and maintenance
 
 Before a styling task, read this file, `AGENTS.md` and the relevant source listed above. Describe any proposed departure from the existing identity. Keep application behaviour and curriculum rules intact while changing presentation. Use the checks in `README.md` appropriate to the actual change, record what was verified, and refresh affected visual references when taking new captures. Documentation-only updates do not establish that browser journeys or accessibility checks have passed.
+
+## Grand Library and Tome II
+
+The entry screen (`src/landing/`) uses the same dark palette, warm gold actions and lavender focus treatment. Two single-link tome cards show independent progress. The original 320×180 library canvas is decorative; Quill has a keyboard-accessible hotspot and text bubble. Cards have a brief hover/focus lift, removed by reduced motion. Links use the Vite base path.
+
+Tome II retains the familiar workbench and uses `spells.js`/read-only `stage.html` tabs. `src/edp/stage/` renders a 320×240 pixel canvas, real labelled controls, character summaries and meters, a turn banner and Fireball countdown. Spell containers preserve guest nesting for delegation. Sprite hotspots use visible focus outlines; tooltip pairs support both hover and focus. Classroom layout places code beside the Stage. E6.7 gives the Stage more space. Narrow layouts stack panels and retain the existing Show preview/Show code switch. Tables scroll inside their labelled activity panel rather than widening the page.
+
+The Crystal Ball is a disclosure with category filters, pause, clear and optional 600ms visual queue entries. Logs are plain text, capped at 100 entries; a separate polite summary is throttled to at most one announcement every two seconds. The stage itself has no live region. Confetti and short spell effects respect both motion preferences. No sound, remote assets or continuous ambient animation is used. Styling is appended in `src/styles.css`; shared sprite/effect primitives are in `src/game/sprites.js`.

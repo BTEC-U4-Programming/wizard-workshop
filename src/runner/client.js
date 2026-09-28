@@ -25,7 +25,7 @@ export function validResult(result,checkpointId) {
   return true;
 }
 export class Runner {
-  constructor(onStatus=()=>{}) {this.onStatus=onStatus;this.worker=null;this.pending=null;this.loading=null;}
+  constructor(onStatus=()=>{},{validate=validResult}={}) {this.validate=validate;this.requestType='run';this.onStatus=onStatus;this.worker=null;this.pending=null;this.loading=null;}
   stop(message='Run stopped. Your last working wizard is still here.') {
     this.worker?.terminate();this.worker=null;
     clearTimeout(this.timer);clearTimeout(this.loadTimer);
@@ -47,8 +47,8 @@ export class Runner {
         else if(data.type === 'load-error') failure(data.detail);
         else if(data.type === 'result' && this.pending) {
           clearTimeout(this.timer);const p=this.pending;this.pending=null;
-          if(validResult(data.result,data.checkpointId)) p.resolve(data); else p.reject(new Error('The runner returned an unreadable result. Retry loading the runner.'));
-        }
+          if(this.validate(data.result,data.checkpointId)) p.resolve(data); else p.reject(new Error('The runner returned an unreadable result. Retry loading the runner.'));
+        }else this.handleMessage?.(data);
       };
     });
   }
@@ -59,7 +59,7 @@ export class Runner {
     return new Promise((resolve,reject)=>{
       this.pending={resolve,reject};
       this.timer=setTimeout(()=>this.stop(timeoutMessage),LIMITS.watchdog);
-      this.worker.postMessage({type:'run',...request});
+      this.worker.postMessage({type:this.requestType,...request});
     });
   }
 }

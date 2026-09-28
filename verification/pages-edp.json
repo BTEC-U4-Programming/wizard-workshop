@@ -1,0 +1,14 @@
+{
+  "routes": [
+    "http://127.0.0.1:4174/wizard-workshop/",
+    "http://127.0.0.1:4174/wizard-workshop/?tome=oop",
+    "http://127.0.0.1:4174/wizard-workshop/?tome=edp"
+  ],
+  "workerAndWasm": [
+    "http://127.0.0.1:4174/wizard-workshop/assets/runner.worker-DMgrX2ve.js",
+    "http://127.0.0.1:4174/wizard-workshop/assets/emscripten-module-uFzwHH0Y.wasm"
+  ],
+  "brandHref": "/wizard-workshop/",
+  "bothRuns": "success",
+  "edpLiveBell": "awake"
+}

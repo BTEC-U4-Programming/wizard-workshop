@@ -7,7 +7,7 @@ import {indentMore,indentLess} from '@codemirror/commands';
 import {setDiagnostics} from '@codemirror/lint';
 import {autocompletion} from '@codemirror/autocomplete';
 import {tags} from '@lezer/highlight';
-import {choices} from '../curriculum/checkpoints.js';
+import {choices as oopChoices} from '../curriculum/checkpoints.js';
 const font=new Compartment();
 const theme=EditorView.theme({
   '&':{height:'100%',backgroundColor:'#111827',color:'#e3eaf8',fontSize:'16px'},
@@ -20,7 +20,7 @@ const theme=EditorView.theme({
   '.cm-tooltip':{backgroundColor:'#25314b',color:'#fff',border:'1px solid #8290b0'},
 },{dark:true});
 const highlight=HighlightStyle.define([{tag:tags.keyword,color:'#c7a6fa'},{tag:tags.string,color:'#c8df9a'},{tag:tags.number,color:'#f0c785'},{tag:tags.comment,color:'#98a9c0'},{tag:tags.function(tags.variableName),color:'#9ed7fa'},{tag:tags.propertyName,color:'#e5c694'}]);
-export function createCodeEditor(parent,{onChange,onRun,fontSize,completionFields}) {
+export function createCodeEditor(parent,{onChange,onRun,fontSize,completionFields,choices=oopChoices}) {
   const states=new Map();let key='',suppress=false;
   function makeState(doc,file) {return EditorState.create({doc,extensions:[basicSetup,javascript(),indentUnit.of('  '),theme,syntaxHighlighting(highlight),font.of(EditorView.theme({'&':{fontSize:`${fontSize()}px`}})),
     EditorView.contentAttributes.of({'aria-label':`${file} JavaScript editor`,'spellcheck':'false'}),

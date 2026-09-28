@@ -1,0 +1,84 @@
+
+> wizard-workshop@1.0.0 test:e2e
+> playwright test --project=chromium --output=/tmp/edp-release-dev-results
+
+[WebServer] (node:10042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 34 tests using 1 worker
+
+(node:10043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/edp.spec.js:25:1 › library routes, progress independence and revisit-able introductions (2.3s)
+  ✓   2 [chromium] › tests/edp.spec.js:39:1 › live click, draft cancellation, error recovery and save/reload without automatic execution (2.1s)
+  ✓   3 [chromium] › tests/edp.spec.js:61:1 › delegation reaches newly learned spell; stage HTML is read-only (999ms)
+  ✓   4 [chromium] › tests/edp.spec.js:74:1 › keyboard movement, incantations and input guards (569ms)
+  ✓   5 [chromium] › tests/edp.spec.js:94:1 › battle controls, optional attempt gate, retry and keyboard scry (1.3s)
+  ✘   6 [chromium] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker (15.4m)
+(node:10525) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › tests/edp.spec.js:131:1 › phone, zoom and reduced-motion layouts fit; learner markup stays text (484ms)
+  ✓   8 [chromium] › tests/edp.spec.js:157:1 › every review supports retries and preserves answers across reload (1.5s)
+  ✓   9 [chromium] › tests/edp.spec.js:184:1 › keyboard battle can end, ring the bell and download evidence (29.2s)
+  ✓  10 [chromium] › tests/edp.spec.js:273:1 › stale run results and session replies cannot overwrite edits or navigation (984ms)
+  ✓  11 [chromium] › tests/edp.spec.js:319:1 › the blocking-handler lesson stops with an explanation and recovers (1.8s)
+  ✓  12 [chromium] › tests/edp.spec.js:334:1 › learner names, speech and element text render as text (444ms)
+  ✓  13 [chromium] › tests/edp.spec.js:351:1 › potion hover and keyboard focus show the same accessible label (651ms)
+  ✓  14 [chromium] › tests/landing.spec.js:4:1 › landing is local, keyboard accessible, and leaves saves untouched (703ms)
+  ✓  15 [chromium] › tests/landing.spec.js:26:1 › library reads Tome I progress without migrating or rewriting it (142ms)
+  ✓  16 [chromium] › tests/landing.spec.js:42:1 › all library viewports fit and reduced motion suppresses transforms (269ms)
+  ✓  17 [chromium] › tests/sceneBaseline.spec.js:6:1 › shared sprite extraction preserves every recorded Tome I scene pixel (205ms)
+  ✓  18 [chromium] › tests/workshop.spec.js:16:1 › instruction snippets and worked examples have syntax colours on small screens (640ms)
+  ✓  19 [chromium] › tests/workshop.spec.js:34:1 › confetti celebrates only correct runs and respects cancellation and reduced motion (6.0s)
+  ✓  20 [chromium] › tests/workshop.spec.js:52:1 › student journey, error and fix, inheritance and deterministic battle (13.0s)
+  ✓  21 [chromium] › tests/workshop.spec.js:65:1 › saved drafts, hints, reset cancellation, backup recovery and import/export (2.8s)
+  ✓  22 [chromium] › tests/workshop.spec.js:74:1 › loop recovery, edit cancellation, keyboard exit and reduced motion (5.5s)
+  ✓  23 [chromium] › tests/workshop.spec.js:82:1 › desktop, tablet, phone and zoom layouts preserve usable editor (3.2s)
+  ✓  24 [chromium] › tests/workshop.spec.js:93:1 › late worker results cannot overwrite an edited draft or a different checkpoint (3.6s)
+  ✓  25 [chromium] › tests/workshop.spec.js:106:1 › keyboard-only first checkpoint and Enter do not auto-run (449ms)
+  ✓  26 [chromium] › tests/workshop.spec.js:109:1 › blocked WASM produces retryable infrastructure feedback (1.6s)
+  ✓  27 [chromium] › tests/workshop.spec.js:112:1 › oversized draft survives reload while Run remains blocked and last good scene remains (3.6s)
+  ✓  28 [chromium] › tests/workshop.spec.js:120:1 › section introductions and reviews preserve answers across reload (1.6s)
+  ✓  29 [chromium] › tests/workshop.spec.js:130:1 › method placement and new actions file are explained (1.4s)
+  ✓  30 [chromium] › tests/workshop.spec.js:135:1 › section boundary carries forward code and the new file opens safely (3.1s)
+  ✓  31 [chromium] › tests/workshop.spec.js:143:1 › section screens fit laptop, phone and enlarged viewports (346ms)
+  ✓  32 [chromium] › tests/workshop.spec.js:147:1 › every review renders its code blanks (377ms)
+  ✓  33 [chromium] › tests/workshop.spec.js:150:1 › introductions stay concise with optional explanations available (7.7s)
+  ✓  34 [chromium] › tests/workshop.spec.js:168:1 › course summary follows the final review and downloads as Markdown (1.5s)
+
+
+  1) [chromium] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker ─
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('#run')
+        - locator resolved to <button id="run" class="primary">▶ Run code</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+      16 | }
+      17 | async function run(page) {
+    > 18 |   await page.locator('#run').click();
+         |                              ^
+      19 |   await expect(page.locator('#result')).toHaveAttribute(
+      20 |     'data-status',
+      21 |     'success'
+        at run (/Users/gs/dev/highlands/btec/programming/wizard-workshop/tests/edp.spec.js:18:30)
+        at /Users/gs/dev/highlands/btec/programming/wizard-workshop/tests/edp.spec.js:128:11
+
+    Error Context: ../../../../../../../tmp/edp-release-dev-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../tmp/edp-release-dev-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../tmp/edp-release-dev-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker ──
+  33 passed (17.1m)

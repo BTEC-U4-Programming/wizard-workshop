@@ -1,0 +1,670 @@
+[
+  {
+    "snapshot": {},
+    "hash": "adcd8af05228fe9fcb8f09108beb07c417075e1605b267fd4881b8677d382ecb"
+  },
+  {
+    "snapshot": {
+      "blueprint": {
+        "properties": []
+      }
+    },
+    "hash": "3b3ca7e9550ba99a751b2a268b29896eba06ebd5ac41a8e298dd2c59bd4a0c63"
+  },
+  {
+    "snapshot": {
+      "blueprint": {
+        "properties": [
+          "name",
+          "level",
+          "health"
+        ]
+      }
+    },
+    "hash": "5883b31cc7f91ef3fbc868a275040a75fb245fb0b19345635b9bcd5f7ff1e2b1"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a494fb20c499e6418d09f13e73b317975d7f0b94b4567e798bfe545ab90f3c97"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "purple",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "6367a02fe0c0bda9416f043ddeb8913dede59c377f4ffb63b27a15bb4284544b"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "gold",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "f0d1578fa9c5a3ffd46a46d8fd3475bc9bf9bd88a0017f04ff64eeda5b9796a9"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "black",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "7f5ba6180f9c8ee3a82ef23f670a3e6b6e0930b7e860124dae78758dc433b8c6"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "blue",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "5dad84e55822fb70fc99aecf7023a799d2fc4ecabea02e9b13780222ad78d503"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "green",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "2bfe8473516d44ee0ac978f9dad6137e22cc74fe0a2de92c5e9e72954fd9ff75"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a494fb20c499e6418d09f13e73b317975d7f0b94b4567e798bfe545ab90f3c97"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "stars",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "c2b98102b29459b6e67ab167eb362452ef28fc5d288b3d916deeb91e3b50e9bb"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "stripes",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "5f31cb1782af7ab71cfe337d90ea958a1ab1976d9b70b07710c9160bc307f666"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "runes",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "2b193eedda278abf94198406036e2d2b608a88b7ebc803bab549f73d472bfc26"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a494fb20c499e6418d09f13e73b317975d7f0b94b4567e798bfe545ab90f3c97"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "crystal",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "ef774c257d79e8aebdcbe672ee7ff0030c63e1b5e72fdee9696d2a3e1bcfd49a"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "ember",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "d17f21df6fd4c6e915980f81f7b704468ed01786ffe03ea07ab8f03b571cdb33"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a494fb20c499e6418d09f13e73b317975d7f0b94b4567e798bfe545ab90f3c97"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "short",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "ee1c106d2c7625e9369250e4d85c675abd03ad161366b637206c59fc03e9612d"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "long",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a8e9dafa863b2b7eed698f6f6539392a7e6f53ebf670ea4594f01b3fe6e81635"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "a494fb20c499e6418d09f13e73b317975d7f0b94b4567e798bfe545ab90f3c97"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "ice",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "c9e90ad768386cdb1108b08e1355b82cd506152c59a06f55ea0bcb6e79f6550f"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "electricity",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      }
+    },
+    "hash": "218ab3ea169a6be33b07c2e05dfc208c711b0c7b4ded17c5525c2692d7eed18e"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 0
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "hash": "961c59c3ba3037199dafc5bfe663aaefd1d9958585a2ebf03abaf3606406385f"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 0
+      }
+    },
+    "hash": "5e99577b7fc5d8e6c4a28cc494b4221859cf502b436441968d9a423aa276b5b6"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "castSpell",
+      "power": "fire",
+      "actor": "wizard"
+    },
+    "hash": "72d62348463286c72b9eb794809e3e4125a31adec44a0b0ff096e60269e91875"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "castSpell",
+      "power": "ice",
+      "actor": "wizard"
+    },
+    "hash": "0f8c3a5749a919a65cef3ce397199ed0fde056e6313f41f615c5a6fe28757d3a"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "castSpell",
+      "power": "electricity",
+      "actor": "wizard"
+    },
+    "hash": "be45422465b9a887d2429ad0c7f18bd5f314d646e467220af62546a9d6d66024"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "attack",
+      "power": "fire",
+      "actor": "wizard"
+    },
+    "hash": "add8c4ebe8aed602cabd129b66d6783664072abc27b373cd8de728615f736303"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "attack",
+      "power": "ice",
+      "actor": "wizard"
+    },
+    "hash": "add8c4ebe8aed602cabd129b66d6783664072abc27b373cd8de728615f736303"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "attack",
+      "power": "electricity",
+      "actor": "wizard"
+    },
+    "hash": "add8c4ebe8aed602cabd129b66d6783664072abc27b373cd8de728615f736303"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "recoverHealth",
+      "power": "fire",
+      "actor": "wizard"
+    },
+    "hash": "60abe39266870b1824c17c9888b7add88b389e395d71bf9d03cb59d02b2a4f08"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "recoverHealth",
+      "power": "ice",
+      "actor": "wizard"
+    },
+    "hash": "60abe39266870b1824c17c9888b7add88b389e395d71bf9d03cb59d02b2a4f08"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "recoverHealth",
+      "power": "electricity",
+      "actor": "wizard"
+    },
+    "hash": "60abe39266870b1824c17c9888b7add88b389e395d71bf9d03cb59d02b2a4f08"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "levelUp",
+      "power": "fire",
+      "actor": "wizard"
+    },
+    "hash": "b9bbb43ac4cc4654d15878ef5e9118527cdc3fa0b30be06f388eb22e3db65d64"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "levelUp",
+      "power": "ice",
+      "actor": "wizard"
+    },
+    "hash": "b9bbb43ac4cc4654d15878ef5e9118527cdc3fa0b30be06f388eb22e3db65d64"
+  },
+  {
+    "snapshot": {
+      "wizard": {
+        "name": "Aster",
+        "cloakColour": "grey",
+        "cloakPattern": "plain",
+        "wand": "oak",
+        "beardType": "none",
+        "specialPower": "fire",
+        "level": 1,
+        "maxHealth": 100,
+        "health": 100
+      },
+      "goblin": {
+        "name": "Grub",
+        "health": 60
+      }
+    },
+    "effect": {
+      "method": "levelUp",
+      "power": "electricity",
+      "actor": "wizard"
+    },
+    "hash": "b9bbb43ac4cc4654d15878ef5e9118527cdc3fa0b30be06f388eb22e3db65d64"
+  }
+]

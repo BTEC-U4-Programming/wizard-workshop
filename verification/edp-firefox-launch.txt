@@ -1,0 +1,1182 @@
+
+> wizard-workshop@1.0.0 test:e2e
+> playwright test --project=firefox
+
+[WebServer] (node:94925) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 30 tests using 1 worker
+
+(node:94927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [firefox] › tests/edp.spec.js:25:1 › library routes, progress independence and revisit-able introductions (1ms)
+(node:94938) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [firefox] › tests/edp.spec.js:39:1 › live click, draft cancellation, error recovery and save/reload without automatic execution (1ms)
+(node:94940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 [firefox] › tests/edp.spec.js:61:1 › delegation reaches newly learned spell; stage HTML is read-only (0ms)
+(node:94952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [firefox] › tests/edp.spec.js:74:1 › keyboard movement, incantations and input guards (1ms)
+(node:94954) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [firefox] › tests/edp.spec.js:94:1 › battle controls, optional attempt gate, retry and keyboard scry (1ms)
+(node:94958) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [firefox] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker (1ms)
+(node:94970) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [firefox] › tests/edp.spec.js:131:1 › phone, zoom and reduced-motion layouts fit; learner markup stays text (0ms)
+(node:94973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [firefox] › tests/edp.spec.js:157:1 › every review supports retries and preserves answers across reload (0ms)
+(node:94975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [firefox] › tests/edp.spec.js:184:1 › keyboard battle can end, ring the bell and download evidence (1ms)
+(node:94986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  10 [firefox] › tests/landing.spec.js:4:1 › landing is local, keyboard accessible, and leaves saves untouched (1ms)
+(node:94988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [firefox] › tests/landing.spec.js:26:1 › library reads Tome I progress without migrating or rewriting it (0ms)
+(node:94990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [firefox] › tests/landing.spec.js:42:1 › all library viewports fit and reduced motion suppresses transforms (0ms)
+(node:95001) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  13 [firefox] › tests/sceneBaseline.spec.js:6:1 › shared sprite extraction preserves every recorded Tome I scene pixel (1ms)
+(node:95003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  14 [firefox] › tests/workshop.spec.js:16:1 › instruction snippets and worked examples have syntax colours on small screens (0ms)
+(node:95005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  15 [firefox] › tests/workshop.spec.js:34:1 › confetti celebrates only correct runs and respects cancellation and reduced motion (1ms)
+(node:95016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [firefox] › tests/workshop.spec.js:52:1 › student journey, error and fix, inheritance and deterministic battle (0ms)
+(node:95018) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 [firefox] › tests/workshop.spec.js:65:1 › saved drafts, hints, reset cancellation, backup recovery and import/export (0ms)
+(node:95020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 [firefox] › tests/workshop.spec.js:74:1 › loop recovery, edit cancellation, keyboard exit and reduced motion (0ms)
+(node:95031) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 [firefox] › tests/workshop.spec.js:82:1 › desktop, tablet, phone and zoom layouts preserve usable editor (0ms)
+(node:95033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  20 [firefox] › tests/workshop.spec.js:93:1 › late worker results cannot overwrite an edited draft or a different checkpoint (1ms)
+(node:95035) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  21 [firefox] › tests/workshop.spec.js:106:1 › keyboard-only first checkpoint and Enter do not auto-run (1ms)
+(node:95046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  22 [firefox] › tests/workshop.spec.js:109:1 › blocked WASM produces retryable infrastructure feedback (0ms)
+(node:95048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  23 [firefox] › tests/workshop.spec.js:112:1 › oversized draft survives reload while Run remains blocked and last good scene remains (0ms)
+(node:95050) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  24 [firefox] › tests/workshop.spec.js:120:1 › section introductions and reviews preserve answers across reload (0ms)
+(node:95061) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  25 [firefox] › tests/workshop.spec.js:130:1 › method placement and new actions file are explained (0ms)
+(node:95063) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  26 [firefox] › tests/workshop.spec.js:135:1 › section boundary carries forward code and the new file opens safely (0ms)
+(node:95065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  27 [firefox] › tests/workshop.spec.js:143:1 › section screens fit laptop, phone and enlarged viewports (0ms)
+(node:95077) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  28 [firefox] › tests/workshop.spec.js:147:1 › every review renders its code blanks (1ms)
+(node:95079) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  29 [firefox] › tests/workshop.spec.js:150:1 › introductions stay concise with optional explanations available (1ms)
+(node:95081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  30 [firefox] › tests/workshop.spec.js:168:1 › course summary follows the final review and downloads as Markdown (0ms)
+
+
+  1) [firefox] › tests/edp.spec.js:25:1 › library routes, progress independence and revisit-able introductions
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-YrKeWF -juggler-pipe -silent
+    <launched> pid=94937
+    [pid=94937][err] *** You are running in headless mode.
+    [pid=94937][err] Could not find profile folder.
+    [pid=94937] <process did exit: exitCode=1, signal=null>
+    [pid=94937] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-YrKeWF -juggler-pipe -silent
+      - <launched> pid=94937
+      - [pid=94937][err] *** You are running in headless mode.
+      - [pid=94937][err] Could not find profile folder.
+      - [pid=94937] <process did exit: exitCode=1, signal=null>
+      - [pid=94937] starting temporary directories cleanup
+      - [pid=94937] <gracefully close start>
+      - [pid=94937] <kill>
+      - [pid=94937] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94937] finished temporary directories cleanup
+      - [pid=94937] <gracefully close end>
+
+
+    Error Context: test-results/edp-library-routes-progres-8253c--revisit-able-introductions-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-library-routes-progres-8253c--revisit-able-introductions-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-library-routes-progres-8253c--revisit-able-introductions-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [firefox] › tests/edp.spec.js:39:1 › live click, draft cancellation, error recovery and save/reload without automatic execution
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-DgXltV -juggler-pipe -silent
+    <launched> pid=94939
+    [pid=94939][err] *** You are running in headless mode.
+    [pid=94939][err] Could not find profile folder.
+    [pid=94939] <process did exit: exitCode=1, signal=null>
+    [pid=94939] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-DgXltV -juggler-pipe -silent
+      - <launched> pid=94939
+      - [pid=94939][err] *** You are running in headless mode.
+      - [pid=94939][err] Could not find profile folder.
+      - [pid=94939] <process did exit: exitCode=1, signal=null>
+      - [pid=94939] starting temporary directories cleanup
+      - [pid=94939] <gracefully close start>
+      - [pid=94939] <kill>
+      - [pid=94939] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94939] finished temporary directories cleanup
+      - [pid=94939] <gracefully close end>
+
+
+    Error Context: test-results/edp-live-click-draft-cance-67fd1-without-automatic-execution-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-live-click-draft-cance-67fd1-without-automatic-execution-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-live-click-draft-cance-67fd1-without-automatic-execution-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [firefox] › tests/edp.spec.js:61:1 › delegation reaches newly learned spell; stage HTML is read-only
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-wkqvGw -juggler-pipe -silent
+    <launched> pid=94945
+    [pid=94945][err] *** You are running in headless mode.
+    [pid=94945][err] Could not find profile folder.
+    [pid=94945] <process did exit: exitCode=1, signal=null>
+    [pid=94945] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-wkqvGw -juggler-pipe -silent
+      - <launched> pid=94945
+      - [pid=94945][err] *** You are running in headless mode.
+      - [pid=94945][err] Could not find profile folder.
+      - [pid=94945] <process did exit: exitCode=1, signal=null>
+      - [pid=94945] starting temporary directories cleanup
+      - [pid=94945] <gracefully close start>
+      - [pid=94945] <kill>
+      - [pid=94945] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94945] finished temporary directories cleanup
+      - [pid=94945] <gracefully close end>
+
+
+    Error Context: test-results/edp-delegation-reaches-new-41b96-ell-stage-HTML-is-read-only-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-delegation-reaches-new-41b96-ell-stage-HTML-is-read-only-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-delegation-reaches-new-41b96-ell-stage-HTML-is-read-only-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox] › tests/edp.spec.js:74:1 › keyboard movement, incantations and input guards ─────────
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-XPVnYR -juggler-pipe -silent
+    <launched> pid=94953
+    [pid=94953][err] *** You are running in headless mode.
+    [pid=94953][err] Could not find profile folder.
+    [pid=94953] <process did exit: exitCode=1, signal=null>
+    [pid=94953] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-XPVnYR -juggler-pipe -silent
+      - <launched> pid=94953
+      - [pid=94953][err] *** You are running in headless mode.
+      - [pid=94953][err] Could not find profile folder.
+      - [pid=94953] <process did exit: exitCode=1, signal=null>
+      - [pid=94953] starting temporary directories cleanup
+      - [pid=94953] <gracefully close start>
+      - [pid=94953] <kill>
+      - [pid=94953] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94953] finished temporary directories cleanup
+      - [pid=94953] <gracefully close end>
+
+
+    Error Context: test-results/edp-keyboard-movement-incantations-and-input-guards-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-keyboard-movement-incantations-and-input-guards-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-keyboard-movement-incantations-and-input-guards-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [firefox] › tests/edp.spec.js:94:1 › battle controls, optional attempt gate, retry and keyboard scry
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-vJfSTl -juggler-pipe -silent
+    <launched> pid=94957
+    [pid=94957][err] *** You are running in headless mode.
+    [pid=94957][err] Could not find profile folder.
+    [pid=94957] <process did exit: exitCode=1, signal=null>
+    [pid=94957] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-vJfSTl -juggler-pipe -silent
+      - <launched> pid=94957
+      - [pid=94957][err] *** You are running in headless mode.
+      - [pid=94957][err] Could not find profile folder.
+      - [pid=94957] <process did exit: exitCode=1, signal=null>
+      - [pid=94957] starting temporary directories cleanup
+      - [pid=94957] <gracefully close start>
+      - [pid=94957] <kill>
+      - [pid=94957] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94957] finished temporary directories cleanup
+      - [pid=94957] <gracefully close end>
+
+
+    Error Context: test-results/edp-battle-controls-option-6dd78-ate-retry-and-keyboard-scry-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-battle-controls-option-6dd78-ate-retry-and-keyboard-scry-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-battle-controls-option-6dd78-ate-retry-and-keyboard-scry-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [firefox] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker ──
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-GObA9X -juggler-pipe -silent
+    <launched> pid=94962
+    [pid=94962][err] *** You are running in headless mode.
+    [pid=94962][err] Could not find profile folder.
+    [pid=94962] <process did exit: exitCode=1, signal=null>
+    [pid=94962] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-GObA9X -juggler-pipe -silent
+      - <launched> pid=94962
+      - [pid=94962][err] *** You are running in headless mode.
+      - [pid=94962][err] Could not find profile folder.
+      - [pid=94962] <process did exit: exitCode=1, signal=null>
+      - [pid=94962] starting temporary directories cleanup
+      - [pid=94962] <gracefully close start>
+      - [pid=94962] <kill>
+      - [pid=94962] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94962] finished temporary directories cleanup
+      - [pid=94962] <gracefully close end>
+
+
+    Error Context: test-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-every-checkpoint-solution-passes-in-the-browser-worker-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [firefox] › tests/edp.spec.js:131:1 › phone, zoom and reduced-motion layouts fit; learner markup stays text
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-KUOD8c -juggler-pipe -silent
+    <launched> pid=94971
+    [pid=94971][err] *** You are running in headless mode.
+    [pid=94971][err] Could not find profile folder.
+    [pid=94971] <process did exit: exitCode=1, signal=null>
+    [pid=94971] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-KUOD8c -juggler-pipe -silent
+      - <launched> pid=94971
+      - [pid=94971][err] *** You are running in headless mode.
+      - [pid=94971][err] Could not find profile folder.
+      - [pid=94971] <process did exit: exitCode=1, signal=null>
+      - [pid=94971] starting temporary directories cleanup
+      - [pid=94971] <gracefully close start>
+      - [pid=94971] <kill>
+      - [pid=94971] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94971] finished temporary directories cleanup
+      - [pid=94971] <gracefully close end>
+
+
+    Error Context: test-results/edp-phone-zoom-and-reduced-58372-t-learner-markup-stays-text-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-phone-zoom-and-reduced-58372-t-learner-markup-stays-text-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-phone-zoom-and-reduced-58372-t-learner-markup-stays-text-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [firefox] › tests/edp.spec.js:157:1 › every review supports retries and preserves answers across reload
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-QtRqDN -juggler-pipe -silent
+    <launched> pid=94974
+    [pid=94974][err] *** You are running in headless mode.
+    [pid=94974][err] Could not find profile folder.
+    [pid=94974] <process did exit: exitCode=1, signal=null>
+    [pid=94974] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-QtRqDN -juggler-pipe -silent
+      - <launched> pid=94974
+      - [pid=94974][err] *** You are running in headless mode.
+      - [pid=94974][err] Could not find profile folder.
+      - [pid=94974] <process did exit: exitCode=1, signal=null>
+      - [pid=94974] starting temporary directories cleanup
+      - [pid=94974] <gracefully close start>
+      - [pid=94974] <kill>
+      - [pid=94974] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94974] finished temporary directories cleanup
+      - [pid=94974] <gracefully close end>
+
+
+    Error Context: test-results/edp-every-review-supports--0b198-erves-answers-across-reload-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-every-review-supports--0b198-erves-answers-across-reload-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-every-review-supports--0b198-erves-answers-across-reload-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [firefox] › tests/edp.spec.js:184:1 › keyboard battle can end, ring the bell and download evidence
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-GiGgZe -juggler-pipe -silent
+    <launched> pid=94978
+    [pid=94978][err] *** You are running in headless mode.
+    [pid=94978][err] Could not find profile folder.
+    [pid=94978] <process did exit: exitCode=1, signal=null>
+    [pid=94978] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-GiGgZe -juggler-pipe -silent
+      - <launched> pid=94978
+      - [pid=94978][err] *** You are running in headless mode.
+      - [pid=94978][err] Could not find profile folder.
+      - [pid=94978] <process did exit: exitCode=1, signal=null>
+      - [pid=94978] starting temporary directories cleanup
+      - [pid=94978] <gracefully close start>
+      - [pid=94978] <kill>
+      - [pid=94978] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94978] finished temporary directories cleanup
+      - [pid=94978] <gracefully close end>
+
+
+    Error Context: test-results/edp-keyboard-battle-can-en-81e24--bell-and-download-evidence-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/edp-keyboard-battle-can-en-81e24--bell-and-download-evidence-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/edp-keyboard-battle-can-en-81e24--bell-and-download-evidence-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [firefox] › tests/landing.spec.js:4:1 › landing is local, keyboard accessible, and leaves saves untouched
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-g8Zv1V -juggler-pipe -silent
+    <launched> pid=94987
+    [pid=94987][err] *** You are running in headless mode.
+    [pid=94987][err] Could not find profile folder.
+    [pid=94987] <process did exit: exitCode=1, signal=null>
+    [pid=94987] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-g8Zv1V -juggler-pipe -silent
+      - <launched> pid=94987
+      - [pid=94987][err] *** You are running in headless mode.
+      - [pid=94987][err] Could not find profile folder.
+      - [pid=94987] <process did exit: exitCode=1, signal=null>
+      - [pid=94987] starting temporary directories cleanup
+      - [pid=94987] <gracefully close start>
+      - [pid=94987] <kill>
+      - [pid=94987] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94987] finished temporary directories cleanup
+      - [pid=94987] <gracefully close end>
+
+
+    Error Context: test-results/landing-landing-is-local-k-69777--and-leaves-saves-untouched-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/landing-landing-is-local-k-69777--and-leaves-saves-untouched-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/landing-landing-is-local-k-69777--and-leaves-saves-untouched-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [firefox] › tests/landing.spec.js:26:1 › library reads Tome I progress without migrating or rewriting it
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-MfgVyD -juggler-pipe -silent
+    <launched> pid=94989
+    [pid=94989][err] *** You are running in headless mode.
+    [pid=94989][err] Could not find profile folder.
+    [pid=94989] <process did exit: exitCode=1, signal=null>
+    [pid=94989] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-MfgVyD -juggler-pipe -silent
+      - <launched> pid=94989
+      - [pid=94989][err] *** You are running in headless mode.
+      - [pid=94989][err] Could not find profile folder.
+      - [pid=94989] <process did exit: exitCode=1, signal=null>
+      - [pid=94989] starting temporary directories cleanup
+      - [pid=94989] <gracefully close start>
+      - [pid=94989] <kill>
+      - [pid=94989] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94989] finished temporary directories cleanup
+      - [pid=94989] <gracefully close end>
+
+
+    Error Context: test-results/landing-library-reads-Tome-2466b-t-migrating-or-rewriting-it-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/landing-library-reads-Tome-2466b-t-migrating-or-rewriting-it-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/landing-library-reads-Tome-2466b-t-migrating-or-rewriting-it-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [firefox] › tests/landing.spec.js:42:1 › all library viewports fit and reduced motion suppresses transforms
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-jdyzj7 -juggler-pipe -silent
+    <launched> pid=94993
+    [pid=94993][err] *** You are running in headless mode.
+    [pid=94993][err] Could not find profile folder.
+    [pid=94993] <process did exit: exitCode=1, signal=null>
+    [pid=94993] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-jdyzj7 -juggler-pipe -silent
+      - <launched> pid=94993
+      - [pid=94993][err] *** You are running in headless mode.
+      - [pid=94993][err] Could not find profile folder.
+      - [pid=94993] <process did exit: exitCode=1, signal=null>
+      - [pid=94993] starting temporary directories cleanup
+      - [pid=94993] <gracefully close start>
+      - [pid=94993] <kill>
+      - [pid=94993] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=94993] finished temporary directories cleanup
+      - [pid=94993] <gracefully close end>
+
+
+    Error Context: test-results/landing-all-library-viewpo-d2fda-otion-suppresses-transforms-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/landing-all-library-viewpo-d2fda-otion-suppresses-transforms-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/landing-all-library-viewpo-d2fda-otion-suppresses-transforms-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [firefox] › tests/sceneBaseline.spec.js:6:1 › shared sprite extraction preserves every recorded Tome I scene pixel
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-i1FaF6 -juggler-pipe -silent
+    <launched> pid=95002
+    [pid=95002][err] *** You are running in headless mode.
+    [pid=95002][err] Could not find profile folder.
+    [pid=95002] <process did exit: exitCode=1, signal=null>
+    [pid=95002] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-i1FaF6 -juggler-pipe -silent
+      - <launched> pid=95002
+      - [pid=95002][err] *** You are running in headless mode.
+      - [pid=95002][err] Could not find profile folder.
+      - [pid=95002] <process did exit: exitCode=1, signal=null>
+      - [pid=95002] starting temporary directories cleanup
+      - [pid=95002] <gracefully close start>
+      - [pid=95002] <kill>
+      - [pid=95002] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95002] finished temporary directories cleanup
+      - [pid=95002] <gracefully close end>
+
+
+    Error Context: test-results/sceneBaseline-shared-sprit-78830-recorded-Tome-I-scene-pixel-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/sceneBaseline-shared-sprit-78830-recorded-Tome-I-scene-pixel-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/sceneBaseline-shared-sprit-78830-recorded-Tome-I-scene-pixel-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [firefox] › tests/workshop.spec.js:16:1 › instruction snippets and worked examples have syntax colours on small screens
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-6k3sKt -juggler-pipe -silent
+    <launched> pid=95004
+    [pid=95004][err] *** You are running in headless mode.
+    [pid=95004][err] Could not find profile folder.
+    [pid=95004] <process did exit: exitCode=1, signal=null>
+    [pid=95004] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-6k3sKt -juggler-pipe -silent
+      - <launched> pid=95004
+      - [pid=95004][err] *** You are running in headless mode.
+      - [pid=95004][err] Could not find profile folder.
+      - [pid=95004] <process did exit: exitCode=1, signal=null>
+      - [pid=95004] starting temporary directories cleanup
+      - [pid=95004] <gracefully close start>
+      - [pid=95004] <kill>
+      - [pid=95004] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95004] finished temporary directories cleanup
+      - [pid=95004] <gracefully close end>
+
+
+    Error Context: test-results/workshop-instruction-snipp-3ed34-ax-colours-on-small-screens-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-instruction-snipp-3ed34-ax-colours-on-small-screens-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-instruction-snipp-3ed34-ax-colours-on-small-screens-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [firefox] › tests/workshop.spec.js:34:1 › confetti celebrates only correct runs and respects cancellation and reduced motion
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-LB4SgU -juggler-pipe -silent
+    <launched> pid=95008
+    [pid=95008][err] *** You are running in headless mode.
+    [pid=95008][err] Could not find profile folder.
+    [pid=95008] <process did exit: exitCode=1, signal=null>
+    [pid=95008] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-LB4SgU -juggler-pipe -silent
+      - <launched> pid=95008
+      - [pid=95008][err] *** You are running in headless mode.
+      - [pid=95008][err] Could not find profile folder.
+      - [pid=95008] <process did exit: exitCode=1, signal=null>
+      - [pid=95008] starting temporary directories cleanup
+      - [pid=95008] <gracefully close start>
+      - [pid=95008] <kill>
+      - [pid=95008] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95008] finished temporary directories cleanup
+      - [pid=95008] <gracefully close end>
+
+
+    Error Context: test-results/workshop-confetti-celebrat-54634-ellation-and-reduced-motion-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-confetti-celebrat-54634-ellation-and-reduced-motion-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-confetti-celebrat-54634-ellation-and-reduced-motion-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [firefox] › tests/workshop.spec.js:52:1 › student journey, error and fix, inheritance and deterministic battle
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-ubYn7b -juggler-pipe -silent
+    <launched> pid=95017
+    [pid=95017][err] *** You are running in headless mode.
+    [pid=95017][err] Could not find profile folder.
+    [pid=95017] <process did exit: exitCode=1, signal=null>
+    [pid=95017] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-ubYn7b -juggler-pipe -silent
+      - <launched> pid=95017
+      - [pid=95017][err] *** You are running in headless mode.
+      - [pid=95017][err] Could not find profile folder.
+      - [pid=95017] <process did exit: exitCode=1, signal=null>
+      - [pid=95017] starting temporary directories cleanup
+      - [pid=95017] <gracefully close start>
+      - [pid=95017] <kill>
+      - [pid=95017] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95017] finished temporary directories cleanup
+      - [pid=95017] <gracefully close end>
+
+
+    Error Context: test-results/workshop-student-journey-e-15fbe-ce-and-deterministic-battle-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-student-journey-e-15fbe-ce-and-deterministic-battle-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-student-journey-e-15fbe-ce-and-deterministic-battle-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [firefox] › tests/workshop.spec.js:65:1 › saved drafts, hints, reset cancellation, backup recovery and import/export
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-KrL5Nb -juggler-pipe -silent
+    <launched> pid=95019
+    [pid=95019][err] *** You are running in headless mode.
+    [pid=95019][err] Could not find profile folder.
+    [pid=95019] <process did exit: exitCode=1, signal=null>
+    [pid=95019] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-KrL5Nb -juggler-pipe -silent
+      - <launched> pid=95019
+      - [pid=95019][err] *** You are running in headless mode.
+      - [pid=95019][err] Could not find profile folder.
+      - [pid=95019] <process did exit: exitCode=1, signal=null>
+      - [pid=95019] starting temporary directories cleanup
+      - [pid=95019] <gracefully close start>
+      - [pid=95019] <kill>
+      - [pid=95019] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95019] finished temporary directories cleanup
+      - [pid=95019] <gracefully close end>
+
+
+    Error Context: test-results/workshop-saved-drafts-hint-845bb--recovery-and-import-export-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-saved-drafts-hint-845bb--recovery-and-import-export-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-saved-drafts-hint-845bb--recovery-and-import-export-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [firefox] › tests/workshop.spec.js:74:1 › loop recovery, edit cancellation, keyboard exit and reduced motion
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-lR8mNq -juggler-pipe -silent
+    <launched> pid=95023
+    [pid=95023][err] *** You are running in headless mode.
+    [pid=95023][err] Could not find profile folder.
+    [pid=95023] <process did exit: exitCode=1, signal=null>
+    [pid=95023] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-lR8mNq -juggler-pipe -silent
+      - <launched> pid=95023
+      - [pid=95023][err] *** You are running in headless mode.
+      - [pid=95023][err] Could not find profile folder.
+      - [pid=95023] <process did exit: exitCode=1, signal=null>
+      - [pid=95023] starting temporary directories cleanup
+      - [pid=95023] <gracefully close start>
+      - [pid=95023] <kill>
+      - [pid=95023] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95023] finished temporary directories cleanup
+      - [pid=95023] <gracefully close end>
+
+
+    Error Context: test-results/workshop-loop-recovery-edi-94f7d-ard-exit-and-reduced-motion-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-loop-recovery-edi-94f7d-ard-exit-and-reduced-motion-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-loop-recovery-edi-94f7d-ard-exit-and-reduced-motion-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [firefox] › tests/workshop.spec.js:82:1 › desktop, tablet, phone and zoom layouts preserve usable editor
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-1etCeM -juggler-pipe -silent
+    <launched> pid=95032
+    [pid=95032][err] *** You are running in headless mode.
+    [pid=95032][err] Could not find profile folder.
+    [pid=95032] <process did exit: exitCode=1, signal=null>
+    [pid=95032] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-1etCeM -juggler-pipe -silent
+      - <launched> pid=95032
+      - [pid=95032][err] *** You are running in headless mode.
+      - [pid=95032][err] Could not find profile folder.
+      - [pid=95032] <process did exit: exitCode=1, signal=null>
+      - [pid=95032] starting temporary directories cleanup
+      - [pid=95032] <gracefully close start>
+      - [pid=95032] <kill>
+      - [pid=95032] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95032] finished temporary directories cleanup
+      - [pid=95032] <gracefully close end>
+
+
+    Error Context: test-results/workshop-desktop-tablet-ph-dc26a-outs-preserve-usable-editor-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-desktop-tablet-ph-dc26a-outs-preserve-usable-editor-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-desktop-tablet-ph-dc26a-outs-preserve-usable-editor-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [firefox] › tests/workshop.spec.js:93:1 › late worker results cannot overwrite an edited draft or a different checkpoint
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-oYOaLw -juggler-pipe -silent
+    <launched> pid=95034
+    [pid=95034][err] *** You are running in headless mode.
+    [pid=95034][err] Could not find profile folder.
+    [pid=95034] <process did exit: exitCode=1, signal=null>
+    [pid=95034] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-oYOaLw -juggler-pipe -silent
+      - <launched> pid=95034
+      - [pid=95034][err] *** You are running in headless mode.
+      - [pid=95034][err] Could not find profile folder.
+      - [pid=95034] <process did exit: exitCode=1, signal=null>
+      - [pid=95034] starting temporary directories cleanup
+      - [pid=95034] <gracefully close start>
+      - [pid=95034] <kill>
+      - [pid=95034] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95034] finished temporary directories cleanup
+      - [pid=95034] <gracefully close end>
+
+
+    Error Context: test-results/workshop-late-worker-resul-de4c6-t-or-a-different-checkpoint-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-late-worker-resul-de4c6-t-or-a-different-checkpoint-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-late-worker-resul-de4c6-t-or-a-different-checkpoint-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) [firefox] › tests/workshop.spec.js:106:1 › keyboard-only first checkpoint and Enter do not auto-run
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-XZfDeh -juggler-pipe -silent
+    <launched> pid=95038
+    [pid=95038][err] *** You are running in headless mode.
+    [pid=95038][err] Could not find profile folder.
+    [pid=95038] <process did exit: exitCode=1, signal=null>
+    [pid=95038] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-XZfDeh -juggler-pipe -silent
+      - <launched> pid=95038
+      - [pid=95038][err] *** You are running in headless mode.
+      - [pid=95038][err] Could not find profile folder.
+      - [pid=95038] <process did exit: exitCode=1, signal=null>
+      - [pid=95038] starting temporary directories cleanup
+      - [pid=95038] <gracefully close start>
+      - [pid=95038] <kill>
+      - [pid=95038] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95038] finished temporary directories cleanup
+      - [pid=95038] <gracefully close end>
+
+
+    Error Context: test-results/workshop-keyboard-only-fir-0efbd-t-and-Enter-do-not-auto-run-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-keyboard-only-fir-0efbd-t-and-Enter-do-not-auto-run-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-keyboard-only-fir-0efbd-t-and-Enter-do-not-auto-run-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) [firefox] › tests/workshop.spec.js:109:1 › blocked WASM produces retryable infrastructure feedback
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-aAviHh -juggler-pipe -silent
+    <launched> pid=95047
+    [pid=95047][err] *** You are running in headless mode.
+    [pid=95047][err] Could not find profile folder.
+    [pid=95047] <process did exit: exitCode=1, signal=null>
+    [pid=95047] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-aAviHh -juggler-pipe -silent
+      - <launched> pid=95047
+      - [pid=95047][err] *** You are running in headless mode.
+      - [pid=95047][err] Could not find profile folder.
+      - [pid=95047] <process did exit: exitCode=1, signal=null>
+      - [pid=95047] starting temporary directories cleanup
+      - [pid=95047] <gracefully close start>
+      - [pid=95047] <kill>
+      - [pid=95047] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95047] finished temporary directories cleanup
+      - [pid=95047] <gracefully close end>
+
+
+    Error Context: test-results/workshop-blocked-WASM-prod-6484b-ble-infrastructure-feedback-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-blocked-WASM-prod-6484b-ble-infrastructure-feedback-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-blocked-WASM-prod-6484b-ble-infrastructure-feedback-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) [firefox] › tests/workshop.spec.js:112:1 › oversized draft survives reload while Run remains blocked and last good scene remains
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-Kv4nOz -juggler-pipe -silent
+    <launched> pid=95049
+    [pid=95049][err] *** You are running in headless mode.
+    [pid=95049][err] Could not find profile folder.
+    [pid=95049] <process did exit: exitCode=1, signal=null>
+    [pid=95049] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-Kv4nOz -juggler-pipe -silent
+      - <launched> pid=95049
+      - [pid=95049][err] *** You are running in headless mode.
+      - [pid=95049][err] Could not find profile folder.
+      - [pid=95049] <process did exit: exitCode=1, signal=null>
+      - [pid=95049] starting temporary directories cleanup
+      - [pid=95049] <gracefully close start>
+      - [pid=95049] <kill>
+      - [pid=95049] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95049] finished temporary directories cleanup
+      - [pid=95049] <gracefully close end>
+
+
+    Error Context: test-results/workshop-oversized-draft-s-7c3f7-and-last-good-scene-remains-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-oversized-draft-s-7c3f7-and-last-good-scene-remains-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-oversized-draft-s-7c3f7-and-last-good-scene-remains-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  24) [firefox] › tests/workshop.spec.js:120:1 › section introductions and reviews preserve answers across reload
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-jQAknn -juggler-pipe -silent
+    <launched> pid=95053
+    [pid=95053][err] *** You are running in headless mode.
+    [pid=95053][err] Could not find profile folder.
+    [pid=95053] <process did exit: exitCode=1, signal=null>
+    [pid=95053] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-jQAknn -juggler-pipe -silent
+      - <launched> pid=95053
+      - [pid=95053][err] *** You are running in headless mode.
+      - [pid=95053][err] Could not find profile folder.
+      - [pid=95053] <process did exit: exitCode=1, signal=null>
+      - [pid=95053] starting temporary directories cleanup
+      - [pid=95053] <gracefully close start>
+      - [pid=95053] <kill>
+      - [pid=95053] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95053] finished temporary directories cleanup
+      - [pid=95053] <gracefully close end>
+
+
+    Error Context: test-results/workshop-section-introduct-d64ae-serve-answers-across-reload-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-section-introduct-d64ae-serve-answers-across-reload-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-section-introduct-d64ae-serve-answers-across-reload-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  25) [firefox] › tests/workshop.spec.js:130:1 › method placement and new actions file are explained
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-TmhIr0 -juggler-pipe -silent
+    <launched> pid=95062
+    [pid=95062][err] *** You are running in headless mode.
+    [pid=95062][err] Could not find profile folder.
+    [pid=95062] <process did exit: exitCode=1, signal=null>
+    [pid=95062] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-TmhIr0 -juggler-pipe -silent
+      - <launched> pid=95062
+      - [pid=95062][err] *** You are running in headless mode.
+      - [pid=95062][err] Could not find profile folder.
+      - [pid=95062] <process did exit: exitCode=1, signal=null>
+      - [pid=95062] starting temporary directories cleanup
+      - [pid=95062] <gracefully close start>
+      - [pid=95062] <kill>
+      - [pid=95062] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95062] finished temporary directories cleanup
+      - [pid=95062] <gracefully close end>
+
+
+    Error Context: test-results/workshop-method-placement-and-new-actions-file-are-explained-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-method-placement-and-new-actions-file-are-explained-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-method-placement-and-new-actions-file-are-explained-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  26) [firefox] › tests/workshop.spec.js:135:1 › section boundary carries forward code and the new file opens safely
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-BaiTVN -juggler-pipe -silent
+    <launched> pid=95064
+    [pid=95064][err] *** You are running in headless mode.
+    [pid=95064][err] Could not find profile folder.
+    [pid=95064] <process did exit: exitCode=1, signal=null>
+    [pid=95064] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-BaiTVN -juggler-pipe -silent
+      - <launched> pid=95064
+      - [pid=95064][err] *** You are running in headless mode.
+      - [pid=95064][err] Could not find profile folder.
+      - [pid=95064] <process did exit: exitCode=1, signal=null>
+      - [pid=95064] starting temporary directories cleanup
+      - [pid=95064] <gracefully close start>
+      - [pid=95064] <kill>
+      - [pid=95064] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95064] finished temporary directories cleanup
+      - [pid=95064] <gracefully close end>
+
+
+    Error Context: test-results/workshop-section-boundary--478c7-d-the-new-file-opens-safely-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-section-boundary--478c7-d-the-new-file-opens-safely-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-section-boundary--478c7-d-the-new-file-opens-safely-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  27) [firefox] › tests/workshop.spec.js:143:1 › section screens fit laptop, phone and enlarged viewports
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-fNGAnV -juggler-pipe -silent
+    <launched> pid=95068
+    [pid=95068][err] *** You are running in headless mode.
+    [pid=95068][err] Could not find profile folder.
+    [pid=95068] <process did exit: exitCode=1, signal=null>
+    [pid=95068] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-fNGAnV -juggler-pipe -silent
+      - <launched> pid=95068
+      - [pid=95068][err] *** You are running in headless mode.
+      - [pid=95068][err] Could not find profile folder.
+      - [pid=95068] <process did exit: exitCode=1, signal=null>
+      - [pid=95068] starting temporary directories cleanup
+      - [pid=95068] <gracefully close start>
+      - [pid=95068] <kill>
+      - [pid=95068] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95068] finished temporary directories cleanup
+      - [pid=95068] <gracefully close end>
+
+
+    Error Context: test-results/workshop-section-screens-f-5525c-hone-and-enlarged-viewports-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-section-screens-f-5525c-hone-and-enlarged-viewports-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-section-screens-f-5525c-hone-and-enlarged-viewports-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  28) [firefox] › tests/workshop.spec.js:147:1 › every review renders its code blanks ──────────────
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-34tgg4 -juggler-pipe -silent
+    <launched> pid=95078
+    [pid=95078][err] *** You are running in headless mode.
+    [pid=95078][err] Could not find profile folder.
+    [pid=95078] <process did exit: exitCode=1, signal=null>
+    [pid=95078] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-34tgg4 -juggler-pipe -silent
+      - <launched> pid=95078
+      - [pid=95078][err] *** You are running in headless mode.
+      - [pid=95078][err] Could not find profile folder.
+      - [pid=95078] <process did exit: exitCode=1, signal=null>
+      - [pid=95078] starting temporary directories cleanup
+      - [pid=95078] <gracefully close start>
+      - [pid=95078] <kill>
+      - [pid=95078] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95078] finished temporary directories cleanup
+      - [pid=95078] <gracefully close end>
+
+
+    Error Context: test-results/workshop-every-review-renders-its-code-blanks-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-every-review-renders-its-code-blanks-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-every-review-renders-its-code-blanks-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  29) [firefox] › tests/workshop.spec.js:150:1 › introductions stay concise with optional explanations available
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-xzAy1Y -juggler-pipe -silent
+    <launched> pid=95080
+    [pid=95080][err] *** You are running in headless mode.
+    [pid=95080][err] Could not find profile folder.
+    [pid=95080] <process did exit: exitCode=1, signal=null>
+    [pid=95080] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-xzAy1Y -juggler-pipe -silent
+      - <launched> pid=95080
+      - [pid=95080][err] *** You are running in headless mode.
+      - [pid=95080][err] Could not find profile folder.
+      - [pid=95080] <process did exit: exitCode=1, signal=null>
+      - [pid=95080] starting temporary directories cleanup
+      - [pid=95080] <gracefully close start>
+      - [pid=95080] <kill>
+      - [pid=95080] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95080] finished temporary directories cleanup
+      - [pid=95080] <gracefully close end>
+
+
+    Error Context: test-results/workshop-introductions-sta-96480-onal-explanations-available-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-introductions-sta-96480-onal-explanations-available-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-introductions-sta-96480-onal-explanations-available-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30) [firefox] › tests/workshop.spec.js:168:1 › course summary follows the final review and downloads as Markdown
+
+    Error: browserType.launch: Failed to launch the browser process.
+    Browser logs:
+
+    <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-MT544M -juggler-pipe -silent
+    <launched> pid=95085
+    [pid=95085][err] *** You are running in headless mode.
+    [pid=95085][err] Could not find profile folder.
+    [pid=95085] <process did exit: exitCode=1, signal=null>
+    [pid=95085] starting temporary directories cleanup
+    Call log:
+      - <launching> /Users/gs/Library/Caches/ms-playwright/firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/yc/nw6trt8967b_591gtz3_6r0c0000gn/T/playwright_firefoxdev_profile-MT544M -juggler-pipe -silent
+      - <launched> pid=95085
+      - [pid=95085][err] *** You are running in headless mode.
+      - [pid=95085][err] Could not find profile folder.
+      - [pid=95085] <process did exit: exitCode=1, signal=null>
+      - [pid=95085] starting temporary directories cleanup
+      - [pid=95085] <gracefully close start>
+      - [pid=95085] <kill>
+      - [pid=95085] <skipped force kill spawnedProcess.killed=false processClosed=true>
+      - [pid=95085] finished temporary directories cleanup
+      - [pid=95085] <gracefully close end>
+
+
+    Error Context: test-results/workshop-course-summary-fo-887eb-w-and-downloads-as-Markdown-firefox/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workshop-course-summary-fo-887eb-w-and-downloads-as-Markdown-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workshop-course-summary-fo-887eb-w-and-downloads-as-Markdown-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30 failed
+    [firefox] › tests/edp.spec.js:25:1 › library routes, progress independence and revisit-able introductions
+    [firefox] › tests/edp.spec.js:39:1 › live click, draft cancellation, error recovery and save/reload without automatic execution
+    [firefox] › tests/edp.spec.js:61:1 › delegation reaches newly learned spell; stage HTML is read-only
+    [firefox] › tests/edp.spec.js:74:1 › keyboard movement, incantations and input guards ──────────
+    [firefox] › tests/edp.spec.js:94:1 › battle controls, optional attempt gate, retry and keyboard scry
+    [firefox] › tests/edp.spec.js:109:1 › every checkpoint solution passes in the browser worker ───
+    [firefox] › tests/edp.spec.js:131:1 › phone, zoom and reduced-motion layouts fit; learner markup stays text
+    [firefox] › tests/edp.spec.js:157:1 › every review supports retries and preserves answers across reload
+    [firefox] › tests/edp.spec.js:184:1 › keyboard battle can end, ring the bell and download evidence
+    [firefox] › tests/landing.spec.js:4:1 › landing is local, keyboard accessible, and leaves saves untouched
+    [firefox] › tests/landing.spec.js:26:1 › library reads Tome I progress without migrating or rewriting it
+    [firefox] › tests/landing.spec.js:42:1 › all library viewports fit and reduced motion suppresses transforms
+    [firefox] › tests/sceneBaseline.spec.js:6:1 › shared sprite extraction preserves every recorded Tome I scene pixel
+    [firefox] › tests/workshop.spec.js:16:1 › instruction snippets and worked examples have syntax colours on small screens
+    [firefox] › tests/workshop.spec.js:34:1 › confetti celebrates only correct runs and respects cancellation and reduced motion
+    [firefox] › tests/workshop.spec.js:52:1 › student journey, error and fix, inheritance and deterministic battle
+    [firefox] › tests/workshop.spec.js:65:1 › saved drafts, hints, reset cancellation, backup recovery and import/export
+    [firefox] › tests/workshop.spec.js:74:1 › loop recovery, edit cancellation, keyboard exit and reduced motion
+    [firefox] › tests/workshop.spec.js:82:1 › desktop, tablet, phone and zoom layouts preserve usable editor
+    [firefox] › tests/workshop.spec.js:93:1 › late worker results cannot overwrite an edited draft or a different checkpoint
+    [firefox] › tests/workshop.spec.js:106:1 › keyboard-only first checkpoint and Enter do not auto-run
+    [firefox] › tests/workshop.spec.js:109:1 › blocked WASM produces retryable infrastructure feedback
+    [firefox] › tests/workshop.spec.js:112:1 › oversized draft survives reload while Run remains blocked and last good scene remains
+    [firefox] › tests/workshop.spec.js:120:1 › section introductions and reviews preserve answers across reload
+    [firefox] › tests/workshop.spec.js:130:1 › method placement and new actions file are explained ─
+    [firefox] › tests/workshop.spec.js:135:1 › section boundary carries forward code and the new file opens safely
+    [firefox] › tests/workshop.spec.js:143:1 › section screens fit laptop, phone and enlarged viewports
+    [firefox] › tests/workshop.spec.js:147:1 › every review renders its code blanks ────────────────
+    [firefox] › tests/workshop.spec.js:150:1 › introductions stay concise with optional explanations available
+    [firefox] › tests/workshop.spec.js:168:1 › course summary follows the final review and downloads as Markdown

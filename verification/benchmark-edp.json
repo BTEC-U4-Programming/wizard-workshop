@@ -1,0 +1,162 @@
+{
+  "node": "v22.19.0",
+  "runsPerCheckpoint": 25,
+  "executionBudgetMs": 500,
+  "checkpoints": [
+    {
+      "id": "E1.1",
+      "medianMs": 7.65,
+      "maxMs": 22.69
+    },
+    {
+      "id": "E1.2",
+      "medianMs": 5.65,
+      "maxMs": 6.31
+    },
+    {
+      "id": "E1.3",
+      "medianMs": 7.64,
+      "maxMs": 8.44
+    },
+    {
+      "id": "E1.4",
+      "medianMs": 5.66,
+      "maxMs": 6.01
+    },
+    {
+      "id": "E1.5",
+      "medianMs": 3.92,
+      "maxMs": 5.82
+    },
+    {
+      "id": "E2.1",
+      "medianMs": 11.79,
+      "maxMs": 12.65
+    },
+    {
+      "id": "E2.2",
+      "medianMs": 7.14,
+      "maxMs": 8.06
+    },
+    {
+      "id": "E2.3",
+      "medianMs": 11.66,
+      "maxMs": 12.57
+    },
+    {
+      "id": "E2.4",
+      "medianMs": 5.69,
+      "maxMs": 6.17
+    },
+    {
+      "id": "E3.1",
+      "medianMs": 9.66,
+      "maxMs": 10.57
+    },
+    {
+      "id": "E3.2",
+      "medianMs": 7.85,
+      "maxMs": 8.53
+    },
+    {
+      "id": "E3.3",
+      "medianMs": 7.87,
+      "maxMs": 8.5
+    },
+    {
+      "id": "E3.4",
+      "medianMs": 7.69,
+      "maxMs": 8.17
+    },
+    {
+      "id": "E3.5",
+      "medianMs": 7.97,
+      "maxMs": 9.45
+    },
+    {
+      "id": "E4.1",
+      "medianMs": 10.64,
+      "maxMs": 11.8
+    },
+    {
+      "id": "E4.2",
+      "medianMs": 9.56,
+      "maxMs": 10.43
+    },
+    {
+      "id": "E4.3",
+      "medianMs": 11.56,
+      "maxMs": 12.47
+    },
+    {
+      "id": "E4.4",
+      "medianMs": 7.96,
+      "maxMs": 8.65
+    },
+    {
+      "id": "E4.5",
+      "medianMs": 5.78,
+      "maxMs": 6.21
+    },
+    {
+      "id": "E5.1",
+      "medianMs": 3.55,
+      "maxMs": 4.1
+    },
+    {
+      "id": "E5.2",
+      "medianMs": 5.49,
+      "maxMs": 6.16
+    },
+    {
+      "id": "E5.3",
+      "medianMs": 9.16,
+      "maxMs": 9.96
+    },
+    {
+      "id": "E5.4",
+      "medianMs": 3.72,
+      "maxMs": 4.29
+    },
+    {
+      "id": "E5.5",
+      "medianMs": 5.48,
+      "maxMs": 6.06
+    },
+    {
+      "id": "E6.1",
+      "medianMs": 9.93,
+      "maxMs": 10.74
+    },
+    {
+      "id": "E6.2",
+      "medianMs": 10.15,
+      "maxMs": 13.57
+    },
+    {
+      "id": "E6.3",
+      "medianMs": 10.05,
+      "maxMs": 10.57
+    },
+    {
+      "id": "E6.4",
+      "medianMs": 12.76,
+      "maxMs": 13.53
+    },
+    {
+      "id": "E6.5",
+      "medianMs": 10.41,
+      "maxMs": 11.95
+    },
+    {
+      "id": "E6.6",
+      "medianMs": 6.41,
+      "maxMs": 6.94
+    },
+    {
+      "id": "E6.7",
+      "medianMs": 7.01,
+      "maxMs": 7.82
+    }
+  ]
+}

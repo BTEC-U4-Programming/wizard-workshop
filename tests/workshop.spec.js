@@ -14,7 +14,7 @@ async function putSolution(page,id){await page.getByLabel('Choose a checkpoint (
 async function run(page){await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toHaveAttribute('data-status','success',{timeout:15000});await page.getByRole('button',{name:'Skip animation'}).click();}
 
 test('instruction snippets and worked examples have syntax colours on small screens',async({page},testInfo)=>{
-  await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1b');
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1b');
   await page.locator('#instructions summary').click();
   const snippet=page.locator('#instruction-list .expressive-code');
   await expect(snippet).toContainText('this.name = name;');
@@ -32,7 +32,7 @@ test('instruction snippets and worked examples have syntax colours on small scre
 });
 
 test('confetti celebrates only correct runs and respects cancellation and reduced motion',async({page})=>{
-  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');
+  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1a');
   const confetti=page.locator('canvas.celebration');
   await page.locator('#run').click();await expect(page.locator('#result')).toHaveAttribute('data-status','validButIncomplete');await expect(confetti).toBeHidden();
   await typeFile(page,'character.js','class Wizard {}');await page.locator('#run').click();
@@ -51,7 +51,7 @@ test('confetti celebrates only correct runs and respects cancellation and reduce
 });
 test('student journey, error and fix, inheritance and deterministic battle',async({page})=>{
   const external=[];page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:')&&!r.url().startsWith('data:')&&!r.url().startsWith('blob:'))external.push(r.url());});
-  await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');await expect(page.locator('#character-summary')).toContainText('will appear');
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1a');await expect(page.locator('#character-summary')).toContainText('will appear');
   await typeFile(page,'character.js','class Wizard {}');await run(page);await expect(page.locator('#character-summary')).toContainText('dotted outline');
   await page.getByRole('button',{name:'Next step'}).click();await typeFile(page,'character.js',byId['C1.1b'].solution.characterSource);await run(page);await expect(page.locator('#character-summary')).toContainText('Every new wizard will get: name');
   await page.getByRole('button',{name:'Next step'}).click();await typeFile(page,'character.js',byId['C1.1c'].solution.characterSource);await run(page);await expect(page.locator('#character-summary')).toContainText('Aster');
@@ -63,7 +63,7 @@ test('student journey, error and fix, inheritance and deterministic battle',asyn
   await expect(page.locator('#goblin-summary')).toContainText('42/60');await expect(page.locator('#character-summary')).toContainText('Level 3');await run(page);await expect(page.locator('#goblin-summary')).toContainText('42/60');expect(external).toEqual([]);
 });
 test('saved drafts, hints, reset cancellation, backup recovery and import/export',async({page})=>{
-  await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');await typeFile(page,'character.js','class Wizard {}\n// my draft');await page.waitForTimeout(600);await page.reload();await expect(page.locator('.cm-content')).toContainText('my draft');
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1a');await typeFile(page,'character.js','class Wizard {}\n// my draft');await page.waitForTimeout(600);await page.reload();await expect(page.locator('.cm-content')).toContainText('my draft');
   await page.getByRole('button',{name:'Hint 1',exact:true}).click();await page.getByRole('button',{name:'Hint 2',exact:true}).click();await page.getByRole('button',{name:'Worked example',exact:true}).click();await expect(page.locator('#hints')).toContainText('class Wizard');
   await page.getByRole('button',{name:'Reset step'}).click();await page.getByRole('button',{name:'Keep my draft'}).click();await expect(page.locator('.cm-content')).toContainText('my draft');
   await page.getByRole('button',{name:'Replace with worked example'}).click();await page.getByRole('button',{name:'Replace and keep backup'}).click();await expect(page.locator('.cm-content')).not.toContainText('my draft');
@@ -72,7 +72,7 @@ test('saved drafts, hints, reset cancellation, backup recovery and import/export
   const state=emptyState();state.currentCheckpointId='C5.3';state.currentScreen={type:'checkpoint',id:'C5.3'};state.draftsByCheckpoint['C5.3']={...finalSolution,revision:0};await page.locator('#import').setInputFiles({name:'work.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(state))});await page.getByRole('button',{name:'Replace and keep backup'}).click();await expect(page.locator('#title')).toHaveText('Script a battle');await expect(page.locator('#next')).toBeDisabled();await run(page);
 });
 test('loop recovery, edit cancellation, keyboard exit and reduced motion',async({page})=>{
-  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await putSolution(page,'C5.3');await run(page);
+  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?tome=oop');await putSolution(page,'C5.3');await run(page);
   await typeFile(page,'character.js',finalSolution.characterSource.replace('target.takeDamage(damage);','while (true) {}'));await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toHaveAttribute('data-status',/stopped|error/);await expect(page.locator('#goblin-summary')).toContainText('42/60');
   await typeFile(page,'character.js',finalSolution.characterSource);await run(page);
   const editor=page.getByRole('textbox',{name:'character.js JavaScript editor'});await editor.focus();await page.keyboard.press('Tab');await expect(editor).not.toBeFocused();
@@ -80,7 +80,7 @@ test('loop recovery, edit cancellation, keyboard exit and reduced motion',async(
   await page.locator('#checkpoint').selectOption('C1.1a');await expect(page.locator('#character-summary')).toContainText('will appear');
 });
 test('desktop, tablet, phone and zoom layouts preserve usable editor',async({page},testInfo)=>{
-  await page.goto('/');await putSolution(page,'C5.3');await run(page);
+  await page.goto('/?tome=oop');await putSolution(page,'C5.3');await run(page);
   expect(await page.locator('#editor').evaluate(e=>e.clientHeight)).toBeGreaterThanOrEqual(384);
   for(const [name,width,height] of [['desktop',1366,768],['tablet',1024,768],['phone',390,844]]){
     await page.setViewportSize({width,height});await expect(page.locator('#run')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -94,7 +94,7 @@ test('late worker results cannot overwrite an edited draft or a different checkp
   // Hold actual results until the edit/navigation has happened. A fixed delay
   // can expire before Firefox finishes the keyboard steps on a busy machine.
   await page.addInitScript(()=>{window.__heldResults=[];window.__holdResults=false;window.__releaseResults=()=>{window.__holdResults=false;window.__heldResults.splice(0).forEach(deliver=>deliver());};const NativeWorker=window.Worker;window.Worker=class extends NativeWorker{set onmessage(handler){super.onmessage=e=>e.data.type==='result'&&window.__holdResults?window.__heldResults.push(()=>handler(e)):handler(e);}};});
-  await page.goto('/');await putSolution(page,'C2.1b');await run(page);
+  await page.goto('/?tome=oop');await putSolution(page,'C2.1b');await run(page);
   await typeFile(page,'character.js',byId['C2.1b'].solution.characterSource.replace('"purple"','"gold"'));
   await page.evaluate(()=>{window.__holdResults=true;});
   await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toHaveAttribute('data-status','running');
@@ -104,13 +104,13 @@ test('late worker results cannot overwrite an edited draft or a different checkp
   await page.evaluate(()=>{window.__holdResults=true;});await page.getByRole('button',{name:'Run code',exact:false}).click();await expect.poll(()=>page.evaluate(()=>window.__heldResults.length)).toBe(1);await page.locator('#checkpoint').selectOption('C1.1a');await page.evaluate(()=>window.__releaseResults());await expect(page.locator('#character-summary')).toContainText('will appear');await expect(page.locator('#next')).toBeDisabled();await expect(page.locator('.celebration')).toBeHidden();
 });
 test('keyboard-only first checkpoint and Enter do not auto-run',async({page})=>{
-  await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');await page.getByRole('textbox',{name:'character.js JavaScript editor'}).focus();await page.keyboard.press(process.platform==='darwin'?'Meta+a':'Control+a');await page.keyboard.type('class Wizard {}');await page.keyboard.press('Enter');await expect(page.locator('#dirty')).toHaveText('Changes not run');await expect(page.locator('#next')).toBeDisabled();await page.keyboard.press(process.platform==='darwin'?'Meta+Enter':'Control+Enter');await expect(page.locator('#result')).toHaveAttribute('data-status','success');await page.keyboard.press('Tab');await expect(page.getByRole('textbox')).not.toBeFocused();
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1a');await page.getByRole('textbox',{name:'character.js JavaScript editor'}).focus();await page.keyboard.press(process.platform==='darwin'?'Meta+a':'Control+a');await page.keyboard.type('class Wizard {}');await page.keyboard.press('Enter');await expect(page.locator('#dirty')).toHaveText('Changes not run');await expect(page.locator('#next')).toBeDisabled();await page.keyboard.press(process.platform==='darwin'?'Meta+Enter':'Control+Enter');await expect(page.locator('#result')).toHaveAttribute('data-status','success');await page.keyboard.press('Tab');await expect(page.getByRole('textbox')).not.toBeFocused();
 });
 test('blocked WASM produces retryable infrastructure feedback',async({page})=>{
-  await page.route(/\.wasm(?:\?|$)/,route=>route.abort());await page.goto('/');await page.locator('#checkpoint').selectOption('C1.1a');await typeFile(page,'character.js','class Wizard {}');await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toContainText('runner could not load',{timeout:15000});await page.unroute(/\.wasm(?:\?|$)/);await page.getByText('Workspace tools',{exact:true}).click();await page.getByRole('button',{name:'Reload code runner'}).click();await run(page);
+  await page.route(/\.wasm(?:\?|$)/,route=>route.abort());await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C1.1a');await typeFile(page,'character.js','class Wizard {}');await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toContainText('runner could not load',{timeout:15000});await page.unroute(/\.wasm(?:\?|$)/);await page.getByText('Workspace tools',{exact:true}).click();await page.getByRole('button',{name:'Reload code runner'}).click();await run(page);
 });
 test('oversized draft survives reload while Run remains blocked and last good scene remains',async({page})=>{
-  await page.goto('/');await putSolution(page,'C1.1c');await run(page);
+  await page.goto('/?tome=oop');await putSolution(page,'C1.1c');await run(page);
   const longSource=byId['C1.1c'].solution.characterSource+'\n// '+ 'x'.repeat(40000);await typeFile(page,'character.js',longSource);
   await page.getByRole('button',{name:'Run code',exact:false}).click();await expect(page.locator('#result')).toContainText('30KB');await expect(page.locator('#character-summary')).toContainText('Aster');
   await page.reload();await expect(page.locator('#checkpoint')).toHaveValue('C1.1c');await expect(page.locator('#preview-note')).toContainText('Last saved successful preview');
@@ -118,7 +118,7 @@ test('oversized draft survives reload while Run remains blocked and last good sc
   await typeFile(page,'character.js',byId['C1.1c'].solution.characterSource);await run(page);
 });
 test('section introductions and reviews preserve answers across reload',async({page})=>{
-  await page.goto('/');await expect(page.locator('#section-title')).toHaveText('Classes and objects');await expect(page.locator('#section-screen .worked-example')).toContainText('class Potion');
+  await page.goto('/?tome=oop');await expect(page.locator('#section-title')).toHaveText('Classes and objects');await expect(page.locator('#section-screen .worked-example')).toContainText('class Potion');
   await page.getByRole('button',{name:'Start section 1'}).click();await expect(page.locator('#title')).toHaveText('The class is the recipe');
   await page.locator('#checkpoint').selectOption('review:1');await expect(page.locator('#section-title')).toContainText('Check your understanding');
   const choice=page.locator('.question').first();await choice.getByRole('radio').nth(1).check();await choice.getByRole('button',{name:'Check answer'}).click();await expect(choice.getByRole('status')).toContainText('Not quite');await expect(choice.getByRole('button',{name:/Revisit/})).toBeVisible();
@@ -128,12 +128,12 @@ test('section introductions and reviews preserve answers across reload',async({p
   await page.getByRole('button',{name:'Continue to section 2'}).click();await expect(page.locator('#section-title')).toHaveText('Properties: defaults and your own object');
 });
 test('method placement and new actions file are explained',async({page})=>{
-  await page.goto('/');await page.locator('#checkpoint').selectOption('C3.1a');await page.locator('#locate').click();expect(await page.evaluate(()=>{const e=document.querySelector('.cm-content');return !!e&&document.activeElement===e;})).toBe(true);await expect(page.locator('#instructions')).toHaveAttribute('open','');await expect(page.locator('#instruction-list')).toContainText('after the constructor');
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('C3.1a');await page.locator('#locate').click();expect(await page.evaluate(()=>{const e=document.querySelector('.cm-content');return !!e&&document.activeElement===e;})).toBe(true);await expect(page.locator('#instructions')).toHaveAttribute('open','');await expect(page.locator('#instruction-list')).toContainText('after the constructor');
   await page.locator('#checkpoint').selectOption('C3.1b');await expect(page.locator('#file-notice')).toBeVisible();await expect(page.locator('#file-notice')).toContainText('safe');await expect(page.locator('.cm-content')).toContainText('CALLING methods');
   await expect(page.getByRole('tab',{name:'actions.js',exact:true})).toBeVisible();await page.getByRole('button',{name:'Show my character.js'}).click();await expect(page.getByRole('tab',{name:'character.js',exact:true})).toHaveAttribute('aria-selected','true');
 });
 test('section boundary carries forward code and the new file opens safely',async({page})=>{
-  await page.goto('/');await putSolution(page,'C1.2');await run(page);
+  await page.goto('/?tome=oop');await putSolution(page,'C1.2');await run(page);
   await page.getByRole('button',{name:'Next step'}).click();await expect(page.locator('#checkpoint')).toHaveValue('review:1');
   await page.getByRole('button',{name:'Continue to section 2'}).click();await page.getByRole('button',{name:'Continue section 2'}).click();
   await expect(page.locator('#checkpoint')).toHaveValue('C2.1a');await expect(page.locator('.cm-content')).not.toContainText('apprentice');
@@ -141,14 +141,14 @@ test('section boundary carries forward code and the new file opens safely',async
   await page.getByRole('button',{name:'Show my character.js'}).click();await expect(page.locator('.cm-content')).toContainText('castSpell()');
 });
 test('section screens fit laptop, phone and enlarged viewports',async({page})=>{
-  await page.goto('/');for(const screen of ['intro:1','review:3']){await page.locator('#checkpoint').selectOption(screen);for(const width of [1366,768,390]){await page.setViewportSize({width,height:768});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
+  await page.goto('/?tome=oop');for(const screen of ['intro:1','review:3']){await page.locator('#checkpoint').selectOption(screen);for(const width of [1366,768,390]){await page.setViewportSize({width,height:768});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}}
   await page.setViewportSize({width:683,height:384});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('every review renders its code blanks',async({page})=>{
-  await page.goto('/');for(const chapter of [1,2,3,4,5]){await page.locator('#checkpoint').selectOption(`review:${chapter}`);await expect(page.locator('#section-title')).toContainText('Check your understanding');await expect(page.locator('.blank-input')).toHaveCount(chapter===3?4:3);const fonts=await page.locator('.blank-input').first().evaluate(input=>({input:getComputedStyle(input).fontFamily,parent:getComputedStyle(input.parentElement).fontFamily,code:getComputedStyle(input.closest('code')).fontFamily}));expect(fonts.input).toBe(fonts.code);}
+  await page.goto('/?tome=oop');for(const chapter of [1,2,3,4,5]){await page.locator('#checkpoint').selectOption(`review:${chapter}`);await expect(page.locator('#section-title')).toContainText('Check your understanding');await expect(page.locator('.blank-input')).toHaveCount(chapter===3?4:3);const fonts=await page.locator('.blank-input').first().evaluate(input=>({input:getComputedStyle(input).fontFamily,parent:getComputedStyle(input.parentElement).fontFamily,code:getComputedStyle(input.closest('code')).fontFamily}));expect(fonts.input).toBe(fonts.code);}
 });
 test('introductions stay concise with optional explanations available',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?tome=oop');
   for(const chapter of [1,2,3,4,5]){
     await page.locator('#checkpoint').selectOption(`intro:${chapter}`);
     const intro=page.locator('#section-screen');
@@ -166,7 +166,7 @@ test('introductions stay concise with optional explanations available',async({pa
 });
 
 test('course summary follows the final review and downloads as Markdown',async({page})=>{
-  await page.goto('/');await page.locator('#checkpoint').selectOption('review:5');
+  await page.goto('/?tome=oop');await page.locator('#checkpoint').selectOption('review:5');
   await page.getByRole('button',{name:'Finish course: see your summary →'}).click();
   await expect(page.locator('#section-title')).toHaveText('Your Wizard Workshop spellbook');
   await expect(page.locator('.recap-concept')).toHaveCount(15);

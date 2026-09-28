@@ -1,0 +1,33 @@
+
+> wizard-workshop@1.0.0 build
+> vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 73 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/module-ES6BEMUI-DrvWXhXz.js              0.18 kB
+dist/index.html                                      0.43 kB │ gzip:   0.29 kB
+dist/assets/ffi-4V2b7xu3.js                          6.32 kB
+dist/assets/emscripten-module.browser-BNXahn-b.js    9.22 kB
+dist/assets/chunk-V2S4ZYJR-D3zsAQXf.js              34.19 kB
+dist/assets/runner.worker-DMgrX2ve.js              303.34 kB
+dist/assets/emscripten-module-uFzwHH0Y.wasm        503.13 kB │ gzip: 235.94 kB
+dist/assets/renderRecap-Bsp95NaR.css                13.19 kB │ gzip:   3.17 kB
+dist/assets/index-BmVqZ8bF.css                      21.98 kB │ gzip:   5.50 kB
+dist/assets/journeyProgress-BwwmpAwF.js              1.02 kB │ gzip:   0.53 kB
+dist/assets/index-wuhyzFG_.js                        2.71 kB │ gzip:   1.29 kB
+dist/assets/landing-BSsXAvmb.js                      3.97 kB │ gzip:   2.10 kB
+dist/assets/journeyProgress-BYPOp5kf.js            137.11 kB │ gzip:  30.08 kB
+dist/assets/sprites-CUkam_Q0.js                    190.01 kB │ gzip:  58.76 kB
+dist/assets/renderRecap-CJavjgWF.js                528.19 kB │ gzip: 178.32 kB
+dist/assets/app-BRcBdK5c.js                        590.29 kB │ gzip:  50.71 kB
+dist/assets/app-B0YXI2Lu.js                        684.17 kB │ gzip:  37.00 kB
+
+✓ built in 499ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
