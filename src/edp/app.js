@@ -364,7 +364,7 @@ export function mountEdpApp() {
       ...content.instructions.map((s) => rich('li', s))
     );
     // Open the steps by default where the task has several new ideas.
-    $('#instructions').open = ['E1.1', 'E2.3'].includes(current.id);
+    $('#instructions').open = ['E1.1', 'E2.3', 'E3.2'].includes(current.id);
     text(
       '#starter-note',
       current.starterStrategy === 'prepared'

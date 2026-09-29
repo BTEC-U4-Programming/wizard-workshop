@@ -363,7 +363,7 @@ const records = [
         (s) =>
           e(s, 'stats').text === 'Grub — health 60/60' &&
           e(s, 'goblin').classes.includes('outlined'),
-        'Read the goblin object’s health and add outlined to the element.'
+        'Fill the first gap with `goblin.health`, and use `classList.add("outlined")` on mouseover.'
       ),
       trial(
         'Leaving removes both',
@@ -377,7 +377,7 @@ const records = [
         'The reading is live',
         [set('goblin.health', 35), mouse('goblin')],
         (s) => e(s, 'stats').text.includes('35/60'),
-        'Read goblin.health inside the handler, each time.'
+        'Use `goblin.health`, not a typed number such as 60, so the label shows Grub’s health at the moment you hover.'
       )
     ]
   ],
@@ -1074,20 +1074,24 @@ const instructions = {
     'Set the blue label, show it with hidden = false, then hide it again on leaving.'
   ],
   'E3.2': [
-    '`goblin` is Grub’s object. `goblinSprite` is the page element. They are different things.',
-    'Read the object’s health inside the handler. Add and remove the element’s outlined class.'
+    '**Step 1 — Two Grubs.** `goblin` is Grub’s **object**. It stores his data, such as `goblin.health` and `goblin.maxHealth`. `goblinSprite` is Grub’s **element**: his picture on the page. Your code reads numbers from the object and changes how the element looks.',
+    '**Step 2 — Meet `classList`.** A **class** is a label on an element. The stylesheet decides what each label looks like. `classList` is the element’s list of labels: `add` puts a label on and `remove` takes it off. Imagine a lantern whose stylesheet makes it glow when it has the class `lit`:\n`const lantern = document.querySelector("#lantern");\n\nlantern.classList.add("lit");    // label on: the lantern glows\nlantern.classList.remove("lit"); // label off: back to normal`\nJavaScript never draws the glow. It only swaps the label, and the stylesheet does the drawing. On this stage, any element with the class `outlined` gets a purple outline.',
+    '**Step 3 — Show Grub’s live health.** In `showGoblinStats`, replace the first `____` with `goblin.health`. Do not type a number such as `60`. This line runs inside the handler, so it reads Grub’s health at the moment of each hover. If Grub gets hurt, the label shows his new health.',
+    '**Step 4 — Outline on, outline off.** Fill the `classList` gap in `showGoblinStats` so it **adds** `"outlined"`. Fill the gap in `hideGoblinStats` so it **removes** it again.',
+    '**Step 5 — Check it.** Press **Run** and move your pointer onto Grub. You should see “Grub — health 60/60” and a purple outline. Move away: both disappear. The Spell Trials also hurt Grub to 35 health, to check your label reads the live value.'
   ],
   'E3.3': [
     'Find #wizard. Add the class glow on mouseover and remove it on mouseout.'
   ],
   'E3.4': [
-    '`{ once: true }` removes a listener after it runs once.',
+    'Adding `{ once: true }` as the third argument to `addEventListener` removes a listener after it runs once.',
     '`removeEventListener` needs the same function reference that was added. Two identical arrows are still different functions. Use springTrap in both places.'
   ],
   'E3.5': [
     'A tablet user and a keyboard user cannot hover. **Accessibility** means designing so everyone can use a program.',
-    '`focus` fires when Tab reaches the potion button; `blur` fires when focus leaves. Add both listeners.',
-    'Did you know? `mouseover` also fires when the pointer enters a child. `mouseenter` does not bubble. Neither is a replacement for keyboard focus.'
+    '`focus` fires when Tab reaches the potion button; `blur` fires when focus leaves.',
+    '`focus` and `blur` are both events, just like `click`, `mouseover` and `mouseout`.',
+    'Add two more listeners under the last code comment below so keyboard users can read the red potion information too.'
   ],
   'E4.1': [
     '`switch` chooses a block by matching a value to a `case`. `break` stops it continuing into the next case.',
@@ -1170,6 +1174,10 @@ const instructions = {
 // Optional per-step hints, used when the first and last instructions
 // would not make useful hints on their own.
 const customHints = {
+  'E3.2': [
+    'The first gap needs the number stored inside Grub’s object: `goblin.health`. A typed number would never change when Grub is hurt.',
+    '`goblinSprite.classList.add("outlined")` puts the outline on. `goblinSprite.classList.remove("outlined")` takes it off.'
+  ],
   'E2.3': [
     'Put your listener on `#spellbook`, not on each card. Inside it, `event.target.dataset.power` tells you which card was clicked.',
     'Wrap the cast in `if (power) { ... }` so clicking the Spellbook box itself does nothing, then delete the old `fireCard` and `iceCard` listeners.'
@@ -1196,6 +1204,8 @@ const reflections = {
   'E2.1':
     'Why test exactly 3 mana and 2 mana? What bug might a 20-mana test miss?',
   'E2.2': 'Why is the browser delivering an event object useful?',
+  'E3.2':
+    'Which line of your code talks to Grub’s object, and which talks to his picture? Why would the label be wrong after a fight if you had typed 60 instead of `goblin.health`?',
   'E2.3':
     'Your two card listeners were almost identical. How did spotting that repetition lead to shorter code that also works for cards added later?',
   'E2.4':

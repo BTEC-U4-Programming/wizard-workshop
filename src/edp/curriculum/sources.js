@@ -261,7 +261,7 @@ function hideTooltip() {
 
 redPotion.addEventListener("mouseover", showRedInfo);
 redPotion.addEventListener("mouseout", hideTooltip);
-// ✦ Add two more listeners so keyboard users can read the label too.
+// ✦ Add two more listeners so keyboard users can read the red potion information too.
 redPotion.addEventListener("focus", showRedInfo);
 redPotion.addEventListener("blur", hideTooltip);`,
   'E4.1': `document.addEventListener("keydown", function (event) {
@@ -1285,12 +1285,14 @@ bluePotion.addEventListener("____", function () {
 bluePotion.addEventListener("____", function () {
   tooltip.hidden = ____;
 });`,
-  'E3.2': `const goblinSprite = document.querySelector("#goblin");
+  'E3.2': `// ✦ Fill the three ____ gaps. Open "Step instructions" for 5 small steps.
+
+const goblinSprite = document.querySelector("#goblin");
 const stats = document.querySelector("#stats");
 
 function showGoblinStats() {
-  stats.textContent = goblin.name + " — health " + goblin.health + "/" + goblin.maxHealth;
-  goblinSprite.classList.add("outlined");
+  stats.textContent = goblin.name + " — health " + ____ + "/" + goblin.maxHealth;
+  goblinSprite.classList.____("outlined");
 }
 
 function hideGoblinStats() {
@@ -1315,7 +1317,11 @@ function hideGoblinStats() {
 
 goblinSprite.addEventListener("mouseover", showGoblinStats);
 goblinSprite.addEventListener("mouseout", hideGoblinStats);
-// ✦ #wizard gets glow on mouseover and loses it on mouseout.
+
+// ✦ #wizard should get the class "glow" on mouseover and lose
+//   it on mouseout.
+//   Declare a new 'wizardSprite' variable, then add your event 
+//   listeners to it
 `,
   'E3.4': `const chest = document.querySelector("#chest");
 const disarmButton = document.querySelector("#disarm-button");
@@ -1345,7 +1351,7 @@ function hideTooltip() {
 
 redPotion.addEventListener("mouseover", showRedInfo);
 redPotion.addEventListener("mouseout", hideTooltip);
-// ✦ Add two more listeners so keyboard users can read the label too.`,
+// ✦ Add two more listeners so keyboard users can read the red potion information too.`,
   'E4.1': `document.addEventListener("keydown", function (event) {
   switch (event.key) {
     case "ArrowLeft":
@@ -2126,8 +2132,8 @@ bluePotion.addEventListener("____", function () {
 const stats = document.querySelector("#stats");
 
 function showGoblinStats() {
-  stats.textContent = goblin.name + " — health " + goblin.health + "/" + goblin.maxHealth;
-  goblinSprite.classList.add("outlined");
+  stats.textContent = goblin.name + " — health " + ____ + "/" + goblin.maxHealth;
+  goblinSprite.classList.____("outlined");
 }
 
 function hideGoblinStats() {

@@ -1,3 +1,4 @@
+import {woodLayout} from '../stage/woodLayout.js';
 const element = (id, text = '', extra = {}) => ({
   id,
   tag: 'BUTTON',
@@ -80,17 +81,27 @@ export const stages = {
     ['wizard', 'goblin'],
     [
       element('red-potion', 'Red potion', {
-        hotspot: {x: 16, y: 142, w: 40, h: 52}
+        hotspot: woodLayout.hotspots['red-potion']
       }),
       element('blue-potion', 'Blue potion', {
-        hotspot: {x: 62, y: 142, w: 40, h: 52}
+        hotspot: woodLayout.hotspots['blue-potion']
       }),
       element('tooltip', '', {tag: 'DIV', hidden: true}),
-      element('goblin', 'Grub', {hotspot: {x: 240, y: 136, w: 38, h: 52}}),
+      // No sprite draws a hover box of its own. The wizard, goblin and
+      // chest are also `quietHover`: no "not listening" badge until the
+      // student adds a listener (E3.2, E3.3 and E3.4).
+      element('goblin', 'Grub', {
+        hotspot: woodLayout.hotspots.goblin,
+        quietHover: true
+      }),
       element('stats', '', {tag: 'DIV'}),
-      element('wizard', 'Your wizard', {hotspot: {x: 80, y: 86, w: 68, h: 96}}),
+      element('wizard', 'Your wizard', {
+        hotspot: woodLayout.hotspots.wizard,
+        quietHover: true
+      }),
       element('chest', 'Cursed chest', {
-        hotspot: {x: 174, y: 152, w: 50, h: 44}
+        hotspot: woodLayout.hotspots.chest,
+        quietHover: true
       }),
       element('disarm-button', 'Disarm the chest')
     ]

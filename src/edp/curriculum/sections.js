@@ -327,7 +327,7 @@ export const sections = [
         ),
         blank(
           'ES2-Q6',
-          'Allow ice when there is exactly enough mana.',
+          'Allow ice when the wizard has enough mana.',
           'if (wizard.mana ____ 3) {',
           ['>='],
           'Correct. `>=` includes 3 itself: the boundary.',
@@ -345,7 +345,7 @@ export const sections = [
         ),
         blank(
           'ES2-Q8',
-          'Keep `this` pointing at the wizard.',
+          'Recover health, keeping `this` pointing at the wizard.',
           'potionButton.addEventListener("click", () => wizard.____());',
           ['recoverHealth'],
           'Correct. The method is called on `wizard`, so `this` is the wizard.',
@@ -364,7 +364,7 @@ export const sections = [
       build:
         "Potion labels, a way to read Grub's health, a glowing staff and a trap that only springs once.",
       summary:
-        '`mouseover` fires when the pointer moves onto an element and `mouseout` when it leaves. Some people cannot hover, so good designs also use `focus` and `blur`.',
+        '`click` is not the only event. `mouseover` fires when the pointer moves onto an element and `mouseout` when it leaves. Some people cannot hover, so good designs also use `focus` and `blur`.',
       prerequisites:
         'From Section 1: `addEventListener` connects an element, an event name and a handler.',
       assignmentLink:
@@ -465,7 +465,7 @@ export const sections = [
         ),
         choice(
           'ES3-Q4',
-          'Which pair of events lets keyboard users see the potion label?',
+          'Which pair of events lets keyboard users see the potion label when tabbing through with their keyboard?',
           [
             ['`focus` and `blur`', 'Correct.'],
             [

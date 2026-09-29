@@ -4,6 +4,7 @@ import {
   drawOwl,
   drawEffect
 } from '../../game/sprites.js';
+import {woodLayout} from './woodLayout.js';
 export function drawScene(canvas, scene, snapshot, effect = null) {
   const c = canvas.getContext('2d');
   c.imageSmoothingEnabled = false;
@@ -50,10 +51,11 @@ export function drawScene(canvas, scene, snapshot, effect = null) {
       rect(x - 1, 166, 3, 14, '#f5e7c4');
       rect(x - 4, 185, 20, 3, '#313c53');
     }
-    rect(178, 166, 42, 24, '#73544a');
-    rect(178, 158, 42, 11, '#a68160');
-    rect(178, 167, 42, 3, '#e6bc60');
-    rect(197, 164, 5, 10, '#e6bc60');
+    const chest = woodLayout.chest;
+    rect(chest.x, chest.y + 8, 42, 24, '#73544a');
+    rect(chest.x, chest.y, 42, 11, '#a68160');
+    rect(chest.x, chest.y + 9, 42, 3, '#e6bc60');
+    rect(chest.x + 19, chest.y + 6, 5, 10, '#e6bc60');
   }
   if (scene === 'door') {
     const door = snapshot?.world.runeDoor;
@@ -87,8 +89,11 @@ export function drawScene(canvas, scene, snapshot, effect = null) {
   const wizard = snapshot?.world.wizard,
     goblin = snapshot?.world.goblin;
   if (wizard) {
-    const x = scene === 'courtyard' || scene === 'door' ? wizard.x - 20 : 80,
-      y = scene === 'courtyard' || scene === 'door' ? wizard.y - 50 : 105;
+    const walking = scene === 'courtyard' || scene === 'door';
+    // The wood has its own layout so nothing hides the potions.
+    const home = scene === 'wood' ? woodLayout.wizard : {x: 80, y: 105};
+    const x = walking ? wizard.x - 20 : home.x,
+      y = walking ? wizard.y - 50 : home.y;
     if (wizard.health === 0 || (scene === 'bedroom' && !wizard.awake)) {
       // Asleep in the tower bedroom: lie on top of the bed, not beside it.
       const inBed = scene === 'bedroom' && wizard.health !== 0;
@@ -110,17 +115,20 @@ export function drawScene(canvas, scene, snapshot, effect = null) {
     }
   }
   if (goblin) {
+    const goblinHome = scene === 'wood' ? woodLayout.goblin : {x: 240, y: 136};
+    const goblinX = goblinHome.x,
+      goblinY = goblinHome.y;
     if (goblin.health === 0) {
       c.save();
-      c.translate(277, 176);
+      c.translate(goblinX + 37, goblinY + 40);
       c.rotate(Math.PI / 2);
       drawGoblin(c, 0, 0);
       c.restore();
-    } else drawGoblin(c, 240, 136);
+    } else drawGoblin(c, goblinX, goblinY);
     if (snapshot.elements?.goblin?.classes.includes('outlined')) {
       c.strokeStyle = '#c4a5f2';
       c.lineWidth = 2;
-      c.strokeRect(232, 127, 43, 60);
+      c.strokeRect(goblinX - 8, goblinY - 9, 43, 60);
     }
   }
   drawEffect(c, effect);

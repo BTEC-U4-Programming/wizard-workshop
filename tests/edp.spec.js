@@ -349,6 +349,37 @@ test('learner names, speech and element text render as text', async ({
   await expect(page.locator('#stage-wake-button')).toHaveText('<img src=x>');
   await expect(page.locator('#preview img')).toHaveCount(0);
 });
+// Sprites must never draw a hover box of their own (no gold box, and no
+// grey button:hover box). Only classes the student's code adds may outline
+// them. Checked on the starter (before listeners) and the solution.
+for (const id of ['E3.1', 'E3.2', 'E3.3', 'E3.4', 'E3.5', 'E6.3'])
+  for (const version of ['starter', 'solution'])
+    test(`${id} ${version}: sprites draw no hover box of their own`, async ({
+      page
+    }) => {
+      await openStep(page, id, byId[id][version].spellsSource);
+      const sprites = page.locator('.stage-hotspot');
+      const count = await sprites.count();
+      expect(count).toBeGreaterThan(0);
+      for (let i = 0; i < count; i++) {
+        const sprite = sprites.nth(i);
+        if (!(await sprite.isVisible())) continue;
+        await sprite.hover();
+        const look = await sprite.evaluate((node) => {
+          const css = getComputedStyle(node);
+          return {
+            background: css.backgroundColor,
+            border: css.borderTopColor,
+            cursor: css.cursor,
+            title: node.title
+          };
+        });
+        expect(look.background).toBe('rgba(0, 0, 0, 0)');
+        expect(look.border).toBe('rgba(0, 0, 0, 0)');
+        expect(look.cursor).toBe('default');
+        expect(look.title).toBe('');
+      }
+    });
 test('potion hover and keyboard focus show the same accessible label', async ({
   page
 }) => {

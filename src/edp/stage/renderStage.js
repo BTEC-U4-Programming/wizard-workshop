@@ -1,6 +1,7 @@
 import {drawScene} from './drawScenes.js';
 import {playBell, isSoundOn, setSoundOn} from './bellSound.js';
 import {playWakeEffect} from './wakeEffect.js';
+import {woodLayout} from './woodLayout.js';
 export function renderStage(
   frame,
   stageDef,
@@ -72,6 +73,10 @@ export function renderStage(
     }
     if (def.hotspot) {
       node.className = 'stage-hotspot';
+      // Sprites never show a CSS hover box (see .stage-hotspot:hover).
+      // `quietHover` sprites also hide their "not listening" badge until
+      // the student's code registers a listener on them.
+      if (def.quietHover) node.classList.add('stage-hotspot-quiet');
       node.style.left = (def.hotspot.x / 320) * 100 + '%';
       node.style.top = (def.hotspot.y / 240) * 100 + '%';
       node.style.width = (def.hotspot.w / 320) * 100 + '%';
@@ -124,6 +129,12 @@ export function renderStage(
         r.type === 'click'
     );
   }
+  // True once the student's code has registered a listener directly on
+  // this element (any event type).
+  const hasOwnListener = (id, value) =>
+    !!value?.registrations?.some(
+      (r) => r.accepted && r.operation !== 'remove' && r.target === '#' + id
+    );
   const targetOf = (target) => {
     let current = target;
     while (current && current !== frame) {
@@ -221,10 +232,17 @@ export function renderStage(
       node.classList.add(...data.classes.map((cls) => 'stg-' + cls));
       if (def.tag === 'BUTTON') {
         const missing = live && !hasListener(id, value.registrations);
-        badges.get(id).hidden = !missing || data.hidden;
-        node.title = missing
-          ? 'No listener is connected yet. Use the Crystal Ball to investigate.'
-          : '';
+        // Quiet sprites stay completely silent (no highlight, no tooltip,
+        // no badge) until the student's code registers a listener on them.
+        const quiet = !!def.quietHover && !hasOwnListener(id, value);
+        node.classList.toggle('stage-hotspot-quiet', quiet);
+        badges.get(id).hidden = !missing || data.hidden || quiet;
+        // Sprites get no hover tooltip either: only the student's code
+        // decides what happens when the pointer is over them.
+        node.title =
+          missing && !quiet && !def.hotspot
+            ? 'No listener is connected yet. Use the Crystal Ball to investigate.'
+            : '';
       }
     }
     clearTimeout(effectTimer);
@@ -247,6 +265,7 @@ export function renderStage(
       .find((entry) => entry.type === 'say' && entry.message);
     if (live) {
       const bedroom = stageDef.scene === 'bedroom';
+      const wood = stageDef.scene === 'wood';
       const woke = bedroom && nowAwake && !wasAwake;
       const speech = said?.message ?? (woke ? value.world.wizard.lastSpeech : '');
       // In the bedroom, waking up gets the big effect. Any other line of
@@ -263,14 +282,21 @@ export function renderStage(
             speech,
             reduced: reducedMotion(),
             celebrate: woke,
-            bubbleX: walking && wizard ? wizard.x + 13 : 113,
+            bubbleX:
+              walking && wizard
+                ? wizard.x + 13
+                : wood
+                  ? woodLayout.bubble.x
+                  : 113,
             bubbleY: bedroom
               ? nowAwake
                 ? 26
                 : 58
               : walking && wizard
                 ? Math.max(4, wizard.y - 76)
-                : 60
+                : wood
+                  ? woodLayout.bubble.y
+                  : 60
           }
         );
       }

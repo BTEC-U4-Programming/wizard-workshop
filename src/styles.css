@@ -211,7 +211,18 @@
   padding: 0;
   font-size: 12px;
 }
-.stage-hotspot:hover,
+/* Sprites never draw their own hover box. The browser's default
+   button:hover background (a solid grey box) is cancelled here too.
+   Any outline or glow on a sprite must come from the student's code
+   (classList.add('outlined'), classList.add('glow') and so on). */
+.stage-hotspot:hover {
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  cursor: default;
+}
+/* Keyboard focus still shows a ring so keyboard users can see where
+   they are (needed for E3.5 and E6.3). */
 .stage-hotspot:focus-visible {
   background: #d9b77722;
   border-color: var(--gold);
