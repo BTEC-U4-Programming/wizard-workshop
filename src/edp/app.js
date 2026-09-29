@@ -20,6 +20,7 @@ import {
 import {edpModule} from './moduleDescriptor.js';
 import {parseEdpSource, eventNames} from './validation/parse.js';
 import {EdpRunner} from './client.js';
+import {insertGap} from './insertGap.js';
 import {
   loadEdpState,
   saveEdpState,
@@ -362,7 +363,8 @@ export function mountEdpApp() {
     $('#instruction-list').replaceChildren(
       ...content.instructions.map((s) => rich('li', s))
     );
-    $('#instructions').open = current.id === 'E1.1';
+    // Open the steps by default where the task has several new ideas.
+    $('#instructions').open = ['E1.1', 'E2.3'].includes(current.id);
     text(
       '#starter-note',
       current.starterStrategy === 'prepared'
@@ -403,6 +405,7 @@ export function mountEdpApp() {
     $('#error-link').hidden = true;
     $('#technical').hidden = true;
     crystal.reset();
+    crystal.showOnly(current.crystalFilters);
     const saved = state.lastGoodSnapshotByCheckpoint[current.id];
     stageView = renderStage(
       $('.stage-frame'),
@@ -978,27 +981,8 @@ export function mountEdpApp() {
     else result('No replacement backup exists for this step yet.');
   };
   $('#gaps').onclick = () => {
-    const source = draft().spellsSource;
-    let next;
-    if (cp().id === 'E4.1')
-      next = source.replace(
-        /\s*\/\/ ✦ Add ArrowUp[^\n]*/,
-        '\n    ' + cp().gap.replaceAll('\n', '\n    ')
-      );
-    else if (cp().id === 'E5.5') {
-      const [dispatch, listener] = cp().gap.split('\nconst');
-      next =
-        source.replace(
-          'wizard.castSpell(goblin);',
-          'wizard.castSpell(goblin);\n' + dispatch
-        ) +
-        '\nconst' +
-        listener;
-    } else if (source.includes('// ✦ gap goes here'))
-      next = source.replace('// ✦ gap goes here', cp().gap);
-    else next = source + '\n' + cp().gap;
     replaceCode(
-      {spellsSource: next},
+      {spellsSource: insertGap(cp().id, draft().spellsSource, cp().gap)},
       'Insert this exercise gap into your draft?'
     );
   };

@@ -150,7 +150,7 @@ function mistake(snapshot, parsed) {
     ) &&
     snapshot.registrations.some((r) => r.handler === 'recoverHealth')
   )
-    return 'Inside recoverHealth, this was the button, not your wizard. Wrap the call in an arrow function: () => wizard.recoverHealth().';
+    return 'The click ran recoverHealth without your wizard, so this became the button, and a button has no health. Wrap the call in an arrow function so the wizard does it: () => wizard.recoverHealth().';
   return snapshot.errors[0]?.message ?? null;
 }
 export function runEdpProgram(QuickJS, request) {

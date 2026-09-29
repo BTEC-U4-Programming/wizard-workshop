@@ -302,8 +302,8 @@ export const sections = [
           '`potionButton.addEventListener("click", wizard.recoverHealth)` fails. Why?',
           [
             [
-              'Handed over on its own, the method runs with `this` as the button.',
-              'Correct. Wrap it: `() => wizard.recoverHealth()`.'
+              'The method is handed over without `wizard`, so when the click runs it, `this` is the button.',
+              'Correct. A button has no health. Wrap the call so the wizard does it: `() => wizard.recoverHealth()`.'
             ],
             [
               '`recoverHealth` only works in Tome I.',

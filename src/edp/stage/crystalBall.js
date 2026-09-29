@@ -36,8 +36,9 @@ const category = (entry) =>
           ? 'Timers'
           : entry.type === 'console'
             ? 'console.log'
-            : entry.type === 'error' ||
-                entry.type === 'setup' ||
+            : entry.type === 'error'
+              ? 'Errors'
+              : entry.type === 'setup' ||
                 entry.type === 'say' ||
                 entry.type === 'world' ||
                 entry.type === 'spell' ||
@@ -69,8 +70,11 @@ export function createCrystalBall(container, {reducedMotion, slowMotion}) {
     'Timers',
     'Custom',
     'console.log',
+    'Errors',
     'Other'
   ]);
+  const categories = [...enabled],
+    boxes = new Map();
   const pause = node('button', 'Pause'),
     clear = node('button', 'Clear');
   tools.append(pause, clear);
@@ -84,6 +88,7 @@ export function createCrystalBall(container, {reducedMotion, slowMotion}) {
       else enabled.delete(name);
       render();
     };
+    boxes.set(name, input);
     label.append(input, document.createTextNode(name));
     tools.append(label);
   }
@@ -193,6 +198,16 @@ export function createCrystalBall(container, {reducedMotion, slowMotion}) {
       clearTimeout(timer);
       clearTimeout(announcement);
     },
-    refresh: render
+    refresh: render,
+    // Tick only the named categories (all of them when names is null).
+    showOnly(names) {
+      enabled.clear();
+      for (const name of categories) {
+        const on = !names || names.includes(name);
+        if (on) enabled.add(name);
+        boxes.get(name).checked = on;
+      }
+      render();
+    }
   };
 }

@@ -245,12 +245,16 @@ export function renderStage(
     const said = [...fresh]
       .reverse()
       .find((entry) => entry.type === 'say' && entry.message);
-    if (live && stageDef.scene === 'bedroom') {
-      const woke = nowAwake && !wasAwake;
+    if (live) {
+      const bedroom = stageDef.scene === 'bedroom';
+      const woke = bedroom && nowAwake && !wasAwake;
       const speech = said?.message ?? (woke ? value.world.wizard.lastSpeech : '');
-      // Waking up gets the big effect; any other line of speech (such as
-      // "Goodnight!") gets a speech bubble above the wizard or the bed.
+      // In the bedroom, waking up gets the big effect. Any other line of
+      // speech (such as "Goodnight!" or "Not enough mana!") gets a speech
+      // bubble above the wizard, in every scene.
       if (woke || speech) {
+        const walking = ['courtyard', 'door'].includes(stageDef.scene);
+        const wizard = value.world.wizard;
         stopWake?.();
         stopWake = playWakeEffect(
           canvas,
@@ -259,7 +263,14 @@ export function renderStage(
             speech,
             reduced: reducedMotion(),
             celebrate: woke,
-            bubbleY: nowAwake ? 26 : 58
+            bubbleX: walking && wizard ? wizard.x + 13 : 113,
+            bubbleY: bedroom
+              ? nowAwake
+                ? 26
+                : 58
+              : walking && wizard
+                ? Math.max(4, wizard.y - 76)
+                : 60
           }
         );
       }

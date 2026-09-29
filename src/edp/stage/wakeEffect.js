@@ -5,7 +5,7 @@
 export function playWakeEffect(
   canvas,
   redraw,
-  {speech = '', reduced = false, celebrate = true, bubbleY = 26}
+  {speech = '', reduced = false, celebrate = true, bubbleX = 113, bubbleY = 26}
 ) {
   const DURATION = celebrate ? 1400 : 1800;
   const c = canvas.getContext('2d');
@@ -16,10 +16,10 @@ export function playWakeEffect(
     c.save();
     c.font = 'bold 13px Consolas, monospace';
     const width = Math.min(300, c.measureText(text).width + 20);
-    const x = Math.max(6, Math.min(314 - width, 113 - width / 2));
+    const x = Math.max(6, Math.min(314 - width, bubbleX - width / 2));
     c.fillStyle = '#f5e7c4';
     c.fillRect(x, bubbleY, width, 28);
-    c.fillRect(105, bubbleY + 28, 12, 8);
+    c.fillRect(Math.max(12, Math.min(308, bubbleX)) - 8, bubbleY + 28, 12, 8);
     c.fillStyle = '#121b30';
     c.textAlign = 'center';
     c.globalAlpha = Math.min(1, progress * 8, (1 - progress) * 8);

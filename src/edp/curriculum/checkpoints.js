@@ -251,34 +251,34 @@ const records = [
   [
     'E2.3',
     'One spellbook, many spells',
-    'Replace separate card listeners with one listener on `#spellbook` that casts the clicked card’s power.',
-    'spell-room',
-    'partial prompts',
+    'Make every card in the Spellbook cast its spell — even new ones — using just **one** listener on `#spellbook`.',
+    'spellbook-room',
+    'gaps',
     [
       trial(
         'Fire card casts fire',
         [click('fire-card')],
         (s) => w(s).lastSpell === 'fire',
-        'Read event.target.dataset.power and cast on the goblin.'
+        'Save event.target.dataset.power in power, then set wizard.specialPower = power and cast.'
       ),
       trial(
         'Ice card casts ice',
         [click('ice-card')],
         (s) => w(s).lastSpell === 'ice',
-        'Read the clicked card’s power rather than a fixed power.'
+        'Use the power from the clicked card, not a fixed word like "fire".'
       ),
       trial(
-        'Clicking the cover casts nothing',
+        'Clicking the Spellbook box, not a card, casts nothing',
         [click('spellbook')],
         (s) => castCount(s) === 0 && !s.errors.length,
-        'Check if (power) so only cards with data-power cast.',
+        'The Spellbook box has no data-power, so power is undefined. Wrap the cast in if (power) { ... }.',
         'erroneous'
       ),
       trial(
         'A newly learnt spell works straight away',
         [click('learn-button'), click('storm-card')],
         (s) => w(s).lastSpell === 'electricity',
-        'Listen on #spellbook so new cards work through bubbling.'
+        'The Storm card is new. Put your listener on #spellbook so its clicks bubble up to it.'
       ),
       trial(
         'One listener does the work',
@@ -290,15 +290,15 @@ const records = [
           !s.registrations.some(
             (r) => r.accepted && /#(fire|ice|storm)-card/.test(r.target)
           ),
-        'Remove individual card listeners. Keep one on #spellbook.'
+        'Delete the fireCard and iceCard listeners. Keep just one listener, on #spellbook.'
       )
     ]
   ],
   [
     'E2.4',
-    'The vanishing this',
-    'Fix the potion button so clicking it really heals your wizard.',
-    'spell-room',
+    'The potion that did nothing',
+    'Fix the potion button so clicking it really heals your wizard, and find out why the first version failed.',
+    'potion-room',
     'guided',
     [
       trial(
@@ -1056,14 +1056,18 @@ const instructions = {
     '`wizard.moveTo` keeps the wizard inside the walkable area: x 20–280 and y 40–190.'
   ],
   'E2.3': [
-    'Run the starter, click Learn a new spell, then Storm. No listener was added to that new card.',
-    '**Bubbling** means a click on a card travels up through its container. **Event delegation** uses one listener on that container.',
-    'A **data attribute** stores extra HTML information. Read `data-power` with `event.target.dataset.power`.',
-    'Replace both card listeners with one on #spellbook. Check `if (power)` so the cover does not cast.'
+    '**Step 1 — Spot the problem.** Run the code. Click the Fire and Ice cards inside the Spellbook: they work. Now click **Learn a new spell**, then the new Storm card. Nothing happens! Your listeners were added before the Storm card existed.',
+    '**Step 2 — The big idea.** A click on a card also travels up to the Spellbook around it. This is called **bubbling**. So one listener on `#spellbook` hears clicks on every card, even new ones. Using one listener on a container like this is called **event delegation**.',
+    '**Step 3 — Which card was clicked?** `event.target` is the exact element that was clicked. Each card has a label in its HTML, such as `data-power="fire"` (look in the stage.html tab). This is a **data attribute**. Add this listener and press Run:\n`const spellbook = document.querySelector("#spellbook");\n\nspellbook.addEventListener("click", function (event) {\n  console.log(event.target.dataset.power);\n});`\nNow click the Fire card, the Ice card, then the word **Spellbook** on the box around the cards. The Crystal Ball shows `fire`, `ice`, then `undefined`: the box itself has no `data-power`. (A learnt Storm card shows `electricity`, the power it casts.)',
+    '**Step 4 — Cast the spell.** Inside that same listener, save the label: `const power = event.target.dataset.power;` Then wrap the casting code in `if (power) { ... }`: set `wizard.specialPower = power` and call `wizard.castSpell(goblin)`. The `if` means a click on the Spellbook box itself (no power) does nothing.',
+    '**Step 5 — Tidy up.** Delete the old `fireCard` and `iceCard` declarations and event listeners above (around lines 3-14). One listener now does the work of all the cards. Stuck? Press **Insert exercise gaps** for a pattern to fill in.'
   ],
   'E2.4': [
-    'Run and click the potion. A detached method receives the button as `this`, and a button has no health.',
-    'An arrow calls the method on wizard: `() => wizard.recoverHealth()`. The method then keeps its object.'
+    '**Step 1 — See what goes wrong.** Grub’s arrow has left your wizard on 50 health. The Healing potion should heal 20. Press **Run**, then click **Healing potion** on the stage. The health stays at 50, and the Crystal Ball shows an error message that starts \"This handler stopped\". This is a very common bug, and you are about to fix it.',
+    '**Step 2 — Two ways to use a method.** Compare these two lines:\n`// Calling it: the dot says "wizard, YOU do this"\nwizard.recoverHealth();\n\n// Handing it over: just the instructions, without the wizard\nwizard.recoverHealth`\nInside `recoverHealth` the code says `this.health = ...`. The word **this** means "the object that is running me right now". When you call `wizard.recoverHealth()` with the dot, `this` is the wizard.',
+    '**Step 3 — What your click did.** Look at the last line of the starter: `addEventListener("click", wizard.recoverHealth)`. It hands the browser the method on its own, like passing someone a note that says "give a dog a treat" without saying *whose* dog. When the click happens, the browser runs the method for the button, so `this` becomes the button. A button has no health to recover, so nothing heals.',
+    '**Step 4 — The fix.** Give the browser a tiny function of your own instead: `() => wizard.recoverHealth()`. It is an arrow function, like the one you wrote in E1.4. The brackets after `recoverHealth` are correct this time, because they sit inside the arrow function. Nothing runs yet. On the click, the arrow function runs and asks the wizard, with a dot, to heal itself. Change the last line to:\n`potionButton.addEventListener("click", () => wizard.recoverHealth());`',
+    '**Step 5 — Check it.** Press **Run** and click **Healing potion**. Health should go from 50 to 70. The Crystal Ball stays empty, because there is no error any more. Click again: 90, then 100. It stops at 100 because that is the wizard’s `maxHealth`. Your wizard (an object from Tome I) and your click listener (an event) are now working together.'
   ],
   'E3.1': [
     '`mouseover` fires on arrival; `mouseout` fires on leaving. Each event needs a listener.',
@@ -1163,6 +1167,24 @@ const instructions = {
     'After a victory, Ring the Rune Bell. Retry after either ending. Use your code and stats as evidence for your report.'
   ]
 };
+// Optional per-step hints, used when the first and last instructions
+// would not make useful hints on their own.
+const customHints = {
+  'E2.3': [
+    'Put your listener on `#spellbook`, not on each card. Inside it, `event.target.dataset.power` tells you which card was clicked.',
+    'Wrap the cast in `if (power) { ... }` so clicking the Spellbook box itself does nothing, then delete the old `fireCard` and `iceCard` listeners.'
+  ],
+  'E2.4': [
+    'Handing over `wizard.recoverHealth` gives the browser the method without the wizard. When the click happens it runs for the button, so `this` is the button, not your wizard.',
+    'Give addEventListener a small arrow function instead: `() => wizard.recoverHealth()`. The dot in `wizard.recoverHealth()` tells the method which wizard to heal.'
+  ]
+};
+// Crystal Ball categories ticked when a step opens. Steps not listed show
+// everything. Students can still tick the other boxes themselves.
+const crystalFilters = {
+  'E2.3': ['console.log'],
+  'E2.4': ['Errors']
+};
 const reflections = {
   'E1.1':
     'spells.js finished when you pressed Run. How can your wizard wake a minute later? Where is it waiting?',
@@ -1174,8 +1196,10 @@ const reflections = {
   'E2.1':
     'Why test exactly 3 mana and 2 mana? What bug might a 20-mana test miss?',
   'E2.2': 'Why is the browser delivering an event object useful?',
-  'E2.3': 'How did spotting repeated listeners help you generalise the code?',
-  'E2.4': 'Which part is object-oriented and which part is event-driven?',
+  'E2.3':
+    'Your two card listeners were almost identical. How did spotting that repetition lead to shorter code that also works for cards added later?',
+  'E2.4':
+    'In your own words: why does `wizard.recoverHealth()` heal the wizard, but handing over `wizard.recoverHealth` on its own does not? Then: which part of this lesson was object-oriented (the wizard and its method) and which part was event-driven (the click)?',
   'E3.4': 'Why must removeEventListener receive the very same function?',
   'E3.5':
     'Phones have no hover. How would you decide whether a hover-only design suits its users?',
@@ -1384,11 +1408,11 @@ export const checkpoints = records.map(
         : '',
     instructions: instructions[id],
     hints: [
-      instructions[id][0],
-      instructions[id].at(-1),
+      ...(customHints[id] ?? [instructions[id][0], instructions[id].at(-1)]),
       'Compare your draft with the complete worked example below.'
     ],
     reflection: reflections[id] ?? '',
+    crystalFilters: crystalFilters[id] ?? null,
     effect: title + ' — your listeners pass the Spell Trials.',
     trials: trials.map((t, i) => ({...t, id: 't' + (i + 1)})),
     setup: {

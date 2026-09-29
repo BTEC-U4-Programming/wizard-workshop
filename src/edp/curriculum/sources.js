@@ -173,7 +173,8 @@ spellbook.addEventListener("click", function (event) {
     wizard.castSpell(goblin);
   }
 });`,
-  'E2.4': `// Grub's arrow grazed your wizard. The potion should heal them.
+  'E2.4': `// Grub's arrow left your wizard on 50 health.
+// The Healing potion should heal 20, but at the moment nothing happens.
 const potionButton = document.querySelector("#potion-button");
 
 potionButton.addEventListener("click", () => wizard.recoverHealth());`,
@@ -1143,6 +1144,7 @@ function lightLantern() {
 }
 
 lanternButton.addEventListener("click", lightLantern);
+
 // ✦ Make #sleep-button put your wizard to sleep and say goodnight.
 `,
   'E1.4': `// spells.js — your wizard's event listeners live here.
@@ -1176,8 +1178,12 @@ function goToSleep() {
 }
 
 sleepButton.addEventListener("click", goToSleep);
+
+// ✦ Fill in the gap below to make the 'Put the lantern out'
+// button work 
 const snuffButton = document.querySelector("#snuff-button");
-snuffButton.addEventListener("click", ____ => lantern.turnOff());`,
+snuffButton.addEventListener("click", ____ => lantern.turnOff());
+`,
   'E1.5': `// spells.js — your wizard's event listeners live here.
 
 // 1. Find the bell button in the page's HTML (see the stage.html tab).
@@ -1231,7 +1237,9 @@ courtyard.addEventListener("click", function (event) {
   console.log("Click at", event.offsetX, event.offsetY);
   wizard.moveTo(event.offsetX, event.____);
 });`,
-  'E2.3': `const fireCard = document.querySelector("#fire-card");
+  'E2.3': `// spells.js — the Spellbook
+// These two listeners work... but look how similar they are!
+const fireCard = document.querySelector("#fire-card");
 const iceCard = document.querySelector("#ice-card");
 
 fireCard.addEventListener("click", function () {
@@ -1244,8 +1252,14 @@ iceCard.addEventListener("click", function () {
   wizard.castSpell(goblin);
 });
 
-// ✦ Replace both listeners above with ONE listener on #spellbook.`,
-  'E2.4': `// Grub's arrow grazed your wizard. The potion should heal them.
+// Problem: the Storm card only appears after "Learn a new spell",
+// so nothing above is listening to it.
+
+// ✦ Your goal: delete both listeners above and use ONE listener
+//   on #spellbook instead. Open "Step instructions" for 5 small steps.
+`,
+  'E2.4': `// Grub's arrow left your wizard on 50 health.
+// The Healing potion should heal 20, but at the moment nothing happens.
 const potionButton = document.querySelector("#potion-button");
 
 potionButton.addEventListener("click", wizard.recoverHealth);`,
@@ -2072,7 +2086,19 @@ courtyard.addEventListener("click", function (event) {
   console.log("Click at", event.offsetX, event.offsetY);
   wizard.moveTo(event.offsetX, event.____);
 });`,
-  'E2.3': null,
+  'E2.3': `const spellbook = document.querySelector("#spellbook");
+
+spellbook.addEventListener("click", function (event) {
+  // Which card was clicked? Read its data-power label.
+  const power = event.target.____.power;
+
+  // The Spellbook box itself has no data-power, so only cast when
+  // power has a value.
+  if (____) {
+    wizard.specialPower = power;
+    wizard.castSpell(goblin);
+  }
+});`,
   'E2.4': null,
   'E3.1': `const redPotion = document.querySelector("#red-potion");
 const tooltip = document.querySelector("#tooltip");

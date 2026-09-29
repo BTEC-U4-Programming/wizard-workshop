@@ -22,6 +22,14 @@ const cards = (parent) =>
       {parent, data: {power: ['fire', 'ice', 'electricity'][index]}}
     )
   );
+// The spellbook with its cards; Storm stays hidden until it is learnt.
+const spellbookElements = () => [
+  element('spellbook', 'Spellbook', {tag: 'DIV'}),
+  ...cards('spellbook').map((e) =>
+    e.id === 'storm-card' ? {...e, hidden: true, delayed: true} : e
+  ),
+  element('learn-button', 'Learn a new spell')
+];
 export const stages = {
   'tower-bedroom': stage(
     'The Tower Bedroom',
@@ -48,12 +56,23 @@ export const stages = {
       element('fire-button', 'Fire (4 mana)'),
       element('ice-button', 'Ice (3 mana)'),
       element('potion-button', 'Healing potion'),
-      element('spellbook', 'Spellbook', {tag: 'DIV'}),
-      ...cards('spellbook').map((e) =>
-        e.id === 'storm-card' ? {...e, hidden: true, delayed: true} : e
-      ),
-      element('learn-button', 'Learn a new spell')
+      ...spellbookElements()
     ]
+  ),
+  // E2.3 uses the same room with only the spellbook, so no unused buttons
+  // sit on the stage saying "not listening".
+  'spellbook-room': stage(
+    'The Spell Room',
+    'workshop',
+    ['wizard', 'goblin'],
+    spellbookElements()
+  ),
+  // E2.4 is only about the potion, so Fire, Ice and the Spellbook stay out.
+  'potion-room': stage(
+    'The Spell Room',
+    'workshop',
+    ['wizard', 'goblin'],
+    [element('potion-button', 'Healing potion')]
   ),
   'whispering-wood': stage(
     'The Whispering Wood',
