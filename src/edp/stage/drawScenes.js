@@ -90,8 +90,10 @@ export function drawScene(canvas, scene, snapshot, effect = null) {
     const x = scene === 'courtyard' || scene === 'door' ? wizard.x - 20 : 80,
       y = scene === 'courtyard' || scene === 'door' ? wizard.y - 50 : 105;
     if (wizard.health === 0 || (scene === 'bedroom' && !wizard.awake)) {
+      // Asleep in the tower bedroom: lie on top of the bed, not beside it.
+      const inBed = scene === 'bedroom' && wizard.health !== 0;
       c.save();
-      c.translate(x + 65, y + 66);
+      c.translate(x + 65 - (inBed ? 85 : 0), y + 66 - (inBed ? 33 : 0));
       c.rotate(-Math.PI / 2);
       drawWizard(c, 0, 0, wizard, false);
       c.restore();

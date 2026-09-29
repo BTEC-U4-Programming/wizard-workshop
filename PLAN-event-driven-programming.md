@@ -328,7 +328,7 @@ export const stages = {
     elements: [                       // flat list; parent refers to another id or 'document'
       {id:'stage',        tag:'DIV',    parent:'document'},
       {id:'wake-button',  tag:'BUTTON', parent:'stage', text:'Ring the bell'},
-      {id:'sleep-button', tag:'BUTTON', parent:'stage', text:'Snuff the candle'},
+      {id:'sleep-button', tag:'BUTTON', parent:'stage', text:'Go to sleep'},
       {id:'lantern-button', tag:'BUTTON', parent:'stage', text:'Light the lantern'},
     ],
   },

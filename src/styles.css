@@ -475,3 +475,24 @@
   background: #121b30;
   pointer-events: none;
 }
+
+/* E1.1: make the bell ring visibly */
+.sound-toggle {
+  align-self: flex-start;
+  font-size: 12px;
+}
+@keyframes bell-swing {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(-14deg) scale(1.12); }
+  30% { transform: rotate(12deg) scale(1.12); }
+  45% { transform: rotate(-9deg); }
+  60% { transform: rotate(6deg); }
+  75% { transform: rotate(-3deg); }
+  100% { transform: rotate(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bell-ringing {
+    animation: bell-swing 0.7s ease-out;
+    box-shadow: 0 0 0 3px #e6bc60, 0 0 18px #e6bc60;
+  }
+}

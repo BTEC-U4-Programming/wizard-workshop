@@ -367,7 +367,7 @@ export function mountEdpApp() {
       '#starter-note',
       current.starterStrategy === 'prepared'
         ? 'This step uses a prepared example. Earlier drafts remain available.'
-        : 'Sequential steps carry your previous successful spells. Teacher jumps use the prepared starter.'
+        : 'Sequential steps carry your previous successful spells.'
     );
     $('#gaps').hidden = !current.gap;
     $('#gaps').disabled = draft().spellsSource.includes('____');

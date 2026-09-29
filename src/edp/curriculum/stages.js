@@ -29,7 +29,7 @@ export const stages = {
     ['wizard', 'lantern'],
     [
       element('wake-button', 'Ring the bell'),
-      element('sleep-button', 'Snuff the candle'),
+      element('sleep-button', 'Go to sleep'),
       element('lantern-button', 'Light the lantern'),
       element('snuff-button', 'Put the lantern out')
     ]

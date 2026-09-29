@@ -1,4 +1,6 @@
 import {drawScene} from './drawScenes.js';
+import {playBell, isSoundOn, setSoundOn} from './bellSound.js';
+import {playWakeEffect} from './wakeEffect.js';
 export function renderStage(
   frame,
   stageDef,
@@ -8,6 +10,8 @@ export function renderStage(
   frame.replaceChildren();
   let listening = live,
     effectTimer,
+    stopWake,
+    wasAwake = snapshot?.world.wizard?.awake ?? false,
     lastLogId = 0;
   const art = document.createElement('div');
   art.className = 'stage-art';
@@ -20,6 +24,22 @@ export function renderStage(
   const controls = document.createElement('div');
   controls.className = 'stage-controls';
   frame.append(controls);
+  if (stageDef.elements.some((item) => item.id === 'wake-button')) {
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'sound-toggle';
+    const label = () => {
+      toggle.textContent = isSoundOn() ? '🔊 Sound on' : '🔇 Sound off';
+      toggle.setAttribute('aria-pressed', String(isSoundOn()));
+    };
+    toggle.onclick = (event) => {
+      event.stopPropagation();
+      setSoundOn(!isSoundOn());
+      label();
+    };
+    label();
+    controls.append(toggle);
+  }
   const badges = new Map(),
     captions = new Map();
   const nodes = new Map(),
@@ -141,6 +161,15 @@ export function renderStage(
           ((event.clientY - box.top) * 240) / box.height
         );
       }
+      if (type === 'click' && target === 'wake-button' && listening) {
+        // The bell always rings when clicked; whether the wizard wakes
+        // depends on the listener the student wrote.
+        playBell();
+        const bellNode = nodes.get('wake-button');
+        bellNode.classList.remove('bell-ringing');
+        void bellNode.offsetWidth;
+        bellNode.classList.add('bell-ringing');
+      }
       send(action);
     });
   frame.addEventListener('keydown', (event) => {
@@ -212,6 +241,30 @@ export function renderStage(
             power: action.message === 'Fireball' ? 'fire' : action.message
           }
         : null;
+    const nowAwake = value?.world.wizard?.awake ?? false;
+    const said = [...fresh]
+      .reverse()
+      .find((entry) => entry.type === 'say' && entry.message);
+    if (live && stageDef.scene === 'bedroom') {
+      const woke = nowAwake && !wasAwake;
+      const speech = said?.message ?? (woke ? value.world.wizard.lastSpeech : '');
+      // Waking up gets the big effect; any other line of speech (such as
+      // "Goodnight!") gets a speech bubble above the wizard or the bed.
+      if (woke || speech) {
+        stopWake?.();
+        stopWake = playWakeEffect(
+          canvas,
+          () => drawScene(canvas, stageDef.scene, value),
+          {
+            speech,
+            reduced: reducedMotion(),
+            celebrate: woke,
+            bubbleY: nowAwake ? 26 : 58
+          }
+        );
+      }
+    }
+    wasAwake = nowAwake;
     drawScene(canvas, stageDef.scene, value, effect);
     if (effect)
       effectTimer = setTimeout(
@@ -229,6 +282,7 @@ export function renderStage(
     },
     dispose() {
       clearTimeout(effectTimer);
+      stopWake?.();
       listening = false;
       frame.replaceWith(frame.cloneNode(false));
     }

@@ -1026,11 +1026,11 @@ const instructions = {
   'E1.1': [
     'In Tome I, `actions.js` ran your calls in a fixed order. Now your code waits for events.',
     'Open `stage.html`. The bell is a button with the id `wake-button`.',
-    'Below step 3, type: `wakeButton.addEventListener("click", wakeWizard);`',
+    'Open `spells.js`. Below step 3, type: `wakeButton.addEventListener("click", wakeWizard);`',
     'Run, then click Ring the bell. Watch the Crystal Ball.'
   ],
   'E1.2': [
-    'Run the code before changing it. The lantern lights straight away, and clicking does nothing.',
+    'Run the code before changing it. The lantern in the top right of the room lights straight away, and clicking does nothing.',
     '`lightLantern()` means run now. `lightLantern` means hand over the function for later. Remove the brackets on the last line.'
   ],
   'E1.3': [
@@ -1039,7 +1039,7 @@ const instructions = {
   ],
   'E1.4': [
     'An **arrow function** is a short way to write a small function with no name.',
-    '`() => lantern.turnOff()` means the same as `function () { lantern.turnOff(); }`. Replace the gap with empty brackets.'
+    '`() => lantern.turnOff()` means the same as `function () { lantern.turnOff(); }`. At the end of the code, write a final event listener for "Put the lantern out" but this time use an arrow function.'
   ],
   'E1.5': [
     '**Procedural programming** runs steps in a fixed order. **Event-driven programming** waits for events and reacts to them.',
