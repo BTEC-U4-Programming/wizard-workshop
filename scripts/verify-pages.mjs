@@ -35,7 +35,7 @@ try {
       await page.locator('.stage-frame[data-live="true"]').waitFor();
       await page.locator('#stage-wake-button').click();
       await page.getByText(/Health 100\/100.*awake/).waitFor();
-      for (let chapter = 1; chapter <= 6; chapter++) {
+      for (let chapter = 1; chapter <= 5; chapter++) {
         await page.locator('#checkpoint').selectOption('intro:' + chapter);
         for (const width of [1366, 390]) {
           await page.setViewportSize({
@@ -49,8 +49,8 @@ try {
         }
       }
       await page.setViewportSize({width: 1366, height: 768});
-      await page.locator('#checkpoint').selectOption('E6.7');
-      await page.locator('.cm-content').fill(edp['E6.7'].solution.spellsSource);
+      await page.locator('#checkpoint').selectOption('E5.7');
+      await page.locator('.cm-content').fill(edp['E5.7'].solution.spellsSource);
       await page.locator('#run').click();
       await page.locator('#result[data-status="success"]').waitFor();
       await page.locator('.stage-frame[data-live="true"]').waitFor();

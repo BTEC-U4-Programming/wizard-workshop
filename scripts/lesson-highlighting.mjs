@@ -64,17 +64,23 @@ export async function renderLessons({edp = false} = {}) {
     const parts = value.split('`');
     if (parts.length % 2 === 0)
       throw new Error('Unclosed code delimiter: ' + value);
-    return (
+    // Bold (**…**) may wrap inline code, e.g. "**Step 1 — Meet `switch`.**",
+    // so track it across the prose and code parts instead of within one part.
+    let bold = false;
+    const html = (
       await Promise.all(
         parts.map((part, i) =>
           i % 2
             ? highlight(part, !part.includes('\n'))
             : edp
-              ? escape(part).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+              ? escape(part).replace(/\*\*/g, () =>
+                  (bold = !bold) ? '<strong>' : '</strong>'
+                )
               : escape(part)
         )
       )
     ).join('');
+    return bold ? html + '</strong>' : html;
   }
   const lessons = {};
   for (const c of checkpoints) {
@@ -96,7 +102,7 @@ export async function renderLessons({edp = false} = {}) {
               'html'
             ),
             comparison:
-              c.id === 'E6.7'
+              c.id === 'E5.7'
                 ? await highlight(
                     visualBasicExample,
                     false,

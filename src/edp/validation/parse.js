@@ -21,7 +21,6 @@ export const eventNames = [
   'blur',
   'keydown',
   'input',
-  'goblinDefeated',
   'turnStarted',
   'battleEnded',
   'bellRung'

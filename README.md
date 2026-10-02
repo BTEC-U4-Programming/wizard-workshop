@@ -1,6 +1,6 @@
 # Wizard Workshop
 
-A local, self-paced JavaScript course for learners aged 16–17. The Grand Library offers two independent tomes. Tome I has **44 checkpoints**: classes, independent objects, six customisations, methods, conditions, health, inheritance and deterministic battles. Tome II has **31 checkpoints** across six sections on event-driven programming, ending in a playable battle. Learner code runs in QuickJS WebAssembly inside a dedicated worker. There is no backend or account.
+A local, self-paced JavaScript course for learners aged 16–17. The Grand Library offers two independent tomes. Tome I has **44 checkpoints**: classes, independent objects, six customisations, methods, conditions, health, inheritance and deterministic battles. Tome II has **25 checkpoints** across five sections on event-driven programming, ending in a playable battle. Learner code runs in QuickJS WebAssembly inside a dedicated worker. There is no backend or account.
 
 ## Start the workshop
 
@@ -67,7 +67,7 @@ Limits: 30KB combined UTF-8 source; 30 actions; 200 displayed characters per log
 
 ## Tome II: events and live execution
 
-Tome II starts with its own welcome screen, then six complete examples, supported practice, independent activities and mixed reviews. Students edit `spells.js`; `stage.html` is a highlighted, read-only view of the current controls. Run checks fresh **Spell Trials** before keeping a separate live stage session. Click, hover, focus, keyboard and input events are forwarded only from that stage. Tab always leaves it. The **Crystal Ball** exposes event targets, handlers, timer ordering, errors and `console.log`; Section 5 defaults to a slow visual queue. Sorting, predictions, truth tables and trace tables are stored separately from code. Trying every activity response is enough to continue; perfect answers and battle victories are not progression gates.
+Tome II starts with its own welcome screen, then five complete examples, supported practice, independent activities and mixed reviews. Students edit `spells.js`; `stage.html` is a highlighted, read-only view of the current controls. Run checks fresh **Spell Trials** before keeping a separate live stage session. Click, hover, focus, keyboard and input events are forwarded only from that stage. Tab always leaves it. The **Crystal Ball** exposes event targets, handlers, timer ordering, errors and `console.log`; an optional slow visual queue shows the event order step by step. Sorting activities are stored separately from code. Trying every activity response is enough to continue; perfect answers and battle victories are not progression gates.
 
 The simulated DOM, trusted wizard classes, virtual clock, timers and seeded mulberry32 PRNG all run inside QuickJS. There are no callbacks into the host, real DOM references or network/storage APIs. Each run uses fresh contexts for setup and every trial. The live protocol uses `edp-session-start`, `event`, `tick`, `state`, `error` and `end` messages, with session IDs and sequence numbers. Editing, Stop, navigation or worker failure cancels the session. Timers advance with bounded elapsed time and pause in hidden tabs. No code executes on restore.
 

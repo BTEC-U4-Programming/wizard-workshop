@@ -115,16 +115,6 @@ export const stages = {
       element('buffer-display', 'Spell buffer: ', {tag: 'DIV'})
     ]
   ),
-  'owl-loft': stage(
-    "The Owl's Loft",
-    'loft',
-    ['wizard', 'goblin', 'tower'],
-    [
-      element('count-button', 'Count to a billion'),
-      element('bell-button', 'Ring the bell'),
-      element('zap-button', 'Zap Grub (4 mana)')
-    ]
-  ),
   'grubbledown-bridge': stage(
     'Grubbledown Bridge',
     'bridge',
@@ -163,7 +153,6 @@ export const stages = {
     [element('owl', 'Quill'), element('bubble', '', {tag: 'DIV', hidden: true})]
   ),
   'example-keys': stage('Lantern keys', 'bedroom', ['wizard', 'lantern'], []),
-  'example-night': stage('Night falls', 'bedroom', ['wizard', 'lantern'], []),
   'example-duel': stage(
     'A practice dummy',
     'workshop',

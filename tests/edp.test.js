@@ -259,7 +259,7 @@ describe('battle balance through reference listeners', () => {
 });
 
 describe('battle edge cases and limits', () => {
-  const source = byId['E6.7'].solution.spellsSource;
+  const source = byId['E5.7'].solution.spellsSource;
   const battle = (steps, options = {}) => {
     const vm = new EdpContext(QuickJS, {
       stage: 'grubbledown-bridge',

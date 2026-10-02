@@ -19,7 +19,7 @@ const duplicateDeclarations = (source) => {
 };
 
 describe('Insert exercise gaps', () => {
-  // Some gaps are fragments (E6.6's is a lone `if` line); only complete gaps
+  // Some gaps are fragments (E5.6's is a lone `if` line); only complete gaps
   // can be merged by syntax, so only they are held to this contract.
   const completeGaps = checkpoints.filter((cp) => {
     if (!cp.gap) return false;

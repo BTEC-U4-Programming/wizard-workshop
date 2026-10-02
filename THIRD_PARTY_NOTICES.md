@@ -34,7 +34,7 @@ The following locked dependencies are installed for runtime or development. Thei
 | @marijn/find-cluster-break | 1.0.4 | MIT |
 | @oxc-project/types | 0.151.0 | MIT |
 | @playwright/test | 1.63.0 | Apache-2.0 |
-| @rolldown/binding-darwin-arm64 | 1.2.11 | MIT |
+| @rolldown/binding-win32-x64-msvc | 1.2.11 | MIT |
 | @rolldown/pluginutils | 1.0.1 | MIT |
 | @shikijs/core | 4.4.3 | MIT |
 | @shikijs/engine-javascript | 4.4.3 | MIT |
@@ -77,7 +77,6 @@ The following locked dependencies are installed for runtime or development. Thei
 | expect-type | 1.4.0 | Apache-2.0 |
 | expressive-code | 0.44.2 | MIT |
 | fdir | 6.5.0 | MIT |
-| fsevents | 2.3.3 | MIT |
 | hast-util-has-property | 3.0.0 | MIT |
 | hast-util-is-element | 3.0.0 | MIT |
 | hast-util-parse-selector | 4.0.0 | MIT |
@@ -89,7 +88,7 @@ The following locked dependencies are installed for runtime or development. Thei
 | hastscript | 9.0.1 | MIT |
 | html-void-elements | 3.0.0 | MIT |
 | lightningcss | 1.33.0 | MPL-2.0 |
-| lightningcss-darwin-arm64 | 1.33.0 | MPL-2.0 |
+| lightningcss-win32-x64-msvc | 1.33.0 | MPL-2.0 |
 | magic-string | 1.4.2 | MIT |
 | mdast-util-to-hast | 13.2.1 | MIT |
 | micromark-util-character | 2.1.1 | MIT |

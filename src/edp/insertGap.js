@@ -143,16 +143,5 @@ export function insertGap(id, source, gap) {
       /\s*\/\/ ✦ Add ArrowUp[^\n]*/,
       '\n    ' + gap.replaceAll('\n', '\n    ')
     );
-  if (id === 'E5.5') {
-    const [dispatch, listener] = gap.split('\nconst');
-    return (
-      source.replace(
-        'wizard.castSpell(goblin);',
-        'wizard.castSpell(goblin);\n' + dispatch
-      ) +
-      '\nconst' +
-      listener
-    );
-  }
   return mergeGap(source, gap);
 }

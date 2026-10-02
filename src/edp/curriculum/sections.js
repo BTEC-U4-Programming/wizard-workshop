@@ -630,19 +630,19 @@ export const sections = [
         ),
         choice(
           'ES4-Q5',
-          "Typing in the door's box also fills the spell buffer. Why?",
+          'The door code uses `incantationBox.value.trim()`. What does `trim()` do?',
           [
             [
-              'Two listeners respond to the same key presses.',
-              'Correct. The event bubbles from the box to `document`.'
+              'It removes spaces from the start and end of the text.',
+              'Correct. A stray space will not stop the door opening.'
             ],
+            ['It makes every letter a capital.', 'That is `toUpperCase()`.'],
             [
-              'The text box is broken.',
-              'The box works; both listeners hear the key.'
-            ],
-            ['`slice` removes the wrong letter.', '`slice` is not the cause.']
+              'It cuts the text down to 12 letters.',
+              '`trim()` removes spaces, not letters.'
+            ]
           ],
-          'E4.5'
+          'E4.2'
         ),
         blank(
           'ES4-Q6',
@@ -677,170 +677,6 @@ export const sections = [
   {
     id: 'ES5',
     chapter: 5,
-    title: "The Owl's Rounds",
-    intro: {
-      hook: 'Quill carries every message in the tower, but only one at a time. Time to see how that works.',
-      build:
-        'Timed goblin turns, a rule for whose turn it is, and a custom "goblinDefeated" event.',
-      summary:
-        'Events wait in a queue. The event loop hands them to handlers one at a time, and each handler must finish before the next starts. `setTimeout` adds a message to the queue later.',
-      prerequisites:
-        'From Tome I: `let` creates a variable whose value can change. From Section 2: handlers can use `if`.',
-      assignmentLink:
-        "Use a trace table of events and a truth table of your turn condition to explain your program's logic.",
-      objectives: [
-        'predict the order in which events and timers run',
-        'use `setTimeout` and a state variable to take turns',
-        'create and listen for your own custom event'
-      ],
-      concepts: [
-        [
-          'event loop',
-          'The part of the browser that waits for events and delivers them one at a time.'
-        ],
-        ['queue', 'A line of waiting events: first in, first out.'],
-        [
-          '`setTimeout`',
-          'Runs a function later, after a delay in milliseconds.'
-        ],
-        [
-          'state',
-          'Information about what is going on right now, such as whose turn it is.'
-        ],
-        ['`&&`', '"and": true only when both sides are true.'],
-        ['`!`', '"not": turns true into false and false into true.'],
-        [
-          'custom event',
-          'An event your own code creates and announces with `dispatchEvent`.'
-        ]
-      ],
-      example: {
-        code: 'let isNight = false;\n\nfunction nightFalls() {\n  isNight = true;\n  lantern.turnOn();\n}\n\nsetTimeout(nightFalls, 2000);',
-        stage: 'example-night',
-        steps: [{do: 'wait', ms: 2000}],
-        check: 'isNight === true && lantern.lit === true',
-        walkthrough: [
-          '`isNight` starts as `false`. The `nightFalls` function changes that state to `true` and lights the lantern.',
-          '`setTimeout(nightFalls, 2000)` hands over the function for later: 2000 milliseconds is two seconds.',
-          'The current script finishes first. The timer delivers its callback when the virtual clock reaches two seconds.'
-        ],
-        result:
-          "For two seconds nothing changes. Then the timer's message is delivered and the lantern lights."
-      },
-      predict: [
-        'Straight after the code runs, what is `isNight`?',
-        '`false`. `setTimeout` only schedules `nightFalls`; it runs later.'
-      ]
-    },
-    review: {
-      questions: [
-        choice(
-          'ES5-Q1',
-          'What order are the letters logged in? `console.log("A"); setTimeout(() => console.log("B"), 0); console.log("C");`',
-          [
-            [
-              'A, C, B',
-              "Correct. The timer's message waits in the queue until the current code finishes."
-            ],
-            ['A, B, C', 'Even with 0ms, the timer waits its turn.'],
-            [
-              'B, A, C',
-              'Timers never jump ahead of code that is already running.'
-            ]
-          ],
-          'E5.1'
-        ),
-        choice(
-          'ES5-Q2',
-          '`isWizardTurn` is true and `hasEnoughMana` is false. What is `isWizardTurn && hasEnoughMana`?',
-          [
-            ['`false`', 'Correct. `&&` needs both to be true.'],
-            ['`true`', 'Only one side is true.'],
-            ['`undefined`', '`&&` of two booleans is a boolean.']
-          ],
-          'E5.3'
-        ),
-        choice(
-          'ES5-Q3',
-          'Why does the duel need `gameState`?',
-          [
-            [
-              'So the same click can do different things depending on whose turn it is.',
-              'Correct.'
-            ],
-            [
-              'Because events cannot use `if`.',
-              'They can; the state gives the `if` something to check.'
-            ],
-            [
-              "To store the wizard's name.",
-              'The name is a property of `wizard`.'
-            ]
-          ],
-          'E5.3'
-        ),
-        choice(
-          'ES5-Q4',
-          'A click handler loops for 5 seconds. Meanwhile, the player hovers over Grub. What happens?',
-          [
-            [
-              'The hover waits in the queue until the click handler finishes.',
-              'Correct. One message at a time.'
-            ],
-            [
-              'The hover handler runs straight away.',
-              'Only one handler can run at once.'
-            ],
-            ['The hover event is deleted.', "It waits; it isn't lost."]
-          ],
-          'E5.2'
-        ),
-        choice(
-          'ES5-Q5',
-          'Why are custom events like `goblinDefeated` useful?',
-          [
-            [
-              'The code that notices the defeat does not need to know which parts react to it.',
-              'Correct. The parts stay loosely coupled.'
-            ],
-            ['They are faster than functions.', 'Speed is not the reason.'],
-            ['They replace classes.', 'They work alongside objects.']
-          ],
-          'E5.5'
-        ),
-        blank(
-          'ES5-Q6',
-          "Schedule Grub's turn for later.",
-          '____(goblinTakesTurn, 1500);',
-          ['setTimeout'],
-          'Correct.',
-          'Which function runs another function after a delay?',
-          'E5.3'
-        ),
-        blank(
-          'ES5-Q7',
-          'Announce the event.',
-          'document.____(new CustomEvent("goblinDefeated"));',
-          ['dispatchEvent'],
-          'Correct.',
-          'Which method sends an event to listeners?',
-          'E5.5'
-        ),
-        blank(
-          'ES5-Q8',
-          'Require both conditions.',
-          'if (isWizardTurn ____ hasEnoughMana) {',
-          ['&&'],
-          'Correct. `&&` means "and".',
-          'Which operator means "and"?',
-          'E5.3'
-        )
-      ]
-    }
-  },
-  {
-    id: 'ES6',
-    chapter: 6,
     title: 'Battle of Grubbledown Bridge',
     intro: {
       hook: 'Grub is on the bridge with the Rune Bell. The battle is ready, but none of its controls are listening yet.',
@@ -849,7 +685,7 @@ export const sections = [
       summary:
         "The battle engine handles turns, damage and Grub's plans. You write the listeners that connect the player to it. A control that nothing listens to does nothing.",
       prerequisites:
-        'Everything from Sections 1–5: listeners, the event object, hover pairs, keyboard buffers, state and custom events.',
+        'Everything from Sections 1–4: listeners, the event object, hover pairs and keyboard buffers.',
       assignmentLink:
         "Your report asks you to evaluate quality. Judge your battle's usability, robustness and maintainability, using your own code as evidence.",
       objectives: [
@@ -895,7 +731,7 @@ export const sections = [
     review: {
       questions: [
         choice(
-          'ES6-Q1',
+          'ES5-Q1',
           'Which best describes event-driven programming?',
           [
             [
@@ -911,7 +747,7 @@ export const sections = [
           'intro:1'
         ),
         choice(
-          'ES6-Q2',
+          'ES5-Q2',
           'Which of these is markup rather than programming logic?',
           [
             [
@@ -924,10 +760,10 @@ export const sections = [
             ],
             ['`if (battle.isWizardTurn()) {`', 'That is a JavaScript decision.']
           ],
-          'E6.2'
+          'E5.2'
         ),
         choice(
-          'ES6-Q3',
+          'ES5-Q3',
           "Why can you use `battle.revealIntent()` without reading the battle engine's code?",
           [
             [
@@ -940,20 +776,20 @@ export const sections = [
               'They can; abstraction is the reason.'
             ]
           ],
-          'E6.3'
+          'E5.3'
         ),
         choice(
-          'ES6-Q4',
+          'ES5-Q4',
           'Visual Basic connects a handler with `Handles btnFire.Click`. What does the same job in JavaScript?',
           [
             ['`fireButton.addEventListener("click", …)`', 'Correct.'],
             ['`function btnFire()`', 'That only defines a function.'],
             ['`event.preventDefault()`', 'That stops a default action.']
           ],
-          'E6.7'
+          'E5.7'
         ),
         choice(
-          'ES6-Q5',
+          'ES5-Q5',
           'Pressing 2 during a Fireball incantation cast Ice. What kind of problem is that?',
           [
             [
@@ -963,10 +799,10 @@ export const sections = [
             ['A syntax error.', 'The code runs, so the syntax is fine.'],
             ['A hardware fault.', 'The keyboard is fine.']
           ],
-          'E6.5'
+          'E5.5'
         ),
         choice(
-          'ES6-Q6',
+          'ES5-Q6',
           'Which is a genuine weakness of event-driven programs?',
           [
             [
@@ -979,34 +815,34 @@ export const sections = [
             ],
             ['They cannot use objects.', 'Your battle uses both.']
           ],
-          'E6.7'
+          'E5.7'
         ),
         blank(
-          'ES6-Q7',
+          'ES5-Q7',
           "Read the card's power.",
           'const power = event.target.dataset.____;',
           ['power'],
           'Correct. It reads `data-power`.',
           'Look at the `data-` attribute name in `stage.html`.',
-          'E6.1'
+          'E5.1'
         ),
         blank(
-          'ES6-Q8',
+          'ES5-Q8',
           'Let keyboard players scry Grub too.',
           'goblinSprite.addEventListener("____", showPlan);',
           ['focus'],
           'Correct.',
           'Which event fires when Tab reaches an element?',
-          'E6.3'
+          'E5.3'
         ),
         blank(
-          'ES6-Q9',
+          'ES5-Q9',
           'Check who won.',
           'if (event.detail.winner === "____") {',
           ['wizard'],
           'Correct.',
           'Who should the Rune Bell go to?',
-          'E6.6'
+          'E5.6'
         )
       ]
     }

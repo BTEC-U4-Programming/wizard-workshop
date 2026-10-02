@@ -26,12 +26,12 @@ const storageFor = (state) => {
   };
 };
 describe('curriculum and navigation contracts', () => {
-  it('has 31 stable checkpoints and the exact 44-screen journey', () => {
-    expect(checkpoints).toHaveLength(31);
-    expect(journey).toHaveLength(44);
+  it('has 25 stable checkpoints and the exact 36-screen journey', () => {
+    expect(checkpoints).toHaveLength(25);
+    expect(journey).toHaveLength(36);
     expect(journey[0]).toBe('welcome');
-    expect(journey.at(-1)).toBe('review:6');
-    expect(new Set(journey).size).toBe(44);
+    expect(journey.at(-1)).toBe('review:5');
+    expect(new Set(journey).size).toBe(36);
     for (const id of [...journey, 'recap'])
       expect(screenId(parseScreen(id))).toBe(id);
     expect(parseScreen('bad')).toEqual({type: 'welcome'});
@@ -99,8 +99,6 @@ describe('curriculum and navigation contracts', () => {
     };
     expect(activityAttempted(cp, state)).toBe(true);
     expect(sectionProgress(1, state).done).toBe(1);
-    state.activityAnswersByCheckpoint['E5.1'] = {prediction: ''};
-    expect(activityAttempted(byId['E5.1'], state)).toBe(false);
   });
 });
 describe('import boundaries and preferences', () => {
@@ -206,8 +204,6 @@ describe('parser and recap', () => {
       }
     );
     for (const phrase of [
-      'Truth table',
-      'Trace table',
       'Questions to answer in your own words',
       'Your battle',
       'Your final code',

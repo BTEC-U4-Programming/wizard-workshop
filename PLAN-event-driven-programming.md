@@ -127,10 +127,10 @@ Why this design:
 | `src/runner/runner.worker.js` | Dispatch on `data.type` to the Tome I or Tome II engine. Load the WASM module once for both. |
 | `src/runner/client.js` | `Runner` accepts `{validate}` in its constructor (default: today's `validResult`). Add an `EdpRunner` subclass with `session*` methods (§4.9). |
 | `scripts/lesson-highlighting.mjs` | Also pre-render Tome II content into `virtual:edp-lesson-content` and `virtual:edp-section-content`. Add an optional `language` argument to `highlight()` so the read-only `stage.html` panel is highlighted as HTML (Expressive Code/Shiki already supports it, so no new dependency). |
-| `src/edp/curriculum/checkpoints.js` | **New.** Tome II checkpoints (IDs `E1.1` … `E6.7`), starters, solutions, trials, hints, reflections (§6.1, §8). |
-| `src/edp/curriculum/sections.js` | **New.** Six sections: intros, worked examples, reviews (IDs `ES1-Q1` …) (§8). Same helpers as Tome I. |
+| `src/edp/curriculum/checkpoints.js` | **New.** Tome II checkpoints (IDs `E1.1` … `E5.7`), starters, solutions, trials, hints, reflections (§6.1, §8). |
+| `src/edp/curriculum/sections.js` | **New.** Five sections: intros, worked examples, reviews (IDs `ES1-Q1` …) (§8). Same helpers as Tome I. |
 | `src/edp/curriculum/stages.js` | **New.** The stage definitions: element trees, the `stage.html` text shown to learners, and world objects per scene (§4.3, §5.3). |
-| `src/edp/curriculum/journey.js` | **New.** `welcome → intro:1 → E1.x → review:1 → … → review:6 → recap`. |
+| `src/edp/curriculum/journey.js` | **New.** `welcome → intro:1 → E1.x → review:1 → … → review:5 → recap`. |
 | `src/edp/curriculum/recap.js` | **New.** "Your Tome II spellbook" (§10). |
 | `src/edp/curriculum/story.js` | **New.** All story strings (welcome, Quill's lines, battle barks, endings), kept apart from mechanics. |
 | `src/edp/runtime/prelude.js` | **New.** The trusted guest-side stage library, exported as a **string** of JavaScript evaluated inside QuickJS before learner code: simulated DOM, event dispatch, virtual timers, console, `CustomEvent`, `BattleWizard`, `Goblin`, world objects and the battle engine (§4). |
@@ -347,7 +347,7 @@ export const stageHtml = stageId => /* generated, indented HTML string from elem
 - `data-*`: `{id:'fire-card', tag:'BUTTON', parent:'spellbook', text:'Fire', data:{power:'fire'}}`.
 - Coordinates: `{id:'courtyard', tag:'DIV', coords:true}` makes clicks report `offsetX` and `offsetY` in stage pixels.
 
-Stage list (details in §8): `tower-bedroom`, `courtyard`, `spell-room`, `whispering-wood`, `rune-door`, `owl-loft`, `grubbledown-bridge`. Plus small ones used only by section worked examples: `example-lantern`, `example-map`, `example-owl`, `example-keys`, `example-night`, `example-duel`.
+Stage list (details in §8): `tower-bedroom`, `courtyard`, `spell-room`, `whispering-wood`, `rune-door`, `grubbledown-bridge`. Plus small ones used only by section worked examples: `example-lantern`, `example-map`, `example-owl`, `example-keys`, `example-duel`.
 
 ### 4.4 Guest classes (in the prelude)
 
@@ -411,7 +411,7 @@ drainTimers(untilMs):                        // virtual clock
 - `nameOf(fn)`: `fn.name` if present, else `'(arrow function)'` for arrow functions (the prelude can tell because arrow functions have no `prototype`), else `'(anonymous function)'`.
 - **Registration log.** Every `addEventListener`/`removeEventListener` call is recorded: `{phase:'setup'|'event', target, type, handler, once, accepted, reason}`. Record `accepted:false` with a reason for a non-function listener (the classic `fn()` bug passes `undefined`) and for a duplicate registration. The registration log drives the structural checks and diagnostics (§4.6).
 - **Default actions (simulated).** For `keydown` with `ArrowUp/Down/Left/Right` or `" "` whose target is `document`/stage, if `defaultPrevented` is false, increment `world.page.scrollNudges`. The host shows a brief, non-animated notice: *"In a real web page, that key would also have scrolled the page."* (§8, E4.1).
-- **Budget.** The QuickJS interrupt handler enforces the run deadline (§4.10). An infinite loop in a handler returns `status:'stopped'` with Tome I's `timeoutMessage`, plus E5.2's extra explanation (§8).
+- **Budget.** The QuickJS interrupt handler enforces the run deadline (§4.10). An infinite loop in a handler returns `status:'stopped'` with Tome I's `timeoutMessage`.
 
 ### 4.6 Spell Trials (automated checks)
 
@@ -432,10 +432,10 @@ Each checkpoint lists trials (§6.1). A trial = **fresh QuickJS context** → st
 - Snapshot shape (validated on the host, §4.7):
   ```js
   {elements:{[id]:{text,hidden,classes,value,disabled}}, world:{wizard:{…}, goblin:{…}, lantern:{…}, …},
-   page:{scrollNudges}, battle:{state, turn, intent, log[]}|null, globals:{[name]:value},   // selected learner globals, e.g. gameState, spellBuffer
+   page:{scrollNudges}, battle:{state, turn, intent, log[]}|null, globals:{[name]:value},   // selected learner globals, e.g. spellBuffer
    registrations:[…], log:[…], errors:[{message, line}]}
   ```
-- `globals` lets a trial read named learner variables such as `gameState` or `spellBuffer`. The trial lists the names it needs (`reads:['spellBuffer']`). The engine evaluates `typeof name === 'undefined' ? undefined : name` for each name and passes the result through JSON.
+- `globals` lets a trial read named learner variables such as `spellBuffer`. The trial lists the names it needs (`reads:['spellBuffer']`). The engine evaluates `typeof name === 'undefined' ? undefined : name` for each name and passes the result through JSON.
 - Trial categories are `'typical' | 'extreme' | 'erroneous' | null`. The UI shows them as **Typical / Extreme / Erroneous** tags (Unit 4 B2/C2 vocabulary).
 - **Run status mapping** (same statuses as Tome I, so the existing UI states still apply):
   - Syntax/parse error → `error` (no stage update).
@@ -518,14 +518,14 @@ Add `EDP_LIMITS` in `src/edp/validation/parse.js`, re-using Tome I values where 
 
 ### 5.1 Screens and journey
 
-`welcome → intro:1 → E1.1 … E1.5 → review:1 → intro:2 → … → review:6 → recap`.
+`welcome → intro:1 → E1.1 … E1.5 → review:1 → intro:2 → … → review:5 → recap`.
 
 - **`welcome`** — a module introduction screen (AGENTS.md requires one before the first activity). It is rendered by a small new function in `src/edp/app.js` using the section-screen styles. Content:
   - The story prologue (§7.2), at most 60 words visible.
   - "You will make: a wizard that reacts to clicks, hovers and keys, then a real battle against Grub that runs on your code."
   - Three objectives: *explain what an event, a listener and a handler are*; *write handlers for clicks, mouse movement and keys*; *judge when event-driven programming is a good choice*.
   - Prerequisite: "Tome I: objects, methods and `this`", linking to `?tome=oop`.
-  - A section map: an `<ol>` of the six section titles.
+  - A section map: an `<ol>` of the five section titles.
   - A primary **Start Tome II →** button (or **Continue** if any progress exists).
   - Disclosures: "What's new in Tome II" (no `actions.js`, stage, Crystal Ball, Spell Trials) and "Unit 4 connection".
   - The screen is recorded as seen in `state.seenWelcome`, and it counts as a journey step for progress.
@@ -581,7 +581,7 @@ CRYSTAL BALL                                   [Pause] [Clear]  Filter: ☑ Clic
 - A `<details class="crystal-ball" open>` with an `<ol>` of text entries. Each entry is **text only** (via `textContent`). The 💤 glyph is supplementary to the words "nobody is listening".
 - Trial runs show their logs collapsed per trial ("Trial 2 · Typical — 5 events"), so the learner can see exactly what the automated check did.
 - Accessibility: the list is **not** a live region, to avoid flooding screen readers. A separate polite live region announces a throttled summary at most once every 2 seconds ("3 new events"). **Pause** freezes the visible list; events keep running.
-- The **slow-motion mode** toggle (used in S5): new events first appear in a visible "Queue" list and move to the log one at a time, every 600ms. Reduced motion disables the timing (items move instantly), but the ordering is still shown as numbered steps. Implement this as a presentation of already-returned entries; it does not slow the guest.
+- The **slow-motion mode** toggle (off by default): new events first appear in a visible "Queue" list and move to the log one at a time, every 600ms. Reduced motion disables the timing (items move instantly), but the ordering is still shown as numbered steps. Implement this as a presentation of already-returned entries; it does not slow the guest.
 
 ### 5.5 Result messages and diagnostics
 
@@ -604,7 +604,7 @@ Some checkpoints add a small activity below the objective, in place of or alongs
 
 A checkpoint with an activity completes when its code trials pass **and** its activity has been attempted (not necessarily all correct), consistent with "no perfect-score gate".
 
-### 5.7 The battle screen (E6.7)
+### 5.7 The battle screen (E5.7)
 
 - Same layout, with the stage enlarged: at ≥1100px the stage column widens to 60%, using a `body.battle-mode` class.
 - The battle HUD is DOM text: Wizard health/mana meters, Grub health meter, the turn indicator ("Your turn" / "Grub is thinking…"), the Fireball window countdown as text updated every second ("Fireball window: 3s left"), and potions left.
@@ -678,8 +678,7 @@ The "What's new in Tome II" disclosure adds: *"In Tome I, `actions.js` decided t
 | 2 The Click of Command | Grub is spotted in the courtyard. The wizard follows commands: spells, walking, a spellbook. | Spell room, courtyard |
 | 3 The Hover Charm | Grub flees into the Whispering Wood. Hidden potions, a cursed chest and a way to read Grub's health. | Whispering Wood |
 | 4 The Rune Keys | The Rune Door blocks the path. It opens only to typed words. | Rune Door |
-| 5 The Owl's Rounds | Quill explains the queue. Practice turn-taking and timers in the owl loft. | Owl loft |
-| 6 Battle of Grubbledown Bridge | The showdown. It runs only on the learner's handlers. | Grubbledown Bridge |
+| 5 Battle of Grubbledown Bridge | The showdown. It runs only on the learner's handlers. | Grubbledown Bridge |
 
 **Ending.** On victory, Grub drops the Rune Bell and scampers off shouting *"Grub will be back! Grub has a whole **database** of grudges!"* (a teaser for Unit 5). The final prompt says *"Ring the Rune Bell."* A single click dispatches a trusted `bellRung` custom event, and the Crystal Ball shows the whole tower waking in sequence: lanterns, the Rune Door, Quill. On defeat, Grub blows a raspberry, and Quill offers a targeted tip based on the post-battle stats (for example *"You never scried Grub's plan — hover over him before choosing a spell."*). Retry is instant.
 
@@ -1262,7 +1261,6 @@ Add to `BattleWizard` (§4.4): `speakIncantation(words)` → normalises with `St
 | E4.2 | Speak to the door | gaps | Prepared (E4.1 solution + door block) |
 | E4.3 | The spell buffer | guided | Prepared (E4.2 solution + buggy buffer) |
 | E4.4 | Twelve letters is plenty | independent | Carry, with the `sort` activity |
-| E4.5 | Two listeners, one keyboard | prompts only | Carry |
 
 **E4.1 — Walk with the arrow keys.** Objective: ``Add `ArrowUp` and `ArrowDown` cases so your wizard can walk in all four directions without scrolling the page.``
 ```js
@@ -1333,7 +1331,7 @@ Trials: [typical] `IGNIS` + Enter → `lastIncantation === "IGNIS"` · [typical]
 
 **E4.4 — Twelve letters is plenty.** Objective: ``Stop the buffer growing beyond 12 letters, then classify the test data.``
 
-Solution (nested `if`, because `&&` is not taught until Section 5):
+Solution (nested `if`; `&&` is not taught in Tome II):
 ```js
   } else if (event.key.length === 1) {
     if (spellBuffer.length < 12) {
@@ -1346,25 +1344,13 @@ Trials: [extreme] exactly 12 letters are kept · [extreme] a 13th letter is igno
 Activity `sort` (three bins: Typical / Extreme / Erroneous). The `sort` component must support N bins; Section 1 uses 2. Cards: `IGNIS then Enter` (typical) · `ignis then Enter` (typical) · `12 letters` (extreme) · `13 letters` (extreme) · `Shift, Ctrl, ArrowUp` (erroneous) · `Enter with nothing typed` (erroneous) · `%%%123 then Enter` (erroneous).
 Reflection: `A player presses keys you never expected. Whose job is it to stop the program breaking: the player's or the programmer's? What does "robust" mean to you now?`
 
-**E4.5 — Two listeners, one keyboard.** Objective: ``Typing in the door's box must not fill the spell buffer.``
-Instructions: `Click the door's text box and type \`lux\`. Watch the spell buffer. Two listeners are hearing the same keys: the box's, and the whole page's. The key event starts at the box and bubbles up to \`document\`.` Teach `event.target.tagName`.
-Solution: first lines inside the buffer handler:
-```js
-  if (event.target.tagName === "INPUT") {
-    return;
-  }
-```
-Trials: [typical] typing `aperio` in the box opens the door **and** leaves `spellBuffer === ""` ⟶ `The door's typing also went into the spell buffer. At the start of the buffer's handler, stop if \`event.target.tagName === "INPUT"\`.` · [typical] typing `LUX` + Enter on the stage (not the box) still lights the lantern.
-Stretch (not assessed): `Arrow keys pressed inside the box also move your wizard. Can you fix that in the same way?`
-Reflection: `As programs grow, more listeners wait for the same events. How could that make a program harder to maintain? How would you keep track?`
-
 **Review — Check your understanding: The Rune Keys**
 ```js
 choice('ES4-Q1','A player holds Shift and presses A. What is `event.key`?',[['`"A"`','Correct. Shift makes it a capital.'],['`"a"`','Shift changes the key name to a capital.'],['`"Shift+a"`','`event.key` holds one key name.']],'E4.3'),
 choice('ES4-Q2','Why check `event.key.length === 1` before adding a key to the buffer?',[['To ignore keys like `"Shift"` and `"ArrowUp"`, whose names are longer.','Correct.'],['To allow only the key 1.','It checks the length of the name, not the key itself.'],['To limit the buffer to one letter.','The buffer can hold up to 12.']],'E4.3'),
 choice('ES4-Q3','What does `event.preventDefault()` do for an arrow key?',[['Stops the browser\'s usual action, such as scrolling.','Correct.'],['Stops your handler running.','Your handler still runs.'],['Deletes the event.','The event still happens.']],'E4.1'),
 choice('ES4-Q4','The buffer allows up to 12 letters. Which test uses extreme data?',[['Typing exactly 12 letters, then a 13th.','Correct. It tests the edge of what is allowed.'],['Typing `IGNIS`.','That is typical data.'],['Typing `%%%123`.','That is erroneous data.']],'E4.4'),
-choice('ES4-Q5','Typing in the door\'s box also fills the spell buffer. Why?',[['Two listeners respond to the same key presses.','Correct. The event bubbles from the box to `document`.'],['The text box is broken.','The box works; both listeners hear the key.'],['`slice` removes the wrong letter.','`slice` is not the cause.']],'E4.5'),
+choice('ES4-Q5','The door code uses `incantationBox.value.trim()`. What does `trim()` do?',[['It removes spaces from the start and end of the text.','Correct. A stray space will not stop the door opening.'],['It makes every letter a capital.','That is `toUpperCase()`.'],['It cuts the text down to 12 letters.','`trim()` removes spaces, not letters.']],'E4.2'),
 blank('ES4-Q6','Choose what to do by key name.','switch (event.____) {',['key'],'Correct.','Which property holds the key\'s name?','E4.1'),
 blank('ES4-Q7','Remove the last letter.','spellBuffer = spellBuffer.____(0, -1);',['slice'],'Correct. `slice(0, -1)` keeps everything except the last character.','Which string method cuts out part of a string?','E4.3'),
 blank('ES4-Q8','Make capitals irrelevant when comparing with `"APERIO"`.','const typed = incantationBox.value.trim().____();',['toUpperCase'],'Correct.','The secret word is in capitals.','E4.2'),
@@ -1372,162 +1358,7 @@ blank('ES4-Q8','Make capitals irrelevant when comparing with `"APERIO"`.','const
 
 ---
 
-### SECTION 5 — The Owl's Rounds (`ES5`, chapter 5)
-
-**Intro**
-
-| Field | Content |
-|---|---|
-| hook | `Quill carries every message in the tower, but only one at a time. Time to see how that works.` |
-| build | `Timed goblin turns, a rule for whose turn it is, and a custom "goblinDefeated" event.` |
-| objectives | `predict the order in which events and timers run` · `use \`setTimeout\` and a state variable to take turns` · `create and listen for your own custom event` |
-| summary | `Events wait in a queue. The event loop hands them to handlers one at a time, and each handler must finish before the next starts. \`setTimeout\` adds a message to the queue later.` |
-| prerequisites | `From Tome I: \`let\` creates a variable whose value can change. From Section 2: handlers can use \`if\`.` |
-| concepts | `event loop` — The part of the browser that waits for events and delivers them one at a time. · `queue` — A line of waiting events: first in, first out. · `\`setTimeout\`` — Runs a function later, after a delay in milliseconds. · `state` — Information about what is going on right now, such as whose turn it is. · `\`&&\`` — "and": true only when both sides are true. · `\`!\`` — "not": turns true into false and false into true. · `custom event` — An event your own code creates and announces with \`dispatchEvent\`. |
-| example.stage / steps | `example-night` / `wait 2000` |
-| example.check | `isNight === true && lantern.lit === true` |
-| result | `For two seconds nothing changes. Then the timer's message is delivered and the lantern lights.` |
-| predict | `Straight after the code runs, what is \`isNight\`?` / `\`false\`. \`setTimeout\` only schedules \`nightFalls\`; it runs later.` |
-| assignmentLink | `Use a trace table of events and a truth table of your turn condition to explain your program's logic.` |
-
-```js
-let isNight = false;
-
-function nightFalls() {
-  isNight = true;
-  lantern.turnOn();
-}
-
-setTimeout(nightFalls, 2000);
-```
-
-**Stage `owl-loft`:** a loft with Quill on a perch. **Slow-motion Crystal Ball** is on by default in this section (§5.4). Elements: `#count-button` "Count to a billion", `#bell-button` "Ring the bell", `#zap-button` "Zap Grub (4 mana)". World: `wizard`, `goblin` (a practice Grub, 60 health), `tower`.
-
-| ID | Title | Scaffold | Starter | Activity |
-|---|---|---|---|---|
-| E5.1 | Predict the order | worked example | Prepared (passes) | `predict` |
-| E5.2 | The frozen tower | guided | Prepared (stops) | — |
-| E5.3 | Whose turn is it? | guided | Prepared (bug) | `truth-table` |
-| E5.4 | Trace the turns | prompts only | Carry (passes) | `trace-table` |
-| E5.5 | Grub shouts back | gaps | Carry + gaps | — |
-
-**E5.1 — Predict the order.** Objective: ``Predict the order of the three messages, then run the code and explain the result.``
-```js
-console.log("1: The wizard raises their staff");
-
-setTimeout(function () {
-  console.log("2: Grub sneezes");
-}, 0);
-
-console.log("3: The wizard shouts \"Halt!\"");
-```
-Activity `predict`: options `1, 2, 3` · `1, 3, 2` · `2, 1, 3`. Run is enabled after the learner locks in a prediction. Trial: [typical] the console shows 1, 3, 2 (the prepared code passes; starterExpected `success`).
-After Run, the slow-motion Crystal Ball shows the timer's message joining the back of the queue while `spells.js` is still running.
-Reflection: `The delay was 0 milliseconds, yet Grub still sneezed last. Why? Think about Quill carrying one message at a time.`
-
-**E5.2 — The frozen tower.** Objective: ``Change the count so the handler finishes quickly, and check the bell still works afterwards.``
-```js
-const countButton = document.querySelector("#count-button");
-const bellButton = document.querySelector("#bell-button");
-
-countButton.addEventListener("click", function () {
-  let count = 0;
-  while (count < 1000000000) {
-    count = count + 1;
-  }
-  wizard.say("Done counting!");
-});
-
-bellButton.addEventListener("click", function () {
-  tower.wakeUp(1);
-});
-```
-Instructions define a **`while` loop** in one sentence: it repeats its block while its condition is true. Then: `Run it. The runner stops the program after half a second. In a real browser, the whole page would freeze: no clicks, no hovers, nothing, until the loop ended.` Solution: `count < 10`. starterExpected `stopped`.
-The trial that hits the budget reports: `The count handler took too long, so it was stopped. While one handler runs, nothing else can — not even the bell. Make the loop much shorter.`
-Trials: [typical] counting finishes with "Done counting!" · [typical] the bell works after counting → `tower.awake === true`.
-Reflection: `Have you ever used an app that froze after you pressed a button? Using the event loop, explain what might have been happening.`
-
-**E5.3 — Whose turn is it?** Objective: ``Fix the duel so clicking Zap again during Grub's turn does nothing but "Wait your turn!".``
-```js
-let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});
-```
-Bug: the missing `gameState = "goblinTurn";` after `castSpell`. `reads:['gameState']`.
-Trials (fire, level 1: 14 damage; Grub attack: 8):
-- [typical] One click starts Grub's turn → Grub 46, `gameState === "goblinTurn"` ⟶ `After casting, \`gameState\` is still "wizardTurn", so the wizard can keep casting. Set \`gameState = "goblinTurn";\` after the spell.`
-- [erroneous] Button mashing: two quick clicks → Grub 46 (one cast), speech "Wait your turn!".
-- [typical] Grub replies after 1.5 seconds → wait 1500 → wizard 92, `gameState === "wizardTurn"`.
-- [typical] Click, wait 1500, click → Grub 32.
-
-Activity `truth-table`: columns `isWizardTurn`, `hasEnoughMana`, `isWizardTurn && hasEnoughMana` (select true/false), `What happens?` (select: casts / "Wait your turn!" / "Not enough mana!"). Four rows. The last row (false, false) → false → "Wait your turn!" (the `else if` is checked first). Make that row's feedback explain the order of the `else if` checks.
-Reflection: `The same click on the same button now does different things. Which matters more: the click, or the state? Why do most games need both?`
-
-**E5.4 — Trace the turns.** Objective: ``Complete the trace table for four events, then run to check it.`` Carry (the E5.3 solution passes; starterExpected `success`).
-Activity `trace-table` for this sequence: click Zap (0s), click Zap (0.5s), timer (1.5s), click Zap (2s).
-
-| Step | Event | Handler that ran | `gameState` after | Grub's health | What the player sees |
-|---|---|---|---|---|---|
-| 1 | click `#zap-button` | (anonymous function) | `goblinTurn` | 46 | A fire spell |
-| 2 | click `#zap-button` | (anonymous function) | ____ (`goblinTurn`) | 46 | ____ (`Wait your turn!`) |
-| 3 | timer | ____ (`goblinTakesTurn`) | ____ (`wizardTurn`) | 46 | Grub hits: wizard 92 |
-| 4 | click `#zap-button` | (anonymous function) | `goblinTurn` | ____ (`32`) | A fire spell |
-
-Accept lists: `goblinTurn`/`"goblinTurn"`; `Wait your turn!` (case-insensitive, with or without quotes); `goblinTakesTurn`/`goblinTakesTurn()`; `wizardTurn`/`"wizardTurn"`; `32`. After Run, the Crystal Ball log for the trial with the same steps is shown beside the table so the learner can compare.
-
-**E5.5 — Grub shouts back.** Objective: ``Announce a `goblinDefeated` custom event when Grub's health reaches 0, and listen for it.``
-
-Carry + appended gap block, plus an instruction to add the `if` inside the zap handler after `castSpell`:
-```js
-    if (goblin.health === 0) {
-      document.____(new CustomEvent("goblinDefeated", { detail: { name: goblin.name } }));
-    }
-```
-```js
-
-document.____("goblinDefeated", function (event) {
-  wizard.say(event.detail.name + " is beaten!");
-  tower.wakeUp(3);
-});
-```
-Solutions: `dispatchEvent`, `addEventListener`.
-Instructions: `Objects can announce events too. The zap code doesn't need to know who cares that Grub is beaten. The tower, the music or a scoreboard can each listen for themselves.` Introduce the term **loosely coupled** (parts that don't depend on each other's details), which helps maintainability. Mention the **observer pattern** name only.
-Trials: [typical] Grub at 10 health: one zap → Grub 0, speech "Grub is beaten!", `tower.awake === true` · [typical] Grub at 60: one zap → the tower stays asleep (no event).
-Reflection: `Why is it useful that the code which zaps Grub doesn't need to know what happens when he is beaten?`
-
-**Review — Check your understanding: The Owl's Rounds**
-```js
-choice('ES5-Q1','What order are the letters logged in? `console.log("A"); setTimeout(() => console.log("B"), 0); console.log("C");`',[['A, C, B','Correct. The timer\'s message waits in the queue until the current code finishes.'],['A, B, C','Even with 0ms, the timer waits its turn.'],['B, A, C','Timers never jump ahead of code that is already running.']],'E5.1'),
-choice('ES5-Q2','`isWizardTurn` is true and `hasEnoughMana` is false. What is `isWizardTurn && hasEnoughMana`?',[['`false`','Correct. `&&` needs both to be true.'],['`true`','Only one side is true.'],['`undefined`','`&&` of two booleans is a boolean.']],'E5.3'),
-choice('ES5-Q3','Why does the duel need `gameState`?',[['So the same click can do different things depending on whose turn it is.','Correct.'],['Because events cannot use `if`.','They can; the state gives the `if` something to check.'],['To store the wizard\'s name.','The name is a property of `wizard`.']],'E5.3'),
-choice('ES5-Q4','A click handler loops for 5 seconds. Meanwhile, the player hovers over Grub. What happens?',[['The hover waits in the queue until the click handler finishes.','Correct. One message at a time.'],['The hover handler runs straight away.','Only one handler can run at once.'],['The hover event is deleted.','It waits; it isn\'t lost.']],'E5.2'),
-choice('ES5-Q5','Why are custom events like `goblinDefeated` useful?',[['The code that notices the defeat does not need to know which parts react to it.','Correct. The parts stay loosely coupled.'],['They are faster than functions.','Speed is not the reason.'],['They replace classes.','They work alongside objects.']],'E5.5'),
-blank('ES5-Q6','Schedule Grub\'s turn for later.','____(goblinTakesTurn, 1500);',['setTimeout'],'Correct.','Which function runs another function after a delay?','E5.3'),
-blank('ES5-Q7','Announce the event.','document.____(new CustomEvent("goblinDefeated"));',['dispatchEvent'],'Correct.','Which method sends an event to listeners?','E5.5'),
-blank('ES5-Q8','Require both conditions.','if (isWizardTurn ____ hasEnoughMana) {',['&&'],'Correct. `&&` means "and".','Which operator means "and"?','E5.3'),
-```
-
----
-
-### SECTION 6 — Battle of Grubbledown Bridge (`ES6`, chapter 6)
+### SECTION 5 — Battle of Grubbledown Bridge (`ES5`, chapter 5)
 
 **Intro**
 
@@ -1537,7 +1368,7 @@ blank('ES5-Q8','Require both conditions.','if (isWizardTurn ____ hasEnoughMana) 
 | build | `The controls for a real battle against Grub, wired up by you and then played by you.` |
 | objectives | `combine click, hover and key events in one program` · `use state so that controls don't clash` · `evaluate how well your event-driven program works` |
 | summary | `The battle engine handles turns, damage and Grub's plans. You write the listeners that connect the player to it. A control that nothing listens to does nothing.` |
-| prerequisites | `Everything from Sections 1–5: listeners, the event object, hover pairs, keyboard buffers, state and custom events.` |
+| prerequisites | `Everything from Sections 1–4: listeners, the event object, hover pairs and keyboard buffers.` |
 | concepts | `API` — The set of functions some code offers for others to use, such as \`battle.cast(power)\`. · `abstraction` — Using something by knowing what it does, without needing to know how it works inside. · `integration` — Making separate parts work together as one program. · `usability` — How easy a program is to use. |
 | example.stage / steps | `example-duel` / click `#hit-button`, click `#hit-button`, wait 1000, click `#hit-button` |
 | example.check | `dummy.health === 90` |
@@ -1564,23 +1395,23 @@ The intro's walkthrough disclosure includes the Grub callback: `Grub has been ea
 
 **Stage `grubbledown-bridge`:** a rickety plank bridge over a river (a static parallax is fine; no looping animation). The wizard is on the left, Grub on the right holding a pixel Rune Bell. Elements: `#spell-bar` (DIV) containing `#fire-card` / `#ice-card` / `#storm-card` (`data-power` fire/ice/electricity, labels include mana cost), `#shield-button`, `#potion-button`, `#fireball-button` "Fireball (type IGNIS)", `#goblin` (hotspot over Grub), `#intent-bubble` (hidden), `#incantation-display`, `#ending` (hidden). The battle HUD (§5.7) is host-rendered from `snapshot.battle`, not a guest element.
 
-The battle engine and its API are in §9. The learner's file for Section 6 starts **prepared** at E6.1 and carries forward to E6.7.
+The battle engine and its API are in §9. The learner's file for Section 5 starts **prepared** at E5.1 and carries forward to E5.7.
 
 | ID | Title | Scaffold | Starter |
 |---|---|---|---|
-| E6.1 | Wire the spell bar | gaps | Prepared |
-| E6.2 | Shield and potion | prompts only | Carry + comment |
-| E6.3 | Scry Grub's plan | independent | Carry + comment |
-| E6.4 | The Fireball incantation | independent | Carry + comment |
-| E6.5 | Battle hotkeys | independent | Carry + comment |
-| E6.6 | When the dust settles | gaps | Carry + gap |
-| E6.7 | Play the battle | independent | Carry (passes if E6.1–E6.6 done) |
+| E5.1 | Wire the spell bar | gaps | Prepared |
+| E5.2 | Shield and potion | prompts only | Carry + comment |
+| E5.3 | Scry Grub's plan | independent | Carry + comment |
+| E5.4 | The Fireball incantation | independent | Carry + comment |
+| E5.5 | Battle hotkeys | independent | Carry + comment |
+| E5.6 | When the dust settles | gaps | Carry + gap |
+| E5.7 | Play the battle | independent | Carry (passes if E5.1–E5.6 done) |
 
-The complete reference solution after E6.6 (each checkpoint's solution is the prefix up to its marker):
+The complete reference solution after E5.6 (each checkpoint's solution is the prefix up to its marker):
 ```js
 // ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1591,7 +1422,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1607,7 +1438,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -1625,7 +1456,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -1656,7 +1487,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -1683,7 +1514,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// E6.6 — the ending
+// E5.6 — the ending
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -1699,13 +1530,13 @@ Check: pressing `f` starts the incantation from the hotkey handler. The buffer h
 
 **Checkpoint details.** Trials use fixed seeds. Compute expected numbers with the engine's own rules in the test (don't hard-code intent outcomes that depend on the PRNG). Values below assume level 1, Grub at 130 and the default costs (§9.2).
 
-- **E6.1 — Wire the spell bar.** Prepared: file header, the E6.1 block with `dataset.____`, and `// ✦ E6.2 goes here` markers for later steps. Trials: [typical] fire card on the wizard's turn → Grub 116 · [erroneous] clicking a card during Grub's turn does nothing (click, then click again before 1200ms → one cast) · [erroneous] clicking the bar between cards does nothing · [typical] after Grub's turn, ice works (Grub 116 − 12 = 104).
-- **E6.2 — Shield and potion.** Comment: `// ✦ Make #shield-button and #potion-button work, but only on your turn.` Trials: [typical] the shield halves Grub's next hit · [typical] the potion heals (+20, capped) and uses one potion · [erroneous] the potion during Grub's turn does nothing · [erroneous] a third potion says "No potions left!" and doesn't end the turn (engine behaviour; check that no error occurs).
-- **E6.3 — Scry Grub's plan.** Plain-English spec only: `When the pointer is over Grub, or he has keyboard focus, show his next move in #intent-bubble using battle.revealIntent(). Hide it again afterwards.` Trials: [typical] hover shows the intent text (equals the engine's current intent label) · [typical] out hides · [typical] focus shows · [typical] blur hides. Hint 3 points back to E3.5.
-- **E6.4 — The Fireball incantation.** Spec: `Clicking #fireball-button calls battle.startIncantation(). While battle.isIncantationOpen(), collect typed letters (as in Section 4), show them in #incantation-display, and on Enter call battle.speakIncantation(...) with the buffer. Start each incantation with an empty buffer.` `reads:['spellBuffer']`. Trials: [typical] click, type `ignis`, Enter → Fireball: Grub −30, mana −8 · [erroneous] Shift and arrows are ignored · [typical] Backspace works · [erroneous] typing when no incantation is open leaves the buffer empty · [extreme] let the 5-second window run out (wait 5000) → the engine fizzles the spell, then a new incantation starts with an empty buffer.
-- **E6.5 — Battle hotkeys.** Spec: `1 fire, 2 ice, 3 electricity, 4 shield, 5 potion, f Fireball. Hotkeys must do nothing during Grub's turn or while an incantation is open.` Trials: [typical] `1` casts fire · [typical] `f` opens an incantation · [erroneous] during an incantation, typing `2` adds "2" to the buffer but does **not** cast ice ⟶ `Pressing 2 during your incantation cast Ice. Stop the hotkeys when it isn't your turn: \`if (!battle.isWizardTurn()) { return; }\`.` · [erroneous] keys during Grub's turn do nothing.
-- **E6.6 — When the dust settles.** Gap `if (event.detail.winner === "____") {`. Trials: [typical] a scripted victory shows "The Rune Bell is yours!" · [typical] a scripted defeat (setup: wizard health 5) shows the defeat text.
-- **E6.7 — Play the battle.** Objective: ``Every control is listening. Now play the battle — win or lose, then reflect.`` Trials: [typical] Every control is listening → the registration log contains: `click` on `#spell-bar`, `#shield-button`, `#potion-button`, `#fireball-button`; `mouseover` + `focus` on `#goblin`; a `keydown` on `document`; `battleEnded` on `battle.events`. The failure lists the missing ones by name. · [typical] A test player can win with your controls → a scripted "bot" sequence with seed 7 (clicks, hovers, keys, waits) ends in `victory` using the reference solution. Tune the bot script once against the reference engine and store it in the curriculum. Success enables Next.
+- **E5.1 — Wire the spell bar.** Prepared: file header, the E5.1 block with `dataset.____`, and `// ✦ E5.2 goes here` markers for later steps. Trials: [typical] fire card on the wizard's turn → Grub 116 · [erroneous] clicking a card during Grub's turn does nothing (click, then click again before 1200ms → one cast) · [erroneous] clicking the bar between cards does nothing · [typical] after Grub's turn, ice works (Grub 116 − 12 = 104).
+- **E5.2 — Shield and potion.** Comment: `// ✦ Make #shield-button and #potion-button work, but only on your turn.` Trials: [typical] the shield halves Grub's next hit · [typical] the potion heals (+20, capped) and uses one potion · [erroneous] the potion during Grub's turn does nothing · [erroneous] a third potion says "No potions left!" and doesn't end the turn (engine behaviour; check that no error occurs).
+- **E5.3 — Scry Grub's plan.** Plain-English spec only: `When the pointer is over Grub, or he has keyboard focus, show his next move in #intent-bubble using battle.revealIntent(). Hide it again afterwards.` Trials: [typical] hover shows the intent text (equals the engine's current intent label) · [typical] out hides · [typical] focus shows · [typical] blur hides. Hint 3 points back to E3.5.
+- **E5.4 — The Fireball incantation.** Spec: `Clicking #fireball-button calls battle.startIncantation(). While battle.isIncantationOpen(), collect typed letters (as in Section 4), show them in #incantation-display, and on Enter call battle.speakIncantation(...) with the buffer. Start each incantation with an empty buffer.` `reads:['spellBuffer']`. Trials: [typical] click, type `ignis`, Enter → Fireball: Grub −30, mana −8 · [erroneous] Shift and arrows are ignored · [typical] Backspace works · [erroneous] typing when no incantation is open leaves the buffer empty · [extreme] let the 5-second window run out (wait 5000) → the engine fizzles the spell, then a new incantation starts with an empty buffer.
+- **E5.5 — Battle hotkeys.** Spec: `1 fire, 2 ice, 3 electricity, 4 shield, 5 potion, f Fireball. Hotkeys must do nothing during Grub's turn or while an incantation is open.` Trials: [typical] `1` casts fire · [typical] `f` opens an incantation · [erroneous] during an incantation, typing `2` adds "2" to the buffer but does **not** cast ice ⟶ `Pressing 2 during your incantation cast Ice. Stop the hotkeys when it isn't your turn: \`if (!battle.isWizardTurn()) { return; }\`.` · [erroneous] keys during Grub's turn do nothing.
+- **E5.6 — When the dust settles.** Gap `if (event.detail.winner === "____") {`. Trials: [typical] a scripted victory shows "The Rune Bell is yours!" · [typical] a scripted defeat (setup: wizard health 5) shows the defeat text.
+- **E5.7 — Play the battle.** Objective: ``Every control is listening. Now play the battle — win or lose, then reflect.`` Trials: [typical] Every control is listening → the registration log contains: `click` on `#spell-bar`, `#shield-button`, `#potion-button`, `#fireball-button`; `mouseover` + `focus` on `#goblin`; a `keydown` on `document`; `battleEnded` on `battle.events`. The failure lists the missing ones by name. · [typical] A test player can win with your controls → a scripted "bot" sequence with seed 7 (clicks, hovers, keys, waits) ends in `victory` using the reference solution. Tune the bot script once against the reference engine and store it in the curriculum. Success enables Next.
   After a successful Run, the stage switches to **battle mode** (§5.7) and the learner plays live. Completion does not require winning (D4). The attempt and the result are saved in `battleRecord`.
   Reflection (in the self-check disclosure, discussion only):
   1. `Decomposition: list every event your battle responds to. For each, name the event source, the handler and what changes.`
@@ -1725,15 +1556,15 @@ Check: pressing `f` starts the incantation from the hotkey handler. The buffer h
 
 **Review — Check your understanding: Battle of Grubbledown Bridge** (the last review is also the module's final check)
 ```js
-choice('ES6-Q1','Which best describes event-driven programming?',[['The program waits for events and runs handlers in response.','Correct.'],['Code runs once from top to bottom.','That is procedural.'],['Everything must be written as classes.','That describes object-oriented programming, which can be combined with events.']],'intro:1'),
-choice('ES6-Q2','Which of these is markup rather than programming logic?',[['`<button id="shield-button">Shield</button>`','Correct. HTML describes what is on the page.'],['`shieldButton.addEventListener("click", raiseShield);`','That is JavaScript logic.'],['`if (battle.isWizardTurn()) {`','That is a JavaScript decision.']],'E6.2'),
-choice('ES6-Q3','Why can you use `battle.revealIntent()` without reading the battle engine\'s code?',[['Abstraction: you only need to know what it does, not how.','Correct.'],['The code is secret.','It is about not needing the details.'],['Hover events cannot read variables.','They can; abstraction is the reason.']],'E6.3'),
-choice('ES6-Q4','Visual Basic connects a handler with `Handles btnFire.Click`. What does the same job in JavaScript?',[['`fireButton.addEventListener("click", …)`','Correct.'],['`function btnFire()`','That only defines a function.'],['`event.preventDefault()`','That stops a default action.']],'E6.7'),
-choice('ES6-Q5','Pressing 2 during a Fireball incantation cast Ice. What kind of problem is that?',[['A logic error: two listeners respond to the same key.','Correct. A state check fixes it.'],['A syntax error.','The code runs, so the syntax is fine.'],['A hardware fault.','The keyboard is fine.']],'E6.5'),
-choice('ES6-Q6','Which is a genuine weakness of event-driven programs?',[['With many listeners and states, the order of events can be hard to follow and debug.','Correct. Tools like the Crystal Ball help.'],['They cannot respond to users.','Responding to users is their strength.'],['They cannot use objects.','Your battle uses both.']],'E6.7'),
-blank('ES6-Q7','Read the card\'s power.','const power = event.target.dataset.____;',['power'],'Correct. It reads `data-power`.','Look at the `data-` attribute name in `stage.html`.','E6.1'),
-blank('ES6-Q8','Let keyboard players scry Grub too.','goblinSprite.addEventListener("____", showPlan);',['focus'],'Correct.','Which event fires when Tab reaches an element?','E6.3'),
-blank('ES6-Q9','Check who won.','if (event.detail.winner === "____") {',['wizard'],'Correct.','Who should the Rune Bell go to?','E6.6'),
+choice('ES5-Q1','Which best describes event-driven programming?',[['The program waits for events and runs handlers in response.','Correct.'],['Code runs once from top to bottom.','That is procedural.'],['Everything must be written as classes.','That describes object-oriented programming, which can be combined with events.']],'intro:1'),
+choice('ES5-Q2','Which of these is markup rather than programming logic?',[['`<button id="shield-button">Shield</button>`','Correct. HTML describes what is on the page.'],['`shieldButton.addEventListener("click", raiseShield);`','That is JavaScript logic.'],['`if (battle.isWizardTurn()) {`','That is a JavaScript decision.']],'E5.2'),
+choice('ES5-Q3','Why can you use `battle.revealIntent()` without reading the battle engine\'s code?',[['Abstraction: you only need to know what it does, not how.','Correct.'],['The code is secret.','It is about not needing the details.'],['Hover events cannot read variables.','They can; abstraction is the reason.']],'E5.3'),
+choice('ES5-Q4','Visual Basic connects a handler with `Handles btnFire.Click`. What does the same job in JavaScript?',[['`fireButton.addEventListener("click", …)`','Correct.'],['`function btnFire()`','That only defines a function.'],['`event.preventDefault()`','That stops a default action.']],'E5.7'),
+choice('ES5-Q5','Pressing 2 during a Fireball incantation cast Ice. What kind of problem is that?',[['A logic error: two listeners respond to the same key.','Correct. A state check fixes it.'],['A syntax error.','The code runs, so the syntax is fine.'],['A hardware fault.','The keyboard is fine.']],'E5.5'),
+choice('ES5-Q6','Which is a genuine weakness of event-driven programs?',[['With many listeners and states, the order of events can be hard to follow and debug.','Correct. Tools like the Crystal Ball help.'],['They cannot respond to users.','Responding to users is their strength.'],['They cannot use objects.','Your battle uses both.']],'E5.7'),
+blank('ES5-Q7','Read the card\'s power.','const power = event.target.dataset.____;',['power'],'Correct. It reads `data-power`.','Look at the `data-` attribute name in `stage.html`.','E5.1'),
+blank('ES5-Q8','Let keyboard players scry Grub too.','goblinSprite.addEventListener("____", showPlan);',['focus'],'Correct.','Which event fires when Tab reaches an element?','E5.3'),
+blank('ES5-Q9','Check who won.','if (event.detail.winner === "____") {',['wizard'],'Correct.','Who should the Rune Bell go to?','E5.6'),
 ```
 
 ---
@@ -1785,7 +1616,7 @@ blank('ES6-Q9','Check who won.','if (event.detail.winner === "____") {',['wizard
 
 ## 10. Tome II recap — "Your Tome II spellbook" (`src/edp/curriculum/recap.js`)
 
-Same structure as Tome I's recap: `title`, `intro`, `sections[{chapter, title, concepts[{term, explanation, code, report}]}]`, and a `recapMarkdown(finalCode, extras)` function. Download filename: `wizard-workshop-tome-2-summary.md`. It is reached from the Section 6 review's **Finish Tome II** button, and from the journey select under "Tome II complete". It is not a progress step.
+Same structure as Tome I's recap: `title`, `intro`, `sections[{chapter, title, concepts[{term, explanation, code, report}]}]`, and a `recapMarkdown(finalCode, extras)` function. Download filename: `wizard-workshop-tome-2-summary.md`. It is reached from the Section 5 review's **Finish Tome II** button, and from the journey select under "Tome II complete". It is not a progress step.
 
 Concept cards, with 2–3 per section and each with a complete, runnable example and a Unit 4 report line:
 1. **Events, listeners and handlers**: the bell example. Report: *"Explain who controls the order of execution in event-driven versus procedural code."*
@@ -1793,15 +1624,12 @@ Concept cards, with 2–3 per section and each with a complete, runnable example
 3. **Event delegation and bubbling**: the spellbook listener. Report: *"Evaluate one listener vs many for maintainability and efficiency."*
 4. **Hover pairs and accessibility**: the tooltip with focus/blur. Report: *"Evaluate usability and portability across mouse, touch and keyboard."*
 5. **Keyboard events and string handling**: the spell buffer. Report: *"Use typical, extreme and erroneous test data to discuss robustness."*
-6. **The event loop and timers**: the 1-3-2 example. Report: *"Explain why a long-running handler freezes a program (efficiency, usability)."*
-7. **State and compound conditions**: the turn check with its truth table. Report: *"Include a truth table for a compound condition."*
-8. **Custom events**: `goblinDefeated`. Report: *"Explain loose coupling and maintainability."*
-9. **Paradigms together**: the Visual Basic handler beside the JavaScript one. Report: *"Compare how event-driven programming is implemented in two languages (A.P2)."*
+6. **Paradigms together**: the Visual Basic handler beside the JavaScript one. Report: *"Compare how event-driven programming is implemented in two languages (A.P2)."*
 
 The Markdown download appends:
-- **Report prompts** (the reflection questions from E6.7) under the heading "Questions to answer in your own words". Include the reminder: *"These are prompts, not answers. Your report must be your own explanation."*
+- **Report prompts** (the reflection questions from E5.7) under the heading "Questions to answer in your own words". Include the reminder: *"These are prompts, not answers. Your report must be your own explanation."*
 - **Your battle**, from `battleRecord`: attempts, wins, and the stats from the most recent battle (events by type, spells cast, scried yes/no).
-- **Your final code**: the last successful `spells.js` from Section 6 (plain text in a fenced block, never executed).
+- **Your final code**: the last successful `spells.js` from Section 5 (plain text in a fenced block, never executed).
 
 ---
 
@@ -1817,7 +1645,7 @@ The Markdown download appends:
    draftsByCheckpoint: {},              // {E1.1: {spellsSource, revision}}
    lastSuccessfulSourcesByCheckpoint: {}, lastGoodSnapshotByCheckpoint: {},
    completedCheckpointIds: [], hintDepthByCheckpoint: {}, backupsByCheckpoint: {},
-   activityAnswersByCheckpoint: {},     // {E1.5: {cards: {id: bin}}, E5.3: {cells: {id: value}}, E5.1: {prediction: 'b'}}
+   activityAnswersByCheckpoint: {},     // {E1.5: {cards: {id: bin}}}
    battleRecord: {attempts: 0, wins: 0, lastStats: null},
    preferences: {codeFontSize: 16, reduceMotion: false, apprenticeMode: false, slowMotion: null},
    activeRun: null, activeSession: null}
@@ -1896,8 +1724,7 @@ Run everything. Never report a check as passed unless it was actually run (AGENT
   - A detached `wizard.recoverHealth`.
   - An inline-arrow `removeEventListener`.
   - `event.key.length` missing (E4.3).
-  - The missing `gameState = "goblinTurn"` (E5.3).
-  - Hotkeys without a turn check (E6.5).
+  - Hotkeys without a turn check (E5.5).
   - An infinite loop in the setup phase and in a handler → `stopped`, with a later valid run succeeding (fresh contexts).
 - **`parse.test.js`** — Tome II parser:
   - Allowed: `document`, `setTimeout` and `console`.
@@ -1914,7 +1741,7 @@ Run everything. Never report a check as passed unless it was actually run (AGENT
   - Results over 128KB.
 - **`sections.test.js`** — mirrors Tome I's section tests for Tome II:
   - 6 ordered sections with unique IDs.
-  - Journey = `welcome` + for each section (intro, checkpoints, review), ending at `review:6`. Assert the exact length.
+  - Journey = `welcome` + for each section (intro, checkpoints, review), ending at `review:5`. Assert the exact length.
   - Intro length limits.
   - Every worked example runs through `runEdpExample` and its `check` is `true`.
   - Question schema rules (≥2 choice, ≥2 blank, one correct, one `____`, valid `revisit`, unique IDs).
@@ -1928,7 +1755,7 @@ Run everything. Never report a check as passed unless it was actually run (AGENT
   - Progress counts, including activities.
 - **`battle.test.js`**:
   - Engine rules from §9: turn refusals, mana, fizzle, shield rounding, the ice slow, Snatch fallback, the incantation window expiry, a single `battleEnded`, and no actions after the end.
-  - The `f`-key ordering note in §8 S6.
+  - The `f`-key ordering note in §8 S5.
   - Seeded reproducibility.
   - The **balance simulation** (1,000 battles per strategy), asserting the win-rate target ranges (mark it `test.slow` if needed, and still run it in CI).
 - **`descriptor.test.js`** — Tome I descriptor functions return exactly the current hard-coded arrays (§3.2).
@@ -1960,10 +1787,9 @@ Add `scripts/benchmark-edp.mjs` (Node, real QuickJS). For every Tome II solution
   2. Live keyboard: E4.1 solution → Run → focus the stage → press ArrowRight ×2 → the wizard's position text changes; Tab moves focus out of the stage (Tab is not forwarded).
   3. Hover and focus: E3.5 solution → hover `#red-potion` shows the label; Tab to it shows the label; blur hides it.
   4. Stale results: edit during a run and navigate during a session → no stale snapshot is committed (mirror Tome I's stale-result test).
-  5. Stop: E5.2 starter → Run → the result is `stopped` with the frozen-tower message; the next Run succeeds after the fix.
-  6. Battle, keyboard only: put the E6.6 reference solution in E6.7 → Run → success → play using only keys (`1`, `f`, typing `ignis`, Enter, …) with a fixed seed injected via `window.__wwTestSeed` (**read only in `import.meta.env.DEV`**) → reach `victory` → **Ring the Rune Bell** → the recap is reachable → the Markdown download contains "Your final code" and the battle stats.
-  7. Reviews: each Tome II review renders its blank inputs and keeps answers across reload. Choice options are in the seeded order.
-  8. Layout: E2.3 and E6.7 at 1366/768/390 and 683×384 → no horizontal scroll, the stage's controls stay reachable, and the phone Show preview/Show code switch works.
+  5. Battle, keyboard only: put the E5.6 reference solution in E5.7 → Run → success → play using only keys (`1`, `f`, typing `ignis`, Enter, …) with a fixed seed injected via `window.__wwTestSeed` (**read only in `import.meta.env.DEV`**) → reach `victory` → **Ring the Rune Bell** → the recap is reachable → the Markdown download contains "Your final code" and the battle stats.
+  6. Reviews: each Tome II review renders its blank inputs and keeps answers across reload. Choice options are in the seeded order.
+  7. Layout: E2.3 and E5.7 at 1366/768/390 and 683×384 → no horizontal scroll, the stage's controls stay reachable, and the phone Show preview/Show code switch works.
 - **Production preview:** run the landing, the Tome I journey and the Tome II journey tests with `WORKSHOP_PREVIEW=1`.
 
 ### 12.5 Pages sub-path
@@ -2003,8 +1829,8 @@ node scripts/generate-docs.mjs
   - "Project structure": the new folders.
 - **TEACHER_GUIDE.md** — add a "Tome II: Event-Driven Programming" part:
   - Intended outcomes.
-  - Six suggested sessions (one per section).
-  - Section-by-section notes and misconceptions: brackets on handlers, `#` in selectors, the detached `this`, twin arrow functions, bubbling conflicts, 0ms timers, the frozen UI, state vs event.
+  - Five suggested sessions (one per section).
+  - Section-by-section notes and misconceptions: brackets on handlers, `#` in selectors, the detached `this`, twin arrow functions, bubbling conflicts.
   - The battle reference and final balance numbers.
   - Apprentice mode.
   - That Tome II deliberately adds automatic enemy turns and seeded randomness, unlike Tome I.
@@ -2036,9 +1862,8 @@ node scripts/generate-docs.mjs
 9. **Tome II app shell:** welcome, section intro/review via descriptors, the checkpoint layout, the `stage.html` tab, stage rendering (static snapshots), the Crystal Ball, the trials checklist.
 10. **Content S1–S2** with fixtures and tests. Then live sessions (§4.9) and their e2e tests.
 11. **Content S3–S4**, then the `sort` activity (N bins).
-12. **Content S5**, then the `predict`, `truth-table` and `trace-table` activities, and the slow-motion Crystal Ball.
-13. **Battle engine** + balance simulation, **content S6**, battle mode UI, endings, Apprentice mode.
-14. **Recap**, downloads, `generate-docs` → `SOLUTIONS-EDP.md`.
+12. **Battle engine** + balance simulation, **content S5**, battle mode UI, endings, Apprentice mode.
+13. **Recap**, downloads, `generate-docs` → `SOLUTIONS-EDP.md`.
 15. The full e2e suite, production preview, Pages sub-path check, manual accessibility pass.
 16. Docs and the `VERIFICATION.md` entry. Open a PR into `main` (pushes to `main` deploy automatically, so **don't push directly**).
 
@@ -2064,14 +1889,9 @@ node scripts/generate-docs.mjs
 | event handler | The function that runs when the event happens. |
 | callback | A function handed over to be called back later. |
 | event object | The parcel of details delivered with every event (`type`, `target`, `key`, …). |
-| event loop | The part of the browser that waits for events and delivers them one at a time. |
-| queue | A line of waiting events: first in, first out. |
 | bubbling | An event on an inner element travels up through the elements around it. |
 | event delegation | One listener on a container handling events from everything inside it. |
 | default action | What the browser normally does for an event. `preventDefault()` stops it. |
-| state | Information about what is going on right now, such as whose turn it is. |
-| custom event | An event your own code creates and announces with `dispatchEvent`. |
-| loosely coupled | Parts of a program that work together without depending on each other's details. |
 | validation | Checking input is sensible before using it. |
 | typical / extreme / erroneous data | Normal input / input at the edge of what is allowed / input that should be rejected. |
 | robustness | How well a program copes with unexpected input without breaking. |
@@ -2083,10 +1903,10 @@ node scripts/generate-docs.mjs
 
 | Spec ref | Content | Where |
 |---|---|---|
-| A1 Decomposition, pattern recognition, abstraction, inputs/outputs | Events → handlers → state changes; spotting repeated listeners (delegation); the battle API as abstraction | E1.1, E2.3, S6 intro, E6.7 reflection |
-| A3 Event-driven paradigm (e.g. Visual Basic); markup vs logic; hardware/software needs | Procedural vs event-driven sort; `stage.html` vs `spells.js`; the VB handler comparison | E1.5, the `stage.html` tab, E6.7, ES6-Q2/Q4 |
-| A4 Event handling, selection, iteration, string handling, functions, variables and scope | Every section. String handling in E4.2–E4.4; iteration in E5.2; functions as callbacks throughout | S1–S6 |
-| A5 Logic, truth tables, tracing | The E5.3 truth table; the E5.4 trace table; compound `&&` and `!` | S5 |
-| A6 Efficiency, maintainability, portability, reliability, robustness, usability | Delegation (E2.3); hover accessibility (E3.5); robustness tests (E4.3–E4.4); listener conflicts (E4.5, E6.5); the frozen UI (E5.2); loose coupling (E5.5); the battle evaluation (E6.7) | S2–S6 |
+| A1 Decomposition, pattern recognition, abstraction, inputs/outputs | Events → handlers → state changes; spotting repeated listeners (delegation); the battle API as abstraction | E1.1, E2.3, S5 intro, E5.7 reflection |
+| A3 Event-driven paradigm (e.g. Visual Basic); markup vs logic; hardware/software needs | Procedural vs event-driven sort; `stage.html` vs `spells.js`; the VB handler comparison | E1.5, the `stage.html` tab, E5.7, ES5-Q2/Q4 |
+| A4 Event handling, selection, iteration, string handling, functions, variables and scope | Every section. String handling in E4.2–E4.4; functions as callbacks throughout. Iteration is no longer taught (the old frozen-tower loop was removed with the old Section 5) | S1–S5 |
+| A5 Logic, truth tables, tracing | Not covered since the old Section 5 (truth table, trace table, compound `&&` and `!`) was removed | — |
+| A6 Efficiency, maintainability, portability, reliability, robustness, usability | Delegation (E2.3); hover accessibility (E3.5); robustness tests (E4.3–E4.4); listener conflicts (E5.5); the battle evaluation (E5.7) | S2–S5 |
 | B2/C2 Events in design; validation; typical/extreme/erroneous test data | Trial category tags on every Spell Trial; the E4.4 sort | Throughout |
-| Assignment 1 evidence checklist: annotated code, language comparisons, logic evidence, balanced evaluation | Recap download: concept code, the VB comparison, truth and trace tables, report prompts, battle stats, their own final code | §10 |
+| Assignment 1 evidence checklist: annotated code, language comparisons, logic evidence, balanced evaluation | Recap download: concept code, the VB comparison, report prompts, battle stats, their own final code | §10 |

@@ -72,15 +72,11 @@ test('delegation reaches newly learned spell; stage HTML is read-only', async ({
   await expect(page.locator('#stage-html [contenteditable]')).toHaveCount(0);
 });
 test('keyboard movement, incantations and input guards', async ({page}) => {
-  await openStep(page, 'E4.5');
+  await openStep(page, 'E4.4');
   await run(page);
   await page.locator('.stage-frame').focus();
   await page.keyboard.type('ignis');
   await page.keyboard.press('Enter');
-  await expect(page.locator('#stage-buffer-display')).toHaveText(
-    'Spell buffer: '
-  );
-  await page.locator('#stage-incantation').fill('LUX');
   await expect(page.locator('#stage-buffer-display')).toHaveText(
     'Spell buffer: '
   );
@@ -94,7 +90,7 @@ test('keyboard movement, incantations and input guards', async ({page}) => {
 test('battle controls, optional attempt gate, retry and keyboard scry', async ({
   page
 }) => {
-  await openStep(page, 'E6.7');
+  await openStep(page, 'E5.7');
   await run(page);
   await expect(page.locator('#next')).toBeDisabled();
   await page.locator('#stage-goblin').focus();
@@ -116,8 +112,6 @@ test('every checkpoint solution passes in the browser worker', async ({
       spellsSource: cp.solution.spellsSource,
       revision: 0
     };
-  // Prediction is attempted, rather than scored as a progression requirement.
-  state.activityAnswersByCheckpoint['E5.1'] = {prediction: '1'};
   await page.addInitScript(
     (state) =>
       localStorage.setItem('wizard-workshop:edp:v1', JSON.stringify(state)),
@@ -133,7 +127,7 @@ test('phone, zoom and reduced-motion layouts fit; learner markup stays text', as
   page
 }) => {
   await page.emulateMedia({reducedMotion: 'reduce'});
-  await openStep(page, 'E6.7');
+  await openStep(page, 'E5.7');
   await page.setViewportSize({width: 390, height: 844});
   await expect(page.locator('body')).toBeVisible();
   expect(
@@ -159,7 +153,7 @@ test('every review supports retries and preserves answers across reload', async 
   page
 }) => {
   await page.goto('/?tome=edp');
-  for (let chapter = 1; chapter <= 6; chapter++) {
+  for (let chapter = 1; chapter <= 5; chapter++) {
     await page.locator('#checkpoint').selectOption('review:' + chapter);
     await expect(page.locator('.blank-input').first()).toBeVisible();
     await page.locator('.choice-option input').first().check();
@@ -177,7 +171,7 @@ test('every review supports retries and preserves answers across reload', async 
     );
     await expect(
       page.getByRole('button', {
-        name: chapter === 6 ? /Finish Tome II/ : /Continue to section/
+        name: chapter === 5 ? /Finish Tome II/ : /Continue to section/
       })
     ).toBeEnabled();
   }
@@ -189,7 +183,7 @@ test('keyboard battle can end, ring the bell and download evidence', async ({
   await page.addInitScript(() => {
     window.__wwTestSeed = 7;
   });
-  await openStep(page, 'E6.7');
+  await openStep(page, 'E5.7');
   await run(page);
   const hud = page.locator('#battle-hud');
   const ending = page.locator('#battle-ending');
@@ -269,7 +263,6 @@ test('keyboard battle can end, ring the bell and download evidence', async ({
   const markdown = await readFile(path, 'utf8');
   expect(markdown).toContain('Your final code');
   expect(markdown).toMatch(/Attempts: \d+; wins: 1/);
-  expect(markdown).toContain('Truth table');
 });
 test('stale run results and session replies cannot overwrite edits or navigation', async ({
   page
@@ -317,21 +310,6 @@ test('stale run results and session replies cannot overwrite edits or navigation
   await expect(page.locator('#live-label')).toContainText('NOT LISTENING');
   await expect(page.locator('#next')).toBeDisabled();
 });
-test('the blocking-handler lesson stops with an explanation and recovers', async ({
-  page
-}) => {
-  await openStep(page, 'E5.2', byId['E5.2'].starter.spellsSource);
-  await page.locator('#run').click();
-  await expect(page.locator('#result')).toHaveAttribute(
-    'data-status',
-    'stopped'
-  );
-  await expect(page.locator('#result')).toContainText('While one handler runs');
-  await page.locator('.cm-content').fill(byId['E5.2'].solution.spellsSource);
-  await run(page);
-  await page.locator('#stage-bell-button').click();
-  await expect(page.locator('#world-summary')).toContainText('Tower: awake');
-});
 test('learner names, speech and element text render as text', async ({
   page
 }) => {
@@ -352,7 +330,7 @@ test('learner names, speech and element text render as text', async ({
 // Sprites must never draw a hover box of their own (no gold box, and no
 // grey button:hover box). Only classes the student's code adds may outline
 // them. Checked on the starter (before listeners) and the solution.
-for (const id of ['E3.1', 'E3.2', 'E3.3', 'E3.4', 'E3.5', 'E6.3'])
+for (const id of ['E3.1', 'E3.2', 'E3.3', 'E3.4', 'E3.5', 'E5.3'])
   for (const version of ['starter', 'solution'])
     test(`${id} ${version}: sprites draw no hover box of their own`, async ({
       page

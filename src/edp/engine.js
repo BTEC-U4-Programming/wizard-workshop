@@ -129,9 +129,6 @@ function failure(error, cp) {
       'spells.js',
       'runtime'
     );
-  if (d.code === 'timeout' && cp?.id === 'E5.2')
-    d.message =
-      'The count handler took too long, so it was stopped. While one handler runs, nothing else can — not even the bell. Make the loop much shorter.';
   return {status: d.code === 'timeout' ? 'stopped' : 'error', diagnostics: [d]};
 }
 function mistake(snapshot, parsed) {

@@ -103,7 +103,7 @@ export function mountEdpApp() {
   const reduced = () =>
     state.preferences.reduceMotion ||
     matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const slow = () => state.preferences.slowMotion ?? cp().chapter === 5;
+  const slow = () => state.preferences.slowMotion ?? false;
   const celebration = createCelebration($('#run'), reduced);
   const crystal = createCrystalBall($('#crystal-ball'), {
     reducedMotion: reduced,
@@ -241,7 +241,7 @@ export function mountEdpApp() {
   function finalCode() {
     for (const current of [...checkpoints].reverse())
       if (
-        current.chapter === 6 &&
+        current.chapter === 5 &&
         state.lastSuccessfulSourcesByCheckpoint[current.id]
       )
         return state.lastSuccessfulSourcesByCheckpoint[current.id];
@@ -256,7 +256,7 @@ export function mountEdpApp() {
     $('.jump').hidden = !checkpoint;
     document.body.classList.toggle(
       'battle-mode',
-      checkpoint && cp().id === 'E6.7'
+      checkpoint && cp().id === 'E5.7'
     );
     if (checkpoint) showLesson();
     else if (state.currentScreen.type === 'welcome') showWelcome();
@@ -642,7 +642,7 @@ export function mountEdpApp() {
       qualified =
         verifiedRevision === draft().revision &&
         activityAttempted(current, state) &&
-        (current.id !== 'E6.7' || liveAttempt);
+        (current.id !== 'E5.7' || liveAttempt);
     $('#next').disabled = !qualified;
     if (qualified && !state.completedCheckpointIds.includes(current.id)) {
       state.completedCheckpointIds.push(current.id);

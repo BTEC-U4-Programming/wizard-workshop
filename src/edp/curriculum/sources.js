@@ -424,160 +424,9 @@ document.addEventListener("keydown", function (event) {
   }
   bufferDisplay.textContent = "Spell buffer: " + spellBuffer;
 });`,
-  'E4.5': `document.addEventListener("keydown", function (event) {
-  switch (event.key) {
-    case "ArrowLeft":
-      event.preventDefault();
-      wizard.moveBy(-10, 0);
-      break;
-    case "ArrowRight":
-      event.preventDefault();
-      wizard.moveBy(10, 0);
-      break;
-    case "ArrowUp":
-      event.preventDefault();
-      wizard.moveBy(0, -10);
-      break;
-    case "ArrowDown":
-      event.preventDefault();
-      wizard.moveBy(0, 10);
-      break;
-  }
-});
+  'E5.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-const incantationBox = document.querySelector("#incantation");
-const secretWord = "APERIO";   // Latin for "I open"
-
-incantationBox.addEventListener("input", function () {
-  const typed = incantationBox.value.trim().toUpperCase();
-
-  if (typed === secretWord) {
-    runeDoor.open();
-    wizard.say("The door groans open!");
-  } else if (secretWord.startsWith(typed)) {
-    runeDoor.lightRunes(typed.length);
-  } else {
-    runeDoor.flashRed();
-  }
-});
-
-let spellBuffer = "";
-const bufferDisplay = document.querySelector("#buffer-display");
-
-document.addEventListener("keydown", function (event) {
-  if (event.target.tagName === "INPUT") {
-    return;
-  }
-  if (event.key === "Enter") {
-    wizard.speakIncantation(spellBuffer);
-    spellBuffer = "";
-  } else if (event.key === "Backspace") {
-    spellBuffer = spellBuffer.slice(0, -1);
-  } else if (event.key.length === 1) {
-    if (spellBuffer.length < 12) {
-      spellBuffer = spellBuffer + event.key.toUpperCase();
-    }
-  }
-  bufferDisplay.textContent = "Spell buffer: " + spellBuffer;
-});`,
-  'E5.1': `console.log("1: The wizard raises their staff");
-
-setTimeout(function () {
-  console.log("2: Grub sneezes");
-}, 0);
-
-console.log("3: The wizard shouts \\"Halt!\\"");`,
-  'E5.2': `const countButton = document.querySelector("#count-button");
-const bellButton = document.querySelector("#bell-button");
-
-countButton.addEventListener("click", function () {
-  let count = 0;
-  while (count < 10) {
-    count = count + 1;
-  }
-  wizard.say("Done counting!");
-});
-
-bellButton.addEventListener("click", function () {
-  tower.wakeUp(1);
-});`,
-  'E5.3': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    gameState = "goblinTurn";
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});`,
-  'E5.4': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    gameState = "goblinTurn";
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});`,
-  'E5.5': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    if (goblin.health === 0) {
-      document.dispatchEvent(new CustomEvent("goblinDefeated", { detail: { name: goblin.name } }));
-    }
-    gameState = "goblinTurn";
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});
-
-document.addEventListener("goblinDefeated", function (event) {
-  wizard.say(event.detail.name + " is beaten!");
-  tower.wakeUp(3);
-});`,
-  'E6.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -589,9 +438,9 @@ spellBar.addEventListener("click", function (event) {
 });
 
 `,
-  'E6.2': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.2': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -602,7 +451,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -619,9 +468,9 @@ potionButton.addEventListener("click", function () {
 });
 
 `,
-  'E6.3': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.3': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -632,7 +481,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -648,7 +497,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -667,9 +516,9 @@ goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
 `,
-  'E6.4': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.4': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -680,7 +529,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -696,7 +545,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -714,7 +563,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -746,9 +595,9 @@ document.addEventListener("keydown", function (event) {
 });
 
 `,
-  'E6.5': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.5': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -759,7 +608,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -775,7 +624,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -793,7 +642,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -824,7 +673,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -852,9 +701,9 @@ document.addEventListener("keydown", function (event) {
 });
 
 `,
-  'E6.6': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.6': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -865,7 +714,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -881,7 +730,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -899,7 +748,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -930,7 +779,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -957,7 +806,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// E6.6 — the ending
+// E5.6 — the ending
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -968,9 +817,9 @@ battle.events.addEventListener("battleEnded", function (event) {
   }
   ending.hidden = false;
 });`,
-  'E6.7': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.7': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -981,7 +830,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -997,7 +846,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -1015,7 +864,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -1046,7 +895,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -1073,7 +922,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// E6.6 — the ending
+// E5.6 — the ending
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -1503,150 +1352,9 @@ document.addEventListener("keydown", function (event) {
   }
   bufferDisplay.textContent = "Spell buffer: " + spellBuffer;
 });`,
-  'E4.5': `document.addEventListener("keydown", function (event) {
-  switch (event.key) {
-    case "ArrowLeft":
-      event.preventDefault();
-      wizard.moveBy(-10, 0);
-      break;
-    case "ArrowRight":
-      event.preventDefault();
-      wizard.moveBy(10, 0);
-      break;
-    case "ArrowUp":
-      event.preventDefault();
-      wizard.moveBy(0, -10);
-      break;
-    case "ArrowDown":
-      event.preventDefault();
-      wizard.moveBy(0, 10);
-      break;
-  }
-});
+  'E5.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-const incantationBox = document.querySelector("#incantation");
-const secretWord = "APERIO";   // Latin for "I open"
-
-incantationBox.addEventListener("input", function () {
-  const typed = incantationBox.value.trim().toUpperCase();
-
-  if (typed === secretWord) {
-    runeDoor.open();
-    wizard.say("The door groans open!");
-  } else if (secretWord.startsWith(typed)) {
-    runeDoor.lightRunes(typed.length);
-  } else {
-    runeDoor.flashRed();
-  }
-});
-
-let spellBuffer = "";
-const bufferDisplay = document.querySelector("#buffer-display");
-
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    wizard.speakIncantation(spellBuffer);
-    spellBuffer = "";
-  } else if (event.key === "Backspace") {
-    spellBuffer = spellBuffer.slice(0, -1);
-  } else if (event.key.length === 1) {
-    if (spellBuffer.length < 12) {
-      spellBuffer = spellBuffer + event.key.toUpperCase();
-    }
-  }
-  bufferDisplay.textContent = "Spell buffer: " + spellBuffer;
-});`,
-  'E5.1': `console.log("1: The wizard raises their staff");
-
-setTimeout(function () {
-  console.log("2: Grub sneezes");
-}, 0);
-
-console.log("3: The wizard shouts \\"Halt!\\"");`,
-  'E5.2': `const countButton = document.querySelector("#count-button");
-const bellButton = document.querySelector("#bell-button");
-
-countButton.addEventListener("click", function () {
-  let count = 0;
-  while (count < 1000000000) {
-    count = count + 1;
-  }
-  wizard.say("Done counting!");
-});
-
-bellButton.addEventListener("click", function () {
-  tower.wakeUp(1);
-});`,
-  'E5.3': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});`,
-  'E5.4': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    gameState = "goblinTurn";
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});`,
-  'E5.5': `let gameState = "wizardTurn";
-const zapButton = document.querySelector("#zap-button");
-
-function goblinTakesTurn() {
-  goblin.attack(wizard);
-  gameState = "wizardTurn";
-}
-
-zapButton.addEventListener("click", function () {
-  const isWizardTurn = gameState === "wizardTurn";
-  const hasEnoughMana = wizard.mana >= 4;
-
-  if (isWizardTurn && hasEnoughMana) {
-    wizard.castSpell(goblin);
-    gameState = "goblinTurn";
-    setTimeout(goblinTakesTurn, 1500);
-  } else if (!isWizardTurn) {
-    wizard.say("Wait your turn!");
-  } else {
-    wizard.say("Not enough mana!");
-  }
-});
-// ✦ Announce goblinDefeated after casting, and add a listener.
-`,
-  'E6.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1658,9 +1366,9 @@ spellBar.addEventListener("click", function (event) {
 });
 
 `,
-  'E6.2': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.2': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1674,9 +1382,9 @@ spellBar.addEventListener("click", function (event) {
 
 // ✦ Make shield and potion work, only on your turn.
 `,
-  'E6.3': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.3': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1687,7 +1395,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1706,9 +1414,9 @@ potionButton.addEventListener("click", function () {
 
 // ✦ Show Grub’s plan on hover and focus. Hide it afterwards.
 `,
-  'E6.4': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.4': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1719,7 +1427,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1735,7 +1443,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -1756,9 +1464,9 @@ goblinSprite.addEventListener("blur", hidePlan);
 
 // ✦ Collect the Fireball incantation while its window is open.
 `,
-  'E6.5': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.5': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1769,7 +1477,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1785,7 +1493,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -1803,7 +1511,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -1837,9 +1545,9 @@ document.addEventListener("keydown", function (event) {
 
 // ✦ Add hotkeys 1–5 and f. Ignore them outside your turn.
 `,
-  'E6.6': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.6': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1850,7 +1558,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1866,7 +1574,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -1884,7 +1592,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -1915,7 +1623,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -1942,7 +1650,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// E6.6 — the ending
+// E5.6 — the ending
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -1953,9 +1661,9 @@ battle.events.addEventListener("battleEnded", function (event) {
   }
   ending.hidden = false;
 });`,
-  'E6.7': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
+  'E5.7': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -1966,7 +1674,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E6.2 — shield and potion
+// E5.2 — shield and potion
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -1982,7 +1690,7 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E6.3 — scry Grub's plan, by hover AND by keyboard focus
+// E5.3 — scry Grub's plan, by hover AND by keyboard focus
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
@@ -2000,7 +1708,7 @@ goblinSprite.addEventListener("focus", showPlan);
 goblinSprite.addEventListener("mouseout", hidePlan);
 goblinSprite.addEventListener("blur", hidePlan);
 
-// E6.4 — the Fireball incantation
+// E5.4 — the Fireball incantation
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -2031,7 +1739,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-// E6.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -2058,7 +1766,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// E6.6 — the ending
+// E5.6 — the ending
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -2172,22 +1880,9 @@ incantationBox.addEventListener("input", function () {
 });`,
   'E4.3': null,
   'E4.4': null,
-  'E4.5': null,
-  'E5.1': null,
-  'E5.2': null,
-  'E5.3': null,
-  'E5.4': null,
-  'E5.5': `    if (goblin.health === 0) {
-      document.____(new CustomEvent("goblinDefeated", { detail: { name: goblin.name } }));
-    }
+  'E5.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
 
-document.____("goblinDefeated", function (event) {
-  wizard.say(event.detail.name + " is beaten!");
-  tower.wakeUp(3);
-});`,
-  'E6.1': `// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E6.1 — the spell cards: one listener, using event delegation
+// E5.1 — the spell cards: one listener, using event delegation
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -2199,10 +1894,10 @@ spellBar.addEventListener("click", function (event) {
 });
 
 `,
-  'E6.2': null,
-  'E6.3': null,
-  'E6.4': null,
-  'E6.5': null,
-  'E6.6': `if (event.detail.winner === "____") {`,
-  'E6.7': null
+  'E5.2': null,
+  'E5.3': null,
+  'E5.4': null,
+  'E5.5': null,
+  'E5.6': `if (event.detail.winner === "____") {`,
+  'E5.7': null
 };

@@ -48,14 +48,8 @@ export const recap = {
         concept(
           'Keyboard buffers and robustness',
           'Collect single-character keys, handle Backspace and Enter, and limit the buffer to 12 letters.',
-          sources['E4.5'],
+          sources['E4.4'],
           'Use typical, extreme and erroneous test data as evidence.'
-        ),
-        concept(
-          'State and compound conditions',
-          'State records whose turn it is. Both turn and mana conditions must be true to cast.',
-          sources['E5.3'],
-          'Include the truth table and trace table below to explain your logic.'
         ),
         concept(
           'Paradigms together',
@@ -65,7 +59,7 @@ export const recap = {
           'vb'
         )
       ][section.chapter - 1],
-      ...(section.chapter === 6
+      ...(section.chapter === 5
         ? [
             concept(
               'JavaScript beside Visual Basic',
@@ -75,16 +69,6 @@ export const recap = {
             )
           ]
         : []),
-      ...(section.chapter === 5
-        ? [
-            concept(
-              'Custom events and loose coupling',
-              'The zap code announces a defeat. The tower decides how to respond without the zap handler depending on it.',
-              sources['E5.5'],
-              'Explain loose coupling and its effect on maintainability.'
-            )
-          ]
-        : [])
     ]
   }))
 };
@@ -95,10 +79,6 @@ export function recapMarkdown(finalCode, extras = {}) {
     for (const c of section.concepts)
       text += `\n### ${c.term}\n\n${c.explanation}\n\n\`\`\`${c.language === 'vb' ? 'vb' : 'javascript'}\n${c.code}\n\`\`\`\n\nUnit 4 link: ${c.report}\n`;
   }
-  text +=
-    '\n## Truth table\n\n| Wizard turn | Enough mana | Both | Outcome |\n|---|---|---|---|\n| true | true | true | casts |\n| true | false | false | Not enough mana! |\n| false | true | false | Wait your turn! |\n| false | false | false | Wait your turn! |\n';
-  text +=
-    '\n## Trace table\n\n| Event | State after | Grub health | Outcome |\n|---|---|---|---|\n| Click at 0s | goblinTurn | 46 | Spell |\n| Click at 0.5s | goblinTurn | 46 | Wait your turn! |\n| Timer at 1.5s | wizardTurn | 46 | Wizard health 92 |\n| Click at 2s | goblinTurn | 32 | Spell |\n';
   text +=
     '\n## Questions to answer in your own words\n\nThese are prompts, not answers. Your report must be your own explanation.\n\n' +
     reportPrompts.map((p) => '- ' + p).join('\n') +

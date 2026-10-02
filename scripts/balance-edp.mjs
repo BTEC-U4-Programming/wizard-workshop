@@ -13,7 +13,7 @@ export function simulateBalance(QuickJS, count = 1000) {
         QuickJS,
         {
           stage: 'grubbledown-bridge',
-          source: byId['E6.7'].solution.spellsSource,
+          source: byId['E5.7'].solution.spellsSource,
           seed
         },
         Date.now() + 1000

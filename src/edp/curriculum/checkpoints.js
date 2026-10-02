@@ -589,7 +589,7 @@ const records = [
   [
     'E4.4',
     'Twelve letters is plenty',
-    'Stop the buffer growing beyond 12 letters, then classify the test data.',
+    'Stop the buffer growing beyond 12 letters.',
     'rune-door',
     'independent',
     [
@@ -615,152 +615,9 @@ const records = [
       )
     ]
   ],
-  [
-    'E4.5',
-    'Two listeners, one keyboard',
-    'Typing in the door’s box must not fill the spell buffer.',
-    'rune-door',
-    'prompts only',
-    [
-      trial(
-        'Box typing opens the door without filling the buffer',
-        [type('incantation', 'aperio')],
-        (s) => s.world.runeDoor.isOpen && s.globals.spellBuffer === '',
-        'At the start of the buffer handler, return if event.target.tagName === "INPUT".'
-      ),
-      trial(
-        'Stage typing still lights the lantern',
-        [...keys('LUX'), key('Enter')],
-        (s) => s.world.lantern.lit,
-        'Ignore keys from INPUT elements, while keeping stage keys working.'
-      )
-    ]
-  ],
+
   [
     'E5.1',
-    'Predict the order',
-    'Predict the order of the three messages, then run and explain the result.',
-    'owl-loft',
-    'worked example',
-    [
-      trial(
-        'The console shows 1, 3, 2',
-        [],
-        (s) =>
-          s.log
-            .filter((a) => a.type === 'console')
-            .map((a) => a.message[0])
-            .join('') === '132',
-        'A zero-delay timer waits until the current script finishes.'
-      )
-    ]
-  ],
-  [
-    'E5.2',
-    'The frozen tower',
-    'Change the count so the handler finishes quickly, and check the bell works afterwards.',
-    'owl-loft',
-    'guided',
-    [
-      trial(
-        'Counting finishes',
-        [click('count-button')],
-        (s) => w(s).lastSpeech === 'Done counting!',
-        'Make the while loop much shorter; try count < 10.'
-      ),
-      trial(
-        'The bell works after counting',
-        [click('count-button'), click('bell-button')],
-        (s) => s.world.tower.awake,
-        'Let the count handler finish so the next event can run.'
-      )
-    ]
-  ],
-  [
-    'E5.3',
-    'Whose turn is it?',
-    'Fix the duel so clicking Zap during Grub’s turn says "Wait your turn!".',
-    'owl-loft',
-    'guided',
-    [
-      trial(
-        'One click starts Grub’s turn',
-        [click('zap-button')],
-        (s) => g(s).health === 46 && s.globals.gameState === 'goblinTurn',
-        'After casting, set gameState = "goblinTurn"; so another click cannot cast.'
-      ),
-      trial(
-        'Button mashing casts only once',
-        [click('zap-button'), click('zap-button')],
-        (s) => g(s).health === 46 && w(s).lastSpeech === 'Wait your turn!',
-        'Check the state before casting; change it as soon as the first spell casts.',
-        'erroneous'
-      ),
-      trial(
-        'Grub replies after 1.5 seconds',
-        [click('zap-button'), wait(1500)],
-        (s) => w(s).health === 92 && s.globals.gameState === 'wizardTurn',
-        'Schedule goblinTakesTurn for 1500ms and restore wizardTurn in it.'
-      ),
-      trial(
-        'Click, wait, click casts twice',
-        [click('zap-button'), wait(1500), click('zap-button')],
-        (s) => g(s).health === 32,
-        'Let the timer restore the wizard’s turn.'
-      )
-    ]
-  ],
-  [
-    'E5.4',
-    'Trace the turns',
-    'Complete the trace table for four events, then run to check it.',
-    'owl-loft',
-    'prompts only',
-    [
-      trial(
-        'The four-event trace matches',
-        [
-          click('zap-button'),
-          wait(500),
-          click('zap-button'),
-          wait(1000),
-          wait(500),
-          click('zap-button')
-        ],
-        (s) =>
-          g(s).health === 32 &&
-          w(s).health === 92 &&
-          s.globals.gameState === 'goblinTurn',
-        'Keep the turn state and 1500ms timer from the previous step.'
-      )
-    ]
-  ],
-  [
-    'E5.5',
-    'Grub shouts back',
-    'Announce `goblinDefeated` when Grub reaches 0 health, and listen for it.',
-    'owl-loft',
-    'gaps',
-    [
-      trial(
-        'Defeat wakes the tower',
-        [set('goblin.health', 10), click('zap-button')],
-        (s) =>
-          g(s).health === 0 &&
-          w(s).lastSpeech === 'Grub is beaten!' &&
-          s.world.tower.awake,
-        'Dispatch goblinDefeated after casting, then use event.detail.name in a listener.'
-      ),
-      trial(
-        'A surviving Grub does not wake the tower',
-        [click('zap-button')],
-        (s) => !s.world.tower.awake,
-        'Dispatch only inside if (goblin.health === 0).'
-      )
-    ]
-  ],
-  [
-    'E6.1',
     'Wire the spell bar',
     'Use event delegation to connect the spell cards to `battle.cast(power)`.',
     'grubbledown-bridge',
@@ -795,7 +652,7 @@ const records = [
     ]
   ],
   [
-    'E6.2',
+    'E5.2',
     'Shield and potion',
     'Make Shield and Healing potion work, only on your turn.',
     'grubbledown-bridge',
@@ -832,7 +689,7 @@ const records = [
     ]
   ],
   [
-    'E6.3',
+    'E5.3',
     'Scry Grub’s plan',
     'Show Grub’s next move on hover or focus, and hide it afterwards.',
     'grubbledown-bridge',
@@ -867,7 +724,7 @@ const records = [
     ]
   ],
   [
-    'E6.4',
+    'E5.4',
     'The Fireball incantation',
     'Collect typed letters during the Fireball window, show them, and cast with Enter.',
     'grubbledown-bridge',
@@ -922,7 +779,7 @@ const records = [
     ]
   ],
   [
-    'E6.5',
+    'E5.5',
     'Battle hotkeys',
     'Connect keys 1–5 and f. Ignore hotkeys outside your turn and during incantations.',
     'grubbledown-bridge',
@@ -960,7 +817,7 @@ const records = [
     ]
   ],
   [
-    'E6.6',
+    'E5.6',
     'When the dust settles',
     'Listen for `battleEnded` and show the right ending from `event.detail.winner`.',
     'grubbledown-bridge',
@@ -987,7 +844,7 @@ const records = [
     ]
   ],
   [
-    'E6.7',
+    'E5.7',
     'Play the battle',
     'Every control is listening. Play the battle — win or lose — then reflect.',
     'grubbledown-bridge',
@@ -1094,81 +951,73 @@ const instructions = {
     'Add two more listeners under the last code comment below so keyboard users can read the red potion information too.'
   ],
   'E4.1': [
-    '`switch` chooses a block by matching a value to a `case`. `break` stops it continuing into the next case.',
-    'Compare it with `if … else if`. Add Up (0, -10) and Down (0, 10).',
+    '**Step 1 — Meet `switch`.** `switch` looks at one value and runs the block of the `case` that matches it. `break` stops the code carrying on into the next case. Here is a full example that turns the lantern on or off depending on which key was pressed:\n`document.addEventListener("keydown", function (event) {\n  switch (event.key) {\n    case "l":\n      lantern.turnOn();\n      break;\n    case "d":\n      lantern.turnOff();\n      break;\n  }\n});`\nRead it as: “look at `event.key`. If it is `"l"`, turn the lantern on. If it is `"d"`, turn it off.” Any other key matches no case, so nothing happens.',
+    '**Step 2 — Compare it with `if … else if`, then add two cases.** The lantern example above can also be written with `if … else if`. Both versions do exactly the same job:\n`// switch version\nswitch (event.key) {\n  case "l":\n    lantern.turnOn();\n    break;\n  case "d":\n    lantern.turnOff();\n    break;\n}\n\n// if … else if version\nif (event.key === "l") {\n  lantern.turnOn();\n} else if (event.key === "d") {\n  lantern.turnOff();\n}`\nEach `case` is one `else if` test, and `break` marks where its block ends. Which do you find easier to read? Now look at the code below. It already has a `case` for `"ArrowLeft"` and one for `"ArrowRight"`. Your job is to add two more `case` blocks in the same shape: one for `"ArrowUp"` that calls `wizard.moveBy(0, -10)`, and one for `"ArrowDown"` that calls `wizard.moveBy(0, 10)`. The two numbers are how far to move across and then down, so `-10` moves the wizard up the screen and `10` moves it down. Copy the `ArrowRight` case and change the key name and the numbers.',
     'A **default action** is the browser’s usual response. `preventDefault()` stops arrow keys scrolling. Click the stage first; Tab leaves it.'
   ],
   'E4.2': [
     'A **string method** is a function that works on text. `trim()` removes spaces at the ends; `toUpperCase()` makes capitals.',
-    '`startsWith()` checks the beginning of text; `.length` counts its characters. Finish the capitals method.'
+    '`startsWith()` checks the beginning of text; `.length` counts its characters.',
+    'Your job below is to finish the line of code declaring the `typed` variable (around line 26) so that converts the value typed in by the user to uppercase.',
+    'Test your solution by running the code and then typing the secret word into the box below the game screen. Can you find the secret word in the code?'
   ],
   'E4.3': [
-    'A **buffer** collects input bit by bit. Run the code and press an arrow: look at the buffer.',
-    'Shift has the five-character name "Shift". Only add keys with `event.key.length === 1`.',
-    '`slice(0, -1)` keeps everything except the last character. Use it for Backspace.'
+    '**Step 1 — What is a buffer?** A **buffer** collects input bit by bit. Here, `spellBuffer` (line 38 of the code) starts as empty text (`""`). Each key you press is added to the end of it, and Enter speaks the whole buffer.',
+    '**Step 2 — See the problem.** Run the code, click into the input box below the game screen and then press an arrow: look at the buffer.',
+    '**Step 3 — Why it happens.** Every key has a name in `event.key`. Letter keys have one-character names, such as `"a"`. Other keys have longer names: the right arrow is `"ArrowRight"` and Shift is `"Shift"`. The final `else` in the last listener adds every name to the buffer in capitals, so you see ARROWRIGHT and SHIFT.',
+    '**Step 4 — ** `.length` counts the characters in some text:\n`"a".length           // 1\n"Shift".length       // 5\n"ArrowRight".length  // 10`\nSo `event.key.length === 1` is only true for single characters, such as letters and numbers.',
+    '**Step 5 - Fix it.** In the last `keydown` listener (around line 41 in the code), change the final `} else {` to `} else if (event.key.length === 1) {`. Now only single characters are added.\'',
+    '**Step 6 — Test it, including Backspace.** Backspace is already handled for you by `slice(0, -1)`, which keeps everything except the last character: `"IGNIX".slice(0, -1)` gives `"IGNI"`. Press **Run**, click the game screen, type IGNIX, press Backspace, type S and press Enter. The wizard should say “IGNIS!”. Shift and the arrows should no longer appear in the buffer.'
   ],
   'E4.4': [
-    '**Validation** checks input is sensible before using it. Only append a letter while the buffer length is below 12.',
-    '**Typical data** is normal input. **Extreme data** is at the allowed edge. **Erroneous data** should be rejected. Classify the cards.'
-  ],
-  'E4.5': [
-    'Key events bubble from an input box to document. Two listeners can hear the same typing.',
-    'At the start of the buffer handler, return if `event.target.tagName === "INPUT"`.',
-    'Stretch: can you stop arrow keys in the box moving your wizard too?'
+    '**Step 1 — What is validation?** **Validation** means checking input is sensible before using it. No spell needs more than 12 letters, so the buffer should stop growing at 12.',
+    '**Step 2 — Add the check.** `spellBuffer.length` is the number of letters in the buffer. In the last listener, find the line that adds a letter: `spellBuffer = spellBuffer + event.key.toUpperCase();` Wrap it in an `if`, so it only runs while `spellBuffer.length` is less than 12. The pattern looks like this:\n`if (spellBuffer.length < 12) {\n  spellBuffer = spellBuffer + event.key.toUpperCase();   // only runs while spellBuffer has fewer than 12 letters\n}`',
+    '**Step 3 — Test it.** Press **Run**, click the game screen and type 13 letters. Only the first 12 should appear in the buffer. Check that IGNIS then Enter still works.'
   ],
   'E5.1': [
-    'A **queue** is a line of waiting events. The **event loop** delivers them one at a time.',
-    'Choose a prediction and lock it in. Run, then compare the messages. A 0ms timer waits until the current script finishes.'
+    '**Step 1 — The battle API.** An **API** is the set of functions some code offers you. The battle engine offers functions such as `battle.cast(power)` and `battle.isWizardTurn()`. **Abstraction** means you can use them without knowing how they work inside.',
+    '**Step 2 — Read the listener.** This is **event delegation** again (E2.3): one listener on `#spell-bar` hears clicks on every card. Each card has a data attribute, such as `data-power="fire"` (look in the stage.html tab). The `if` only casts when a card was clicked (`power` has a value) and it is your turn.',
+    '**Step 3 — Fill the gap.** In `const power = event.target.dataset.____;`, replace `____` with the name of the data attribute. Remember: `data-power` in HTML is read as `dataset.power` in JavaScript.',
+    '**Step 4 — Check.** Press **Run** and click **Fire**. Grub loses 14 health. Click again straight away: nothing happens, because it is now Grub’s turn.'
   ],
   'E5.2': [
-    'A **while loop** repeats its block while its condition is true.',
-    'Run the billion-count example. It is stopped after the execution budget. In a real page the handler would freeze all other interaction until it finished.',
-    'Change the limit to 10. Run again and check the bell works after the count.'
+    '**Step 1 — The task.** Make the **Shield** and **Healing potion** buttons work, but only on your turn. Write your code below the `✦` comment.',
+    '**Step 2 — Find the buttons.** Use `document.querySelector` with `#shield-button` and `#potion-button`, just like `spellBar` above.',
+    '**Step 3 — Add a click listener to each.** Inside each handler, check `battle.isWizardTurn()` first, as the spell-bar listener does. If it is your turn, call `battle.shield()` in one handler and `battle.drinkPotion()` in the other. Named or anonymous functions both work.',
+    '**Step 4 — Let the API do the rest.** You do not need to work out damage or count potions. The battle engine does that, and says “No potions left!” when they run out.',
+    '**Step 5 — Check.** Press **Run**. Click **Shield**: Grub’s next hit does less damage. Click **Healing potion**: one potion is used.'
   ],
   'E5.3': [
-    '**State** is information about what is happening now, such as whose turn it is.',
-    '`&&` means and: both conditions must be true. `!` means not: it reverses true and false.',
-    'Change gameState to goblinTurn immediately after casting. The timer gives the turn back. Complete the truth table.'
+    '**Step 1 — The task.** Hovering over Grub, or reaching him with Tab, should show his next move in `#intent-bubble`. Moving away should hide it again. Write your code below the `✦` comment.',
+    '**Step 2 — Reading Grub’s plan.** `battle.revealIntent()` gives back Grub’s next move as text, such as `"Club Smash — 10 damage"`. Put that text in the bubble with `textContent`.',
+    '**Step 3 — Reuse the Section 3 pattern.** In E3.5 you showed a tooltip to mouse and keyboard users with two named functions and four listeners:\n`function showRedInfo() {\n  tooltip.textContent = "Healing draught: +20 health";\n  tooltip.hidden = false;\n}\n\nredPotion.addEventListener("mouseover", showRedInfo);\nredPotion.addEventListener("focus", showRedInfo);`\nDo the same here. Find `#goblin` and `#intent-bubble`. Write a show function and a hide function. Connect `mouseover` and `focus` to show, and `mouseout` and `blur` to hide.',
+    '**Step 4 — Check.** Press **Run** and move your pointer over Grub: his plan appears. Move away: it hides. Try reaching him with Tab too.'
   ],
   'E5.4': [
-    'Trace click at 0s, click at 0.5s, timer at 1.5s, then click at 2s.',
-    'Fill the cells, check them, then compare with the trial log. An attempt is enough to continue.'
+    '**Step 1 — How Fireball works.** Clicking **Fireball** opens a 5-second window. The player types IGNIS and presses Enter. The right word costs 8 mana and deals 30 damage. A wrong or late word fizzles and still costs 4 mana. Write your code below the `✦` comment.',
+    '**Step 2 — Three new API functions.**\n`battle.startIncantation()      // opens the window; gives back true if it opened\nbattle.isIncantationOpen()      // true while the window is open\nbattle.speakIncantation(words)  // casts using the words typed`',
+    '**Step 3 — Open the window.** Find `#fireball-button` and `#incantation-display`. Create `let spellBuffer = "";` (use exactly this name: the Spell Trials check it). Write a function called `startFireball` that calls `battle.startIncantation()`. Only if the window opened, empty `spellBuffer` and the display. An `if` can use the true/false answer directly:\n`if (battle.startIncantation()) {\n  // only runs if the window really opened\n}`\nConnect `startFireball` to a click on the Fireball button. You will reuse it in E5.5.',
+    '**Step 4 — Collect the letters.** Add a `keydown` listener on `document`. First, return straight away if the window is not open:\n`if (!battle.isIncantationOpen()) {\n  return;\n}`\nThen reuse your Section 4 buffer code (open E4.4 from the journey menu to copy it). Enter calls `battle.speakIncantation(spellBuffer)` and empties the buffer. Backspace uses `slice(0, -1)`. One-character keys are added in capitals, up to 12. Finally, show the buffer: `incantationDisplay.textContent = spellBuffer;`',
+    '**Step 5 — Check.** Press **Run**, click **Fireball**, type ignis and press Enter within 5 seconds. Grub loses 30 health.'
   ],
   'E5.5': [
-    'A **custom event** is one your code creates and announces. Use `new CustomEvent` with detail, then `dispatchEvent`.',
-    'Inside the zap handler, after casting, dispatch goblinDefeated only when health is 0. Add a document listener for it.',
-    '**Loosely coupled** parts work together without depending on each other’s details. This is the observer pattern: the tower can listen without the zap code knowing about it.'
+    '**Step 1 — The task.** Add keyboard shortcuts, called **hotkeys**: 1 fire, 2 ice, 3 storm, 4 shield, 5 potion and f for Fireball. Write a new `keydown` listener on `document` below the `✦` comment.',
+    '**Step 2 — Use a switch.** Choose the action with `switch (event.key)`, as in E4.1. Key names are text, so put the numbers in quotes. Storm’s power name is `"electricity"` (check `data-power` in stage.html). For example:\n`switch (event.key) {\n  case "1":\n    battle.cast("fire");\n    break;\n  case "f":\n    startFireball();\n    break;\n}`',
+    '**Step 3 — Only on your turn.** Before the `switch`, add `if (!battle.isWizardTurn()) { return; }`. During Grub’s turn, hotkeys then do nothing. While the Fireball window is open it is not your turn either, so pressing 2 types a letter into the incantation instead of casting ice.',
+    '**Step 4 — Keep the order.** Both `keydown` listeners hear every key, in the order they were added. Keep your hotkey listener below the Fireball listener. When you press f, the Fireball listener runs first and ignores it, because the window is still closed. Then the hotkey listener opens the window. The other way round, the f would land in the buffer as F.',
+    '**Step 5 — Check.** Press **Run**, click the game screen and press 1: Grub takes a fire spell. On your next turn, press f: the Fireball window opens with an empty buffer.'
   ],
-  'E6.1': [
-    'The battle **API** is its set of functions. **Abstraction** means using them without needing their internal details.',
-    'Read data-power, check it exists and check battle.isWizardTurn(), then call battle.cast(power).'
+  'E5.6': [
+    '**Step 1 — The battle announces its ending.** When the battle is over, `battle.events` announces a `battleEnded` event. Its `event.detail.winner` is either `"wizard"` or `"goblin"`.',
+    '**Step 2 — Read the listener.** The code at the bottom listens for `battleEnded`, chooses a message, and shows the hidden `#ending` element with `ending.hidden = false`.',
+    '**Step 3 — Fill the gap.** In `if (event.detail.winner === "____")`, replace `____` with the winner who should see “The Rune Bell is yours!”.',
+    '**Step 4 — Check.** Press **Run**. The Spell Trials test both endings for you, so you do not need to win a battle yet.'
   ],
-  'E6.2': [
-    'Connect Shield and Potion with named or anonymous handlers. Each must check the turn.',
-    'Use battle.shield() and battle.drinkPotion(); the engine handles damage and stock.'
-  ],
-  'E6.3': [
-    'Use battle.revealIntent() to fill #intent-bubble. Show on mouseover and focus; hide on mouseout and blur.',
-    'Your Section 3 potion example has the same accessible pattern.'
-  ],
-  'E6.4': [
-    'Clicking Fireball opens a 5-second window. Collect letters only while battle.isIncantationOpen().',
-    'Use a buffer, Backspace, Enter and a 12-letter cap from Section 4. Show it in #incantation-display.',
-    'A correct IGNIS costs 8 mana and deals 30 damage. A wrong or expired word fizzles for 4 mana. Clear the buffer when a new window opens.'
-  ],
-  'E6.5': [
-    'Keys: 1 fire, 2 ice, 3 storm, 4 shield, 5 potion, f Fireball.',
-    'Return before the switch unless battle.isWizardTurn(). Otherwise hotkeys clash with the incantation letters.',
-    'Keep the buffer listener before the hotkey listener. It sees f while the window is still closed.'
-  ],
-  'E6.6': [
-    'Listen on battle.events for battleEnded. The event’s detail names the winner.',
-    'Compare winner with "wizard", choose the ending text and set hidden = false.'
-  ],
-  'E6.7': [
-    'Run your listeners, then play a battle. Winning is optional; attempting it is required.',
-    'Scry Grub before choosing. Fireball, shields and potions help. Apprentice mode gives a longer window and gentler hits.',
-    'After a victory, Ring the Rune Bell. Retry after either ending. Use your code and stats as evidence for your report.'
+  'E5.7': [
+    '**Step 1 — Start the battle.** Press **Run**. All your listeners switch on and the battle begins on the stage.',
+    '**Step 2 — Your controls.** Click a spell card, or press 1–3, to cast. Use **Shield** (4) and **Healing potion** (5). Click **Fireball** (f), then type IGNIS and press Enter within 5 seconds. Hover over Grub, or Tab to him, to see his next move before you choose.',
+    '**Step 3 — Finish a battle.** You must play at least one battle to the end; winning is optional. After a victory, press **Ring the Rune Bell**. After either ending, you can press **Retry battle**. Finding it hard? Tick **Apprentice mode** in **Workspace tools** (top right) for a longer Fireball window and gentler hits.',
+    '**Step 4 — Gather evidence.** Note your stats and which parts of your code worked well: you will use them in your report. Open **Predict, explain & self-check** for the questions to answer.'
   ]
 };
 // Optional per-step hints, used when the first and last instructions
@@ -1185,6 +1034,42 @@ const customHints = {
   'E2.4': [
     'Handing over `wizard.recoverHealth` gives the browser the method without the wizard. When the click happens it runs for the button, so `this` is the button, not your wizard.',
     'Give addEventListener a small arrow function instead: `() => wizard.recoverHealth()`. The dot in `wizard.recoverHealth()` tells the method which wizard to heal.'
+  ],
+  'E4.3': [
+    'Only keys with a one-character name, such as `"a"`, belong in the buffer. `event.key.length === 1` checks this.',
+    'In the last listener, change the final `} else {` to `} else if (event.key.length === 1) {`.'
+  ],
+  'E4.4': [
+    '`spellBuffer.length` counts the letters already collected. Only add a new letter while it is below 12.',
+    'Inside the `else if (event.key.length === 1)` branch, put `if (spellBuffer.length < 12) { … }` around the line that adds the letter.'
+  ],
+  'E5.1': [
+    'Each card’s HTML has `data-power="…"`. `event.target.dataset.power` reads it.',
+    'Replace `____` with `power`.'
+  ],
+  'E5.2': [
+    'Follow the spell-bar pattern: find each button, add a `"click"` listener, and check `battle.isWizardTurn()` inside.',
+    'Inside the turn checks, call `battle.shield();` in one handler and `battle.drinkPotion();` in the other.'
+  ],
+  'E5.3': [
+    'In a show function, set the bubble’s `textContent` to `battle.revealIntent()` and its `hidden` to `false`.',
+    'Connect `mouseover` and `focus` to the show function. Connect `mouseout` and `blur` to a hide function that sets `hidden` to `true`.'
+  ],
+  'E5.4': [
+    'Name the buffer `spellBuffer`. Empty it inside `if (battle.startIncantation()) { … }` so each new window starts clean.',
+    'Start the `keydown` handler with `if (!battle.isIncantationOpen()) { return; }`, then reuse your Section 4 Enter, Backspace and `event.key.length === 1` code with `battle.speakIncantation`.'
+  ],
+  'E5.5': [
+    'Add a new `document` `keydown` listener below the Fireball one. Use `switch (event.key)` with cases `"1"` to `"5"` and `"f"`.',
+    'Start the handler with `if (!battle.isWizardTurn()) { return; }`. Storm is `battle.cast("electricity")`, and `"f"` calls `startFireball()`.'
+  ],
+  'E5.6': [
+    '`event.detail.winner` is either `"wizard"` or `"goblin"`.',
+    'Replace `____` with `wizard`, so the first message shows when you win.'
+  ],
+  'E5.7': [
+    'Scry Grub before choosing. Shield before his big hits, and drink a potion when your health is low.',
+    'Fireball deals the most damage: click it, type IGNIS and press Enter quickly. Apprentice mode in Workspace tools gives you more time.'
   ]
 };
 // Crystal Ball categories ticked when a step opens. Steps not listed show
@@ -1215,17 +1100,7 @@ const reflections = {
     'Phones have no hover. How would you decide whether a hover-only design suits its users?',
   'E4.4':
     'Whose job is it to cope with unexpected keys? What does robustness mean here?',
-  'E4.5':
-    'How do overlapping listeners affect maintainability? How would you keep track?',
-  'E5.1':
-    'Why does the zero-delay timer run last? Think of Quill carrying one message at a time.',
-  'E5.2':
-    'Using the event loop, explain why an app might freeze after a button press.',
-  'E5.3':
-    'The same click now does different things. Why do games need both events and state?',
-  'E5.5':
-    'Why can the zap code announce a defeat without knowing which parts react?',
-  'E6.7':
+  'E5.7':
     'Decomposition: list every event, its source, handler and state change. Paradigms: what do objects and events each contribute? Could the battle be procedural? Compare JavaScript with Visual Basic’s Handles btnFire.Click. Evaluate usability, robustness and maintainability with evidence from your own code.'
 };
 const activities = {
@@ -1246,134 +1121,6 @@ const activities = {
     ],
     ['A smart doorbell', 1, 'It reacts to a visitor.']
   ]),
-  'E4.4': sort(
-    ['Typical', 'Extreme', 'Erroneous'],
-    [
-      ['IGNIS then Enter', 0, 'Normal input.'],
-      ['ignis then Enter', 0, 'Lowercase is supported.'],
-      ['12 letters', 1, 'Exactly at the limit.'],
-      ['13 letters', 1, 'One beyond the limit.'],
-      ['Shift, Ctrl, ArrowUp', 2, 'These are not letters to append.'],
-      ['Enter with nothing typed', 2, 'No incantation was supplied.'],
-      ['%%%123 then Enter', 2, 'It is not a known spell.']
-    ]
-  ),
-  'E5.1': {
-    type: 'predict',
-    options: ['1, 2, 3', '1, 3, 2', '2, 1, 3'],
-    answer: '1',
-    explanation:
-      'The current script finishes before the zero-delay timer runs: 1, 3, 2.'
-  },
-  'E5.3': {
-    type: 'truth-table',
-    columns: ['isWizardTurn', 'hasEnoughMana', 'Both true?', 'What happens?'],
-    rows: [
-      ['true', 'true'],
-      ['true', 'false'],
-      ['false', 'true'],
-      ['false', 'false']
-    ],
-    cells: [
-      {
-        id: 'r0-both',
-        row: 0,
-        column: 2,
-        accept: ['true'],
-        options: ['true', 'false']
-      },
-      {
-        id: 'r0-action',
-        row: 0,
-        column: 3,
-        accept: ['casts'],
-        options: ['casts', 'Wait your turn!', 'Not enough mana!']
-      },
-      {
-        id: 'r1-both',
-        row: 1,
-        column: 2,
-        accept: ['false'],
-        options: ['true', 'false']
-      },
-      {
-        id: 'r1-action',
-        row: 1,
-        column: 3,
-        accept: ['Not enough mana!'],
-        options: ['casts', 'Wait your turn!', 'Not enough mana!']
-      },
-      {
-        id: 'r2-both',
-        row: 2,
-        column: 2,
-        accept: ['false'],
-        options: ['true', 'false']
-      },
-      {
-        id: 'r2-action',
-        row: 2,
-        column: 3,
-        accept: ['Wait your turn!'],
-        options: ['casts', 'Wait your turn!', 'Not enough mana!']
-      },
-      {
-        id: 'r3-both',
-        row: 3,
-        column: 2,
-        accept: ['false'],
-        options: ['true', 'false']
-      },
-      {
-        id: 'r3-action',
-        row: 3,
-        column: 3,
-        accept: ['Wait your turn!'],
-        options: ['casts', 'Wait your turn!', 'Not enough mana!'],
-        feedback: 'The !isWizardTurn branch is checked before the mana refusal.'
-      }
-    ]
-  },
-  'E5.4': {
-    type: 'trace-table',
-    columns: [
-      'Event',
-      'Handler',
-      'gameState after',
-      'Grub’s health',
-      'What the player sees'
-    ],
-    rows: [
-      [
-        'click at 0s',
-        '(anonymous function)',
-        'goblinTurn',
-        '46',
-        'A fire spell'
-      ],
-      ['click at 0.5s', '(anonymous function)', '', '46', ''],
-      ['timer at 1.5s', '', '', '46', 'Wizard 92 health'],
-      ['click at 2s', '(anonymous function)', 'goblinTurn', '', 'A fire spell']
-    ],
-    cells: [
-      {id: 'state2', row: 1, column: 2, accept: ['goblinTurn', '"goblinTurn"']},
-      {
-        id: 'speech2',
-        row: 1,
-        column: 4,
-        accept: ['Wait your turn!', '"Wait your turn!"'],
-        caseSensitive: false
-      },
-      {
-        id: 'handler3',
-        row: 2,
-        column: 1,
-        accept: ['goblinTakesTurn', 'goblinTakesTurn()']
-      },
-      {id: 'state3', row: 2, column: 2, accept: ['wizardTurn', '"wizardTurn"']},
-      {id: 'health4', row: 3, column: 3, accept: ['32']}
-    ]
-  }
 };
 const carry = new Set([
   'E1.3',
@@ -1381,24 +1128,19 @@ const carry = new Set([
   'E1.5',
   'E3.3',
   'E4.4',
-  'E4.5',
+  'E5.2',
+  'E5.3',
   'E5.4',
   'E5.5',
-  'E6.2',
-  'E6.3',
-  'E6.4',
-  'E6.5',
-  'E6.6',
-  'E6.7'
+  'E5.6',
+  'E5.7'
 ]);
 const starterStatus = (id) =>
-  ['E1.4', 'E2.2', 'E3.1', 'E3.2', 'E4.2', 'E6.1', 'E6.6'].includes(id)
+  ['E1.4', 'E2.2', 'E3.1', 'E3.2', 'E4.2', 'E5.1', 'E5.6'].includes(id)
     ? 'error'
-    : id === 'E5.2'
-      ? 'stopped'
-      : ['E1.5', 'E5.1', 'E5.4', 'E6.7'].includes(id)
-        ? 'success'
-        : 'validButIncomplete';
+    : ['E1.5', 'E5.7'].includes(id)
+      ? 'success'
+      : 'validButIncomplete';
 export const checkpoints = records.map(
   ([id, title, objective, stage, scaffold, trials], index) => ({
     id,
@@ -1434,11 +1176,9 @@ export const checkpoints = records.map(
         awake: stage !== 'tower-bedroom'
       }
     },
-    reads: ['E4.3', 'E4.4', 'E4.5', 'E6.4', 'E6.5', 'E6.6', 'E6.7'].includes(id)
+    reads: ['E4.3', 'E4.4', 'E5.4', 'E5.5', 'E5.6', 'E5.7'].includes(id)
       ? ['spellBuffer']
-      : ['E5.3', 'E5.4', 'E5.5'].includes(id)
-        ? ['gameState']
-        : [],
+      : [],
     starterExpected: {
       status: starterStatus(id),
       reason:

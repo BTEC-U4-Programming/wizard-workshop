@@ -3,7 +3,7 @@ import {checkpoints, byId} from './curriculum/checkpoints.js';
 import {recap, recapMarkdown} from './curriculum/recap.js';
 export const edpModule = {
   id: 'edp',
-  sectionCount: 6,
+  sectionCount: 5,
   sectionByChapter,
   byId,
   optionOrder,
@@ -18,6 +18,6 @@ export const edpModule = {
   recap,
   recapMarkdown,
   recapFilename: 'wizard-workshop-tome-2-summary.md',
-  backToReviewId: 'review:6',
+  backToReviewId: 'review:5',
   finalCodeLabel: 'Your final code'
 };

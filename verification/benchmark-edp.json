@@ -94,11 +94,6 @@
       "maxMs": 8.65
     },
     {
-      "id": "E4.5",
-      "medianMs": 5.78,
-      "maxMs": 6.21
-    },
-    {
       "id": "E5.1",
       "medianMs": 3.55,
       "maxMs": 4.1
@@ -124,37 +119,37 @@
       "maxMs": 6.06
     },
     {
-      "id": "E6.1",
+      "id": "E5.1",
       "medianMs": 9.93,
       "maxMs": 10.74
     },
     {
-      "id": "E6.2",
+      "id": "E5.2",
       "medianMs": 10.15,
       "maxMs": 13.57
     },
     {
-      "id": "E6.3",
+      "id": "E5.3",
       "medianMs": 10.05,
       "maxMs": 10.57
     },
     {
-      "id": "E6.4",
+      "id": "E5.4",
       "medianMs": 12.76,
       "maxMs": 13.53
     },
     {
-      "id": "E6.5",
+      "id": "E5.5",
       "medianMs": 10.41,
       "maxMs": 11.95
     },
     {
-      "id": "E6.6",
+      "id": "E5.6",
       "medianMs": 6.41,
       "maxMs": 6.94
     },
     {
-      "id": "E6.7",
+      "id": "E5.7",
       "medianMs": 7.01,
       "maxMs": 7.82
     }
