@@ -725,130 +725,10 @@ const records = [
   ],
   [
     'E5.4',
-    'The Fireball incantation',
-    'Collect typed letters during the Fireball window, show them, and cast with Enter.',
-    'grubbledown-bridge',
-    'independent',
-    [
-      trial(
-        'IGNIS casts a Fireball',
-        [click('fireball-button'), ...keys('ignis'), key('Enter')],
-        (s) =>
-          g(s).health === battleRules.goblinHealth - 30 && w(s).mana === 12,
-        'Start an incantation, collect letters, then pass the buffer on Enter.'
-      ),
-      trial(
-        'Long key names are ignored',
-        [click('fireball-button'), key('Shift'), key('ArrowUp')],
-        (s) => s.globals.spellBuffer === '',
-        'Only add keys with event.key.length === 1.',
-        'erroneous'
-      ),
-      trial(
-        'Backspace repairs the word',
-        [
-          click('fireball-button'),
-          ...keys('IGNIX'),
-          key('Backspace'),
-          key('S'),
-          key('Enter')
-        ],
-        (s) => g(s).health === battleRules.goblinHealth - 30,
-        'Use slice(0, -1) on Backspace.'
-      ),
-      trial(
-        'Typing outside the window does nothing',
-        keys('IGNIS'),
-        (s) => s.globals.spellBuffer === '',
-        'Return when !battle.isIncantationOpen().',
-        'erroneous'
-      ),
-      trial(
-        'An expired window fizzles; a new one is empty',
-        [
-          click('fireball-button'),
-          key('I'),
-          wait(5000),
-          wait(1200),
-          click('fireball-button')
-        ],
-        (s) => s.battle.state === 'incantation' && s.globals.spellBuffer === '',
-        'Clear the buffer each time startIncantation() succeeds.',
-        'extreme'
-      )
-    ]
-  ],
-  [
-    'E5.5',
-    'Battle hotkeys',
-    'Connect keys 1–5 and f. Ignore hotkeys outside your turn and during incantations.',
-    'grubbledown-bridge',
-    'independent',
-    [
-      trial(
-        '1 casts fire',
-        [key('1')],
-        (s) => g(s).health === battleRules.goblinHealth - 14,
-        'Listen for keydown on document; case "1" casts fire.'
-      ),
-      trial(
-        'f opens an empty incantation',
-        [key('f')],
-        (s) => s.battle.state === 'incantation' && s.globals.spellBuffer === '',
-        'Register the buffer handler before the hotkeys; f starts Fireball.'
-      ),
-      trial(
-        '2 during an incantation is text',
-        [key('f'), key('2')],
-        (s) =>
-          s.globals.spellBuffer === '2' &&
-          g(s).health === battleRules.goblinHealth,
-        'Stop hotkeys when it is not your turn: if (!battle.isWizardTurn()) { return; }.',
-        'erroneous'
-      ),
-      trial(
-        'Keys during Grub’s turn do nothing',
-        [key('1'), key('2'), key('5')],
-        (s) =>
-          g(s).health === battleRules.goblinHealth - 14 && w(s).potions === 2,
-        'Check the turn before the switch.',
-        'erroneous'
-      )
-    ]
-  ],
-  [
-    'E5.6',
-    'When the dust settles',
-    'Listen for `battleEnded` and show the right ending from `event.detail.winner`.',
-    'grubbledown-bridge',
-    'gaps',
-    [
-      trial(
-        'Victory shows the Rune Bell message',
-        [set('goblin.health', 14), click('fire-card')],
-        (s) =>
-          s.battle.state === 'victory' &&
-          e(s, 'ending').text === 'The Rune Bell is yours!' &&
-          !e(s, 'ending').hidden,
-        'Listen on battle.events and compare winner with "wizard".'
-      ),
-      trial(
-        'Defeat shows a retry message',
-        [set('wizard.health', 5), click('fire-card'), wait(1200)],
-        (s) =>
-          s.battle.state === 'defeat' &&
-          e(s, 'ending').text === 'Grub wins this time. Try again!' &&
-          !e(s, 'ending').hidden,
-        'Use else for Grub’s victory, and show the ending.'
-      )
-    ]
-  ],
-  [
-    'E5.7',
     'Play the battle',
-    'Every control is listening. Play the battle — win or lose — then reflect.',
+    'Every control is already wired up. Press Run, play the battle, then work out with your pair programmer how the code makes it work.',
     'grubbledown-bridge',
-    'independent',
+    'read and explain',
     [
       trial(
         'Every control is listening',
@@ -868,13 +748,13 @@ const records = [
               (r) => r.accepted && r.target === target && r.type === type
             )
           ),
-        'Connect spell bar, shield, potion, Fireball, hover and focus on Grub, keydown, and battleEnded.'
+        'A listener is missing. Did a change to the code remove one? Press Reset step to get the full, working battle back.'
       ),
       trial(
         'A test player can win with your controls',
         battleBotSteps,
         (s) => s.battle.state === 'victory',
-        'Keep every handler working together. Use scrying, Fireball and turn checks.'
+        'The handlers no longer work together. Press Reset step to get the full, working battle back.'
       )
     ]
   ]
@@ -991,38 +871,21 @@ const instructions = {
   ],
   'E5.3': [
     '**Step 1 — The task.** Hovering over Grub, or reaching him with Tab, should show his next move in `#intent-bubble`. Moving away should hide it again. Write your code below the `✦` comment.',
-    '**Step 2 — Reading Grub’s plan.** `battle.revealIntent()` gives back Grub’s next move as text, such as `"Club Smash — 10 damage"`. Put that text in the bubble with `textContent`.',
-    '**Step 3 — Reuse the Section 3 pattern.** In E3.5 you showed a tooltip to mouse and keyboard users with two named functions and four listeners:\n`function showRedInfo() {\n  tooltip.textContent = "Healing draught: +20 health";\n  tooltip.hidden = false;\n}\n\nredPotion.addEventListener("mouseover", showRedInfo);\nredPotion.addEventListener("focus", showRedInfo);`\nDo the same here. Find `#goblin` and `#intent-bubble`. Write a show function and a hide function. Connect `mouseover` and `focus` to show, and `mouseout` and `blur` to hide.',
+    '**Step 2 — Reading Grub’s plan.** `battle.revealIntent()` gives back Grub’s next move as text, such as `"Club Smash — 8 damage"`. Put that text in the bubble with `textContent`.',
+    '**Step 3a — Reuse the Section 3 pattern.** In E3.5 you showed a tooltip to mouse and keyboard users with two named functions and four listeners:\n`function showRedInfo() {\n  tooltip.textContent = "Healing draught: +20 health";\n  tooltip.hidden = false;\n}\n\nredPotion.addEventListener("mouseover", showRedInfo);\nredPotion.addEventListener("focus", showRedInfo);`\nDo the same here. Find `#goblin` and `#intent-bubble` using `querySelector` and store these elements in variables called `goblinSprite` and `intentBubble`.',
+    '**Step 3b — Add event** - Write two new functions: one called `showIntent` and the other called `hideIntent`. Connect `mouseover` and `focus` to show with `battle.revealIntent()`, and `mouseout` and `blur` to hide.',
     '**Step 4 — Check.** Press **Run** and move your pointer over Grub: his plan appears. Move away: it hides. Try reaching him with Tab too.'
   ],
   'E5.4': [
-    '**Step 1 — How Fireball works.** Clicking **Fireball** opens a 5-second window. The player types IGNIS and presses Enter. The right word costs 8 mana and deals 30 damage. A wrong or late word fizzles and still costs 4 mana. Write your code below the `✦` comment.',
-    '**Step 2 — State and a timer.** While the window is open, the battle’s state is `"incantation"`. It is not your turn, so `battle.isWizardTurn()` gives back `false` and your cards and buttons do nothing. When the window opens, the engine also starts a 5-second `setTimeout`. If that timer runs out before you press Enter, the spell fizzles.',
-    '**Step 3 — Three new API functions.**\n`battle.startIncantation()      // opens the window; gives back true if it opened\nbattle.isIncantationOpen()      // true while the window is open\nbattle.speakIncantation(words)  // casts using the words typed`',
-    '**Step 4 — Open the window.** Find `#fireball-button` and `#incantation-display`. Create `let spellBuffer = "";` (use exactly this name: the Spell Trials check it). Write a function called `startFireball` that calls `battle.startIncantation()`. Only if the window opened, empty `spellBuffer` and the display. An `if` can use the true/false answer directly:\n`if (battle.startIncantation()) {\n  // only runs if the window really opened\n}`\nConnect `startFireball` to a click on the Fireball button. You will reuse it in E5.5.',
-    '**Step 5 — Collect the letters.** Add a `keydown` listener on `document`. First, stop straight away if the window is not open. `!` means “not”: it turns `true` into `false` and `false` into `true`. So `!battle.isIncantationOpen()` is `true` when the window is **closed**. `return` leaves the handler at once, so none of the code below it runs:\n`if (!battle.isIncantationOpen()) {\n  return;\n}`\nThen reuse your Section 4 buffer code (open E4.4 from the journey menu to copy it). Enter calls `battle.speakIncantation(spellBuffer)` and empties the buffer. Backspace uses `slice(0, -1)`. One-character keys are added in capitals, up to 12. Finally, show the buffer: `incantationDisplay.textContent = spellBuffer;`',
-    '**Step 6 — Check.** Press **Run**, click **Fireball**, type ignis and press Enter within 5 seconds. Grub loses 30 health.'
-  ],
-  'E5.5': [
-    '**Step 1 — The task.** Add keyboard shortcuts, called **hotkeys**: 1 fire, 2 ice, 3 storm, 4 shield, 5 potion and f for Fireball. Write a new `keydown` listener on `document` below the `✦` comment.',
-    '**Step 2 — Use a switch.** Choose the action with `switch (event.key)`, as in E4.1. Key names are text, so put the numbers in quotes. Storm’s power name is `"electricity"` (check `data-power` in stage.html). For example:\n`switch (event.key) {\n  case "1":\n    battle.cast("fire");\n    break;\n  case "f":\n    startFireball();\n    break;\n}`',
-    '**Step 3 — Check the state first.** Before the `switch`, add a **state check**: `if (!battle.isWizardTurn()) { return; }`. Read it as “if it is **not** my turn, stop here”. During Grub’s turn, hotkeys then do nothing. While the Fireball window is open the state is `"incantation"`, so it is not your turn either: pressing 2 types a letter into the incantation instead of casting ice.',
-    '**Step 4 — Keep the order.** Both `keydown` listeners hear every key, in the order they were added. Keep your hotkey listener below the Fireball listener. When you press f, the Fireball listener runs first and ignores it, because the window is still closed. Then the hotkey listener opens the window. The other way round, the f would land in the buffer as F.',
-    '**Step 5 — Check.** Press **Run**, click the game screen and press 1: Grub takes a fire spell. On your next turn, press f: the Fireball window opens with an empty buffer.'
-  ],
-  'E5.6': [
-    '**Step 1 — Events your code creates.** Every event so far came from the browser: clicks, hovers and key presses. Code can also create and announce its own events. These are called **custom events**. When someone’s health reaches 0, the battle engine announces a custom event called `battleEnded`.',
-    '**Step 2 — How the engine announces it.** Inside the engine (you do not need to write this), the announcement works like this:\n`battle.events.dispatchEvent(new CustomEvent("battleEnded", {\n  detail: { winner: "wizard" }\n}));`\n`new CustomEvent("battleEnded", …)` creates an event with that name. `detail` carries extra information: here, who won (`"wizard"` or `"goblin"`). `dispatchEvent` announces the event to every listener on `battle.events`.',
-    '**Step 3 — Why announce it?** The engine does not know what your page should do when the battle ends. It just announces the news, and your code decides how to react. Parts that work together without needing each other’s details are **loosely coupled**. They are easier to change later.',
-    '**Step 4 — Read the listener.** You listen for a custom event exactly as you listen for a click. The code at the bottom uses `battle.events.addEventListener("battleEnded", …)`. Inside the handler, `event.detail.winner` reads who won. The handler chooses a message, then shows the hidden `#ending` element with `ending.hidden = false`.',
-    '**Step 5 — Fill the gap.** In `if (event.detail.winner === "____")`, replace `____` with the winner who should see “The Rune Bell is yours!”.',
-    '**Step 6 — Check.** Press **Run**. The Spell Trials test both endings for you, so you do not need to win a battle yet.'
-  ],
-  'E5.7': [
-    '**Step 1 — Start the battle.** Press **Run**. All your listeners switch on and the battle begins on the stage.',
-    '**Step 2 — Your controls.** Click a spell card, or press 1–3, to cast. Use **Shield** (4) and **Healing potion** (5). Click **Fireball** (f), then type IGNIS and press Enter within 5 seconds. Hover over Grub, or Tab to him, to see his next move before you choose.',
-    '**Step 3 — Finish a battle.** You must play at least one battle to the end; winning is optional. After a victory, press **Ring the Rune Bell**. After either ending, you can press **Retry battle**. Finding it hard? Tick **Apprentice mode** in **Workspace tools** (top right) for a longer Fireball window and gentler hits.',
-    '**Step 4 — Gather evidence.** Note your stats and which parts of your code worked well: you will use them in your report. Open **Predict, explain & self-check** for the questions to answer.'
+    '**Step 1 — Start the battle.** Everything is already wired up for you: you do not need to change any code. Press **Run code**. All the listeners switch on and the battle begins on the stage.',
+    '**Step 2 — Take turns.** It is your turn when the banner says **Your turn**. Choose **one** action, then Grub takes his turn. To use the keyboard keys below, click the game screen first.',
+    '**Step 3 — Cast a spell.** Click the **Fire**, **Ice** or **Storm** card, or press **1**, **2** or **3**. Each spell uses some mana.',
+    '**Step 4 — Defend and heal.** Click **Shield** or press **4**: Grub’s next hit does less damage. Click **Healing potion** or press **5**: you gain 20 health. You only have two potions.',
+    '**Step 5 — Fireball.** Click **Fireball** or press **f**. Then type **IGNIS** and press **Enter** within 5 seconds. It costs 8 mana and deals 30 damage. A wrong or late word fizzles: it still costs 4 mana, and Grub takes his turn.',
+    '**Step 6 — Scry Grub.** Hover over Grub, or press **Tab** until he is selected, to see his next move in a speech bubble. Scrying is free, so check his plan before you choose!',
+    '**Step 7 — Finish a battle.** Play at least one battle to the end; winning is optional. After a victory, press **Ring the Rune Bell**. After either ending, you can press **Retry battle**. Finding it hard? Tick **Apprentice mode** in **Workspace tools** (top right) for a longer Fireball window and gentler hits.',
+    '**Step 8 — Become code detectives.** Now read `spells.js` with your pair programmer. It has six parts, each labelled with a comment. For each part, work out together: which **event** does it listen for, on which **element**, and what does its **handler** do? Look for ideas you already know: event delegation, `dataset`, `focus` and `blur`, a keyboard buffer, `switch`, `&&` and `!`. Do not change the code: play again and watch the stage and the Crystal Ball to test your ideas.',
+    '**Step 9 — Get ready to feed back.** Be ready to explain to the class, out loud, **how you think the code works**. Use the words event, listener, handler and state. Then prepare **one question** about a part of the code you do not understand yet. A good question points at a line or part, such as: “Why does Part 4 `return` when the Fireball window is closed?”'
   ]
 };
 // Optional per-step hints, used when the first and last instructions
@@ -1061,20 +924,8 @@ const customHints = {
     'Connect `mouseover` and `focus` to the show function. Connect `mouseout` and `blur` to a hide function that sets `hidden` to `true`.'
   ],
   'E5.4': [
-    'Name the buffer `spellBuffer`. Empty it inside `if (battle.startIncantation()) { … }` so each new window starts clean.',
-    'Start the `keydown` handler with `if (!battle.isIncantationOpen()) { return; }`, then reuse your Section 4 Enter, Backspace and `event.key.length === 1` code with `battle.speakIncantation`.'
-  ],
-  'E5.5': [
-    'Add a new `document` `keydown` listener below the Fireball one. Use `switch (event.key)` with cases `"1"` to `"5"` and `"f"`.',
-    'Start the handler with `if (!battle.isWizardTurn()) { return; }`. Storm is `battle.cast("electricity")`, and `"f"` calls `startFireball()`.'
-  ],
-  'E5.6': [
-    '`event.detail.winner` is either `"wizard"` or `"goblin"`.',
-    'Replace `____` with `wizard`, so the first message shows when you win.'
-  ],
-  'E5.7': [
-    'Scry Grub before choosing. Shield before his big hits, and drink a potion when your health is low.',
-    'Fireball deals the most damage: click it, type IGNIS and press Enter quickly. Apprentice mode in Workspace tools gives you more time.'
+    'Playing: scry Grub before choosing. Shield before his big hits, drink a potion when your health is low, and use Fireball (f, then IGNIS and Enter) when you have 8 mana.',
+    'Reading the code: take one comment-labelled part at a time. Find the `addEventListener` line first: it tells you the element and the event. Then read the handler to see what happens when that event fires.'
   ]
 };
 // Crystal Ball categories ticked when a step opens. Steps not listed show
@@ -1105,8 +956,8 @@ const reflections = {
     'Phones have no hover. How would you decide whether a hover-only design suits its users?',
   'E4.4':
     'Whose job is it to cope with unexpected keys? What does robustness mean here?',
-  'E5.7':
-    'Decomposition: list every event, its source, handler and state change. Paradigms: what do objects and events each contribute? Could the battle be procedural? Compare JavaScript with Visual Basic’s Handles btnFire.Click. Evaluate usability, robustness and maintainability with evidence from your own code.'
+  'E5.4':
+    'With your pair programmer: pick one control, such as the Fireball button. Trace what happens from the event to the change you see on the stage: which listener hears it, which handler runs, and which state is checked or changed? Why do the hotkeys do nothing during Grub’s turn? What would go wrong if a handler did not check `battle.isWizardTurn()`? Then evaluate usability, robustness and maintainability with evidence from the code.'
 };
 const activities = {
   'E1.5': sort(bins, [
@@ -1134,16 +985,12 @@ const carry = new Set([
   'E3.3',
   'E4.4',
   'E5.2',
-  'E5.3',
-  'E5.4',
-  'E5.5',
-  'E5.6',
-  'E5.7'
+  'E5.3'
 ]);
 const starterStatus = (id) =>
-  ['E1.4', 'E2.2', 'E3.1', 'E3.2', 'E4.2', 'E5.1', 'E5.6'].includes(id)
+  ['E1.4', 'E2.2', 'E3.1', 'E3.2', 'E4.2', 'E5.1'].includes(id)
     ? 'error'
-    : ['E1.5', 'E5.7'].includes(id)
+    : ['E1.5', 'E5.4'].includes(id)
       ? 'success'
       : 'validButIncomplete';
 export const checkpoints = records.map(
@@ -1181,7 +1028,7 @@ export const checkpoints = records.map(
         awake: stage !== 'tower-bedroom'
       }
     },
-    reads: ['E4.3', 'E4.4', 'E5.4', 'E5.5', 'E5.6', 'E5.7'].includes(id)
+    reads: ['E4.3', 'E4.4', 'E5.4'].includes(id)
       ? ['spellBuffer']
       : [],
     starterExpected: {

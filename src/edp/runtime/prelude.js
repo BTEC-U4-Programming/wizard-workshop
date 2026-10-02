@@ -596,10 +596,15 @@ function createStage(config) {
   };
   const battleEvents = target('battle.events');
   Object.preventExtensions(battleEvents);
+  const hits = config.rules.goblinDamage;
   const intents = [
-    ['Club Smash — 10 damage', 10, false],
-    ['Big Bonk — 20 damage', 20, false],
-    ['Sneaky Stab — 12 damage, ignores shields', 12, true],
+    [`Club Smash — ${hits.clubSmash} damage`, hits.clubSmash, false],
+    [`Big Bonk — ${hits.bigBonk} damage`, hits.bigBonk, false],
+    [
+      `Sneaky Stab — ${hits.sneakyStab} damage, ignores shields`,
+      hits.sneakyStab,
+      true
+    ],
     ['Taunt — lose 6 mana', 0, false],
     ['Snatch — steals a potion', 0, false]
   ];
@@ -648,7 +653,7 @@ function createStage(config) {
     if (intent === intents[3]) wizard.mana -= 6;
     else if (intent === intents[4] && wizard.potions > 0) wizard.potions--;
     else {
-      if (intent === intents[4]) damage = 10;
+      if (intent === intents[4]) damage = hits.snatch;
       damage = Math.max(0, damage - (slowed ? 4 : 0));
       if (wizard.shielded && !intent[2]) damage = Math.floor(damage / 2);
       if (config.apprentice) damage = Math.floor(damage * 0.75);

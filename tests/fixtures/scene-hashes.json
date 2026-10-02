@@ -9,7 +9,17 @@
         "properties": []
       }
     },
-    "hash": "3b3ca7e9550ba99a751b2a268b29896eba06ebd5ac41a8e298dd2c59bd4a0c63"
+    "hash": "5e5f59d8ba62e79a97248d2178b987c00effbae2ce15607fe29a9afb08e70231",
+    "text": [
+      {
+        "text": "class Wizard",
+        "x": 121,
+        "y": 210,
+        "font": "10px Consolas, monospace",
+        "fillStyle": "#8f9bb8",
+        "textAlign": "center"
+      }
+    ]
   },
   {
     "snapshot": {
@@ -21,7 +31,25 @@
         ]
       }
     },
-    "hash": "5883b31cc7f91ef3fbc868a275040a75fb245fb0b19345635b9bcd5f7ff1e2b1"
+    "hash": "ccbbc2cded8224bbc3366e384cae2f32e16f98fb00af4e5123cae01e385761d0",
+    "text": [
+      {
+        "text": "class Wizard",
+        "x": 121,
+        "y": 210,
+        "font": "10px Consolas, monospace",
+        "fillStyle": "#8f9bb8",
+        "textAlign": "center"
+      },
+      {
+        "text": "name · level · health",
+        "x": 122,
+        "y": 78,
+        "font": "bold 11px Consolas, monospace",
+        "fillStyle": "#f5e7c4",
+        "textAlign": "center"
+      }
+    ]
   },
   {
     "snapshot": {
@@ -345,7 +373,25 @@
         "health": 60
       }
     },
-    "hash": "961c59c3ba3037199dafc5bfe663aaefd1d9958585a2ebf03abaf3606406385f"
+    "hash": "8714722f984253dd3ad2a1c38da5614c404455217ea7dc54aa5b95605e3e55d3",
+    "text": [
+      {
+        "text": "Game Over",
+        "x": 160,
+        "y": 45,
+        "font": "bold 26px Consolas, monospace",
+        "fillStyle": "#f3d589",
+        "textAlign": "center"
+      },
+      {
+        "text": "Goblin Wins",
+        "x": 160,
+        "y": 69,
+        "font": "bold 14px Consolas, monospace",
+        "fillStyle": "#ffffff",
+        "textAlign": "center"
+      }
+    ]
   },
   {
     "snapshot": {
@@ -365,7 +411,25 @@
         "health": 0
       }
     },
-    "hash": "5e99577b7fc5d8e6c4a28cc494b4221859cf502b436441968d9a423aa276b5b6"
+    "hash": "13ae591a189e1fa6483def3a97c431ed5239338c1101604ff047b228244a70fd",
+    "text": [
+      {
+        "text": "Game Over",
+        "x": 160,
+        "y": 45,
+        "font": "bold 26px Consolas, monospace",
+        "fillStyle": "#f3d589",
+        "textAlign": "center"
+      },
+      {
+        "text": "Wizard Wins",
+        "x": 160,
+        "y": 69,
+        "font": "bold 14px Consolas, monospace",
+        "fillStyle": "#ffffff",
+        "textAlign": "center"
+      }
+    ]
   },
   {
     "snapshot": {

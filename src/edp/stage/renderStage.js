@@ -71,7 +71,19 @@ export function renderStage(
       node.className = 'stage-container';
       node.setAttribute('aria-label', def.text || 'Stage controls');
     }
-    if (def.hotspot) {
+    if (def.speech) {
+      // A speech bubble drawn over the scene (E5.3: Grub's plan). It is
+      // not focusable and ignores the pointer, so it never steals the
+      // hover or focus from the sprite it belongs to.
+      node.className = 'stage-speech';
+      node.removeAttribute('tabindex');
+      node.removeAttribute('aria-label');
+      node.setAttribute('role', 'status');
+      node.setAttribute('aria-live', 'polite');
+      node.style.left = (def.speech.x / 320) * 100 + '%';
+      node.style.bottom = ((240 - def.speech.y) / 240) * 100 + '%';
+      art.append(node);
+    } else if (def.hotspot) {
       node.className = 'stage-hotspot';
       // Sprites never show a CSS hover box (see .stage-hotspot:hover).
       // `quietHover` sprites also hide their "not listening" badge until

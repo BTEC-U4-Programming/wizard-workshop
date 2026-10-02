@@ -102,7 +102,7 @@ export async function renderLessons({edp = false} = {}) {
               'html'
             ),
             comparison:
-              c.id === 'E5.7'
+              c.id === 'E5.4'
                 ? await highlight(
                     visualBasicExample,
                     false,

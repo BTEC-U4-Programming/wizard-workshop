@@ -26,12 +26,12 @@ const storageFor = (state) => {
   };
 };
 describe('curriculum and navigation contracts', () => {
-  it('has 25 stable checkpoints and the exact 36-screen journey', () => {
-    expect(checkpoints).toHaveLength(25);
-    expect(journey).toHaveLength(36);
+  it('has 22 stable checkpoints and the exact 33-screen journey', () => {
+    expect(checkpoints).toHaveLength(22);
+    expect(journey).toHaveLength(33);
     expect(journey[0]).toBe('welcome');
     expect(journey.at(-1)).toBe('review:5');
-    expect(new Set(journey).size).toBe(36);
+    expect(new Set(journey).size).toBe(33);
     for (const id of [...journey, 'recap'])
       expect(screenId(parseScreen(id))).toBe(id);
     expect(parseScreen('bad')).toEqual({type: 'welcome'});
@@ -89,6 +89,35 @@ describe('curriculum and navigation contracts', () => {
     }
     expect(shuffled).toBe(true);
   });
+  it('ends Section 5 with the complete battle, ready to play and read', () => {
+    expect(
+      journey.filter((id) => byId[id]?.chapter === 5)
+    ).toEqual(['E5.1', 'E5.2', 'E5.3', 'E5.4']);
+    for (const id of ['E5.5', 'E5.6', 'E5.7']) expect(byId[id]).toBeUndefined();
+    const game = byId['E5.4'];
+    // Students only press Run: the starter is the finished, working battle.
+    expect(game.starterStrategy).toBe('prepared');
+    expect(game.starter.spellsSource).toBe(game.solution.spellsSource);
+    expect(game.starterExpected.status).toBe('success');
+    expect(game.gap).toBeNull();
+    for (const listener of [
+      '#spell-bar',
+      '#shield-button',
+      '#potion-button',
+      '#goblin',
+      '#fireball-button',
+      '"keydown"',
+      '"battleEnded"'
+    ])
+      expect(game.starter.spellsSource).toContain(listener);
+    // The step explains the controls, then sets the pair-programming task.
+    const steps = game.instructions.join('\n');
+    for (const control of ['1', '2', '3', '4', '5', 'f', 'IGNIS', 'Tab'])
+      expect(steps).toContain(`**${control}**`);
+    expect(steps).toMatch(/pair programmer/);
+    expect(steps).toMatch(/out loud/);
+    expect(steps).toMatch(/one question/);
+  });
   it('counts attempts separately from activity correctness and code completion', () => {
     const state = emptyEdpState(),
       cp = byId['E1.5'];
@@ -141,6 +170,44 @@ describe('import boundaries and preferences', () => {
         }
       }).error
     ).toMatch(/Autosave/);
+  });
+  it('upgrades old-numbering saves: old E5.4–E5.6 dropped, old E5.7 becomes E5.4', () => {
+    // A save from before 2 October 2026 has no saveLayout marker, and its
+    // E5.4 is the old Fireball step, not the finished battle.
+    const old = emptyEdpState();
+    delete old.saveLayout;
+    old.currentCheckpointId = 'E5.5';
+    old.currentScreen = {type: 'checkpoint', id: 'E5.5'};
+    old.completedCheckpointIds = ['E5.3', 'E5.4', 'E5.7'];
+    for (const id of ['E5.3', 'E5.4', 'E5.5', 'E5.6', 'E5.7'])
+      old.draftsByCheckpoint[id] = {spellsSource: '// ' + id, revision: 2};
+    old.lastSuccessfulSourcesByCheckpoint['E5.4'] = {spellsSource: '// old 5.4'};
+    old.lastSuccessfulSourcesByCheckpoint['E5.7'] = {spellsSource: '// old 5.7'};
+    const imported = parseEdpImport(JSON.stringify(old));
+    expect(imported.saveLayout).toBe(2);
+    expect(imported.currentCheckpointId).toBe('E5.4');
+    expect(imported.currentScreen).toEqual({type: 'checkpoint', id: 'E5.4'});
+    expect(imported.completedCheckpointIds).toEqual(['E5.3', 'E5.4']);
+    // No old draft replaces the complete battle that E5.4 starts from...
+    expect(Object.keys(imported.draftsByCheckpoint)).toEqual(['E5.3']);
+    // ...but the learner's old battle stays recoverable and in the spellbook.
+    expect(imported.backupsByCheckpoint['E5.4']).toEqual({
+      spellsSource: '// E5.7'
+    });
+    expect(imported.lastSuccessfulSourcesByCheckpoint['E5.4']).toEqual({
+      spellsSource: '// old 5.7'
+    });
+    // A current save keeps its E5.4 draft, and upgrading is not repeated.
+    const current = emptyEdpState();
+    current.draftsByCheckpoint['E5.4'] = {spellsSource: '// mine', revision: 1};
+    const again = parseEdpImport(JSON.stringify(current));
+    expect(again.draftsByCheckpoint['E5.4']).toEqual({
+      spellsSource: '// mine',
+      revision: 1
+    });
+    expect(
+      parseEdpImport(JSON.stringify(again)).draftsByCheckpoint['E5.4']
+    ).toEqual({spellsSource: '// mine', revision: 1});
   });
   it('retains oversize editing recovery drafts but rejects them for execution', () => {
     const state = emptyEdpState();

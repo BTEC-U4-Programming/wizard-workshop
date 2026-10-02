@@ -1,6 +1,6 @@
 # Wizard Workshop
 
-A local, self-paced JavaScript course for learners aged 16–17. The Grand Library offers two independent tomes. Tome I has **44 checkpoints**: classes, independent objects, six customisations, methods, conditions, health, inheritance and deterministic battles. Tome II has **25 checkpoints** across five sections on event-driven programming, ending in a playable battle. Learner code runs in QuickJS WebAssembly inside a dedicated worker. There is no backend or account.
+A local, self-paced JavaScript course for learners aged 16–17. The Grand Library offers two independent tomes. Tome I has **44 checkpoints**: classes, independent objects, six customisations, methods, conditions, health, inheritance and deterministic battles. Tome II has **22 checkpoints** across five sections on event-driven programming, ending in a fully wired battle that learners play and then explain. Learner code runs in QuickJS WebAssembly inside a dedicated worker. There is no backend or account.
 
 ## Start the workshop
 

@@ -63,7 +63,7 @@ export function mountEdpApp() {
   <main hidden><section id="lesson" class="workbench" aria-label="Code and lesson"><div class="lesson-card"><div class="eyebrow"><span id="stage"></span><span id="scaffold"></span></div><h1 id="title" tabindex="-1"></h1><p id="objective"></p><details id="instructions"><summary>Step instructions &amp; success checklist</summary><ol id="instruction-list"></ol><ul id="checklist" class="trial-list"></ul><p id="starter-note"></p><p>Each Run starts fresh. Your listeners stay ready until you edit, stop or leave the step.</p></details><div id="activity" class="activity-panel" hidden></div></div>
   <div class="editor-shell"><div class="editor-tabs" role="tablist" aria-label="Stage files"><button role="tab" id="spells-tab" aria-selected="true" aria-controls="editor">spells.js</button><button role="tab" id="html-tab" aria-selected="false" aria-controls="stage-html">stage.html</button><span id="dirty">Not run yet</span></div><div id="editor" role="tabpanel" aria-labelledby="spells-tab"></div><div id="stage-html" role="tabpanel" aria-labelledby="html-tab" tabindex="0" hidden></div><div class="editor-help">JavaScript · Ctrl/Cmd+Enter to run · Ctrl/Cmd+] to indent · Tab leaves editor · Ctrl+Space for choices</div></div>
   <div class="run-bar"><button class="primary" id="run">▶ Run code</button><button id="stop" disabled>Stop</button><button id="hint">Hint 1</button><button id="reset">Reset step</button><button id="gaps">Insert exercise gaps</button></div><div id="result" class="result" role="status" aria-live="polite" aria-atomic="true"></div><button id="error-link" hidden>Go to problem</button><details id="technical" hidden><summary>Technical detail</summary><pre></pre></details><section id="hints" aria-label="Optional help" hidden></section><details id="reflection"><summary>Predict, explain &amp; self-check</summary><div></div></details><nav class="lesson-nav"><button id="previous">← Previous</button><span id="badge"></span><button id="next" disabled>Next step →</button></nav></section>
-  <section id="preview" class="preview" tabindex="-1" aria-label="The Stage"><div class="preview-heading"><div><span class="eyebrow">THE STAGE</span><h2>Your spells, listening</h2></div><span id="live-label" class="live-label">○ NOT LISTENING YET</span></div><p id="stage-title"></p><div class="stage-frame" tabindex="0" aria-label="Stage. Keys you press here are sent to your spells."></div><p class="muted">Click the stage, then press keys. Tab moves out.</p><div class="character-strip"><div id="character-summary"></div><div id="world-summary"></div></div><div id="goblin-summary" hidden></div><div id="battle-hud" class="battle-hud" hidden><span id="turn-banner" role="status" aria-live="polite"></span><span id="battle-resources"></span></div><p id="preview-note" class="muted"></p><p id="scroll-notice" hidden>In a real web page, that key would also have scrolled the page.</p><section id="battle-ending" hidden></section><details id="crystal-ball" class="crystal-ball" open></details><details id="registered"><summary>Registered listeners</summary><div class="activity-table"><table><thead><tr><th>Target</th><th>Event</th><th>Handler</th></tr></thead><tbody></tbody></table></div></details><details id="trial-logs"><summary>Spell Trial logs</summary><div></div></details></section></main>
+  <section id="preview" class="preview" tabindex="-1" aria-label="The Stage"><div class="preview-heading"><div><span class="eyebrow">THE STAGE</span><h2>Your spells, listening</h2></div><span id="live-label" class="live-label">○ NOT LISTENING YET</span></div><p id="stage-title"></p><div id="battle-hud" class="battle-hud" hidden><span id="turn-banner" role="status" aria-live="polite"></span><span id="battle-resources"></span></div><div class="stage-frame" tabindex="0" aria-label="Stage. Keys you press here are sent to your spells."></div><p class="muted">Click the stage, then press keys. Tab moves out.</p><div class="character-strip"><div id="character-summary"></div><div id="world-summary"></div></div><div id="goblin-summary" hidden></div><p id="preview-note" class="muted"></p><p id="scroll-notice" hidden>In a real web page, that key would also have scrolled the page.</p><section id="battle-ending" hidden></section><details id="crystal-ball" class="crystal-ball" open></details><details id="registered"><summary>Registered listeners</summary><div class="activity-table"><table><thead><tr><th>Target</th><th>Event</th><th>Handler</th></tr></thead><tbody></tbody></table></div></details><details id="trial-logs"><summary>Spell Trial logs</summary><div></div></details></section></main>
   <section id="section-screen" class="section-screen" aria-labelledby="section-title"></section><footer>Made for learning, one object at a time. <span>No accounts. Progress stays in this browser.</span></footer><dialog id="confirm-dialog"><form method="dialog"><h2 id="confirm-title"></h2><p>A recoverable backup of your current draft will be kept.</p><div><button value="cancel">Keep my draft</button><button value="confirm" class="primary">Replace and keep backup</button></div></form></dialog>`;
   let storage;
   try {
@@ -256,7 +256,7 @@ export function mountEdpApp() {
     $('.jump').hidden = !checkpoint;
     document.body.classList.toggle(
       'battle-mode',
-      checkpoint && cp().id === 'E5.7'
+      checkpoint && cp().id === 'E5.4'
     );
     if (checkpoint) showLesson();
     else if (state.currentScreen.type === 'welcome') showWelcome();
@@ -364,7 +364,7 @@ export function mountEdpApp() {
       ...content.instructions.map((s) => rich('li', s))
     );
     // Open the steps by default where the task has several new ideas.
-    $('#instructions').open = ['E1.1', 'E2.3', 'E3.2'].includes(current.id);
+    $('#instructions').open = ['E1.1', 'E2.3', 'E3.2', 'E5.4'].includes(current.id);
     text(
       '#starter-note',
       current.starterStrategy === 'prepared'
@@ -547,6 +547,8 @@ export function mountEdpApp() {
                 ? 'Wizard Wins'
                 : 'Goblin Wins';
       if ($('#turn-banner').textContent !== turn) text('#turn-banner', turn);
+      // Colours the banner by whose turn it is (see .battle-hud in styles.css).
+      $('#battle-hud').dataset.state = b.state;
       text(
         '#battle-resources',
         ` · Potions ${wizard.potions}${seconds === null ? '' : ` · Fireball window: ${seconds}s left`}${state.preferences.apprenticeMode ? ' · Apprentice mode' : ''}`
@@ -642,7 +644,7 @@ export function mountEdpApp() {
       qualified =
         verifiedRevision === draft().revision &&
         activityAttempted(current, state) &&
-        (current.id !== 'E5.7' || liveAttempt);
+        (current.id !== 'E5.4' || liveAttempt);
     $('#next').disabled = !qualified;
     if (qualified && !state.completedCheckpointIds.includes(current.id)) {
       state.completedCheckpointIds.push(current.id);

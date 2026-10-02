@@ -18,8 +18,58 @@ const validDraft = (draft, limit = 30 * 1024) =>
   size(draft.spellsSource) <= limit;
 const count = (value) =>
   Math.min(9999, Math.max(0, Math.floor(Number(value) || 0)));
+// Save layout. Layout 2 (2 October 2026) retired the old Section 5 steps
+// E5.4–E5.6 and renumbered the finished battle from E5.7 to E5.4. A save
+// without this marker uses the old numbering, so its E5.4 means the old
+// Fireball step, not the battle.
+export const EDP_SAVE_LAYOUT = 2;
+const oldSectionFive = ['E5.4', 'E5.5', 'E5.6', 'E5.7'];
+const record = (value) => (plain(value) ? value : {});
+// Rewrites an old-layout save into the current numbering before validation.
+// Old E5.4–E5.6 work is dropped; anyone on those steps or on the old E5.7
+// moves to the new E5.4. The old E5.7 draft was the learner's own battle,
+// so it becomes the new E5.4's restorable backup instead of replacing the
+// complete battle that E5.4 now starts from.
+export function upgradeEdpSave(value) {
+  if (!plain(value) || value.saveLayout === EDP_SAVE_LAYOUT) return value;
+  const upgraded = {...value, saveLayout: EDP_SAVE_LAYOUT};
+  const moveCurrent = (id) => (oldSectionFive.includes(id) ? 'E5.4' : id);
+  upgraded.currentCheckpointId = moveCurrent(value.currentCheckpointId);
+  if (plain(value.currentScreen) && value.currentScreen.type === 'checkpoint')
+    upgraded.currentScreen = {
+      ...value.currentScreen,
+      id: moveCurrent(value.currentScreen.id)
+    };
+  const without = (source) => {
+    const copy = {...record(source)};
+    for (const id of oldSectionFive) delete copy[id];
+    return copy;
+  };
+  upgraded.draftsByCheckpoint = plain(value.draftsByCheckpoint)
+    ? without(value.draftsByCheckpoint)
+    : value.draftsByCheckpoint;
+  upgraded.lastGoodSnapshotByCheckpoint = without(
+    value.lastGoodSnapshotByCheckpoint
+  );
+  upgraded.backupsByCheckpoint = without(value.backupsByCheckpoint);
+  upgraded.lastSuccessfulSourcesByCheckpoint = without(
+    value.lastSuccessfulSourcesByCheckpoint
+  );
+  upgraded.hintDepthByCheckpoint = without(value.hintDepthByCheckpoint);
+  const oldBattle = record(value.draftsByCheckpoint)['E5.7'];
+  if (oldBattle) upgraded.backupsByCheckpoint['E5.4'] = oldBattle;
+  const oldSuccess = record(value.lastSuccessfulSourcesByCheckpoint)['E5.7'];
+  if (oldSuccess)
+    upgraded.lastSuccessfulSourcesByCheckpoint['E5.4'] = oldSuccess;
+  if (Array.isArray(value.completedCheckpointIds))
+    upgraded.completedCheckpointIds = value.completedCheckpointIds
+      .filter((id) => !['E5.4', 'E5.5', 'E5.6'].includes(id))
+      .map((id) => (id === 'E5.7' ? 'E5.4' : id));
+  return upgraded;
+}
 export const emptyEdpState = () => ({
   curriculumVersion: edpCurriculumVersion,
+  saveLayout: EDP_SAVE_LAYOUT,
   currentCheckpointId: 'E1.1',
   currentScreen: {type: 'welcome'},
   seenWelcome: false,
@@ -47,7 +97,7 @@ export function parseEdpImport(text, {localRestore = false} = {}) {
     throw new Error(
       'Work files must be under 2MB; local recovery is bounded at 10MB.'
     );
-  const value = JSON.parse(text);
+  const value = upgradeEdpSave(JSON.parse(text));
   if (
     !plain(value) ||
     value.curriculumVersion !== edpCurriculumVersion ||

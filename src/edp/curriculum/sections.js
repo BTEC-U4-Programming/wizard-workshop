@@ -681,17 +681,17 @@ export const sections = [
     intro: {
       hook: 'Grub is on the bridge with the Rune Bell. The battle is ready, but none of its controls are listening yet.',
       build:
-        'The controls for a real battle against Grub, wired up by you and then played by you.',
+        'The first battle controls, wired up by you. Then you play the finished battle and work out how its code works.',
       summary:
         'The battle engine runs turns and damage; you write the listeners. State is what is true right now, such as whose turn it is. Handlers check state before acting, and `setTimeout` runs a function later.',
       prerequisites:
         'From Tome I: `let` creates a variable whose value can change. From Sections 1–4: listeners, the event object, `if`, hover pairs and keyboard buffers.',
       assignmentLink:
-        "Your report asks you to evaluate quality. Judge your battle's usability, robustness and maintainability, using your own code as evidence.",
+        "Your report asks you to explain and evaluate code. Explain how the battle's listeners work together, then judge its usability, robustness and maintainability, using the code as evidence.",
       objectives: [
         'combine click, hover and key events in one program',
         "use state and timers so that controls don't clash",
-        'evaluate how well your event-driven program works'
+        'read a finished event-driven program and explain how it works'
       ],
       concepts: [
         [
@@ -807,7 +807,7 @@ export const sections = [
             ['`function btnFire()`', 'That only defines a function.'],
             ['`event.preventDefault()`', 'That stops a default action.']
           ],
-          'E5.7'
+          'E5.4'
         ),
         choice(
           'ES5-Q5',
@@ -815,12 +815,12 @@ export const sections = [
           [
             [
               'A logic error: two listeners respond to the same key.',
-              'Correct. A state check fixes it.'
+              'Correct. The hotkey listener’s `if (!battle.isWizardTurn())` state check fixes it.'
             ],
             ['A syntax error.', 'The code runs, so the syntax is fine.'],
             ['A hardware fault.', 'The keyboard is fine.']
           ],
-          'E5.5'
+          'E5.4'
         ),
         choice(
           'ES5-Q6',
@@ -836,7 +836,7 @@ export const sections = [
             ],
             ['They cannot use objects.', 'Your battle uses both.']
           ],
-          'E5.7'
+          'E5.4'
         ),
         choice(
           'ES5-Q10',
@@ -871,7 +871,7 @@ export const sections = [
               "The engine's state does that. The event only announces the news."
             ]
           ],
-          'E5.6'
+          'E5.4'
         ),
         blank(
           'ES5-Q7',
@@ -885,7 +885,7 @@ export const sections = [
         blank(
           'ES5-Q8',
           'Let keyboard players scry Grub too.',
-          'goblinSprite.addEventListener("____", showPlan);',
+          'goblinSprite.addEventListener("____", showIntent);',
           ['focus'],
           'Correct.',
           'Which event fires when Tab reaches an element?',
@@ -897,8 +897,8 @@ export const sections = [
           'if (event.detail.winner === "____") {',
           ['wizard'],
           'Correct.',
-          'Who should the Rune Bell go to?',
-          'E5.6'
+          'Who should the Rune Bell go to? Look at Part 6 of the battle code.',
+          'E5.4'
         ),
         blank(
           'ES5-Q12',

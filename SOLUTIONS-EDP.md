@@ -752,35 +752,40 @@ potionButton.addEventListener("click", function () {
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
-function showPlan() {
+function showIntent() {
   intentBubble.textContent = battle.revealIntent();
   intentBubble.hidden = false;
 }
 
-function hidePlan() {
+function hideIntent() {
   intentBubble.hidden = true;
 }
 
-goblinSprite.addEventListener("mouseover", showPlan);
-goblinSprite.addEventListener("focus", showPlan);
-goblinSprite.addEventListener("mouseout", hidePlan);
-goblinSprite.addEventListener("blur", hidePlan);
+goblinSprite.addEventListener("mouseover", showIntent);
+goblinSprite.addEventListener("focus", showIntent);
+goblinSprite.addEventListener("mouseout", hideIntent);
+goblinSprite.addEventListener("blur", hideIntent);
 
 
 ```
 
 Spell Trials: Hover shows the plan; Leaving hides it; Focus shows the plan; Blur hides it.
 
-## E5.4 — The Fireball incantation
+## E5.4 — Play the battle
 
-Collect typed letters during the Fireball window, show them, and cast with Enter.
+Every control is already wired up. Press Run, play the battle, then work out with your pair programmer how the code makes it work.
 
-Support: independent. Starter: validButIncomplete.
+Support: read and explain. Starter: success.
 
 ```javascript
 // ⚔️ spells.js — the Battle of Grubbledown Bridge
+//
+// Every control is already wired up. Press Run code to play!
+// Afterwards, read each part with your pair programmer.
+// For each part, ask: which EVENT is it listening for, on which
+// ELEMENT, and what does its HANDLER do?
 
-// E5.1 — the spell cards: one listener, using event delegation
+// Part 1 — the spell cards (you wrote this in E5.1)
 const spellBar = document.querySelector("#spell-bar");
 
 spellBar.addEventListener("click", function (event) {
@@ -791,7 +796,7 @@ spellBar.addEventListener("click", function (event) {
   }
 });
 
-// E5.2 — shield and potion
+// Part 2 — shield and potion (you wrote this in E5.2)
 const shieldButton = document.querySelector("#shield-button");
 const potionButton = document.querySelector("#potion-button");
 
@@ -807,25 +812,25 @@ potionButton.addEventListener("click", function () {
   }
 });
 
-// E5.3 — scry Grub's plan, by hover AND by keyboard focus
+// Part 3 — scry Grub's plan, by hover AND by keyboard focus (you wrote this in E5.3)
 const goblinSprite = document.querySelector("#goblin");
 const intentBubble = document.querySelector("#intent-bubble");
 
-function showPlan() {
+function showIntent() {
   intentBubble.textContent = battle.revealIntent();
   intentBubble.hidden = false;
 }
 
-function hidePlan() {
+function hideIntent() {
   intentBubble.hidden = true;
 }
 
-goblinSprite.addEventListener("mouseover", showPlan);
-goblinSprite.addEventListener("focus", showPlan);
-goblinSprite.addEventListener("mouseout", hidePlan);
-goblinSprite.addEventListener("blur", hidePlan);
+goblinSprite.addEventListener("mouseover", showIntent);
+goblinSprite.addEventListener("focus", showIntent);
+goblinSprite.addEventListener("mouseout", hideIntent);
+goblinSprite.addEventListener("blur", hideIntent);
 
-// E5.4 — the Fireball incantation
+// Part 4 — the Fireball incantation: click Fireball, type IGNIS, press Enter
 const fireballButton = document.querySelector("#fireball-button");
 const incantationDisplay = document.querySelector("#incantation-display");
 let spellBuffer = "";
@@ -856,97 +861,7 @@ document.addEventListener("keydown", function (event) {
   incantationDisplay.textContent = spellBuffer;
 });
 
-
-```
-
-Spell Trials: IGNIS casts a Fireball; Long key names are ignored; Backspace repairs the word; Typing outside the window does nothing; An expired window fizzles; a new one is empty.
-
-## E5.5 — Battle hotkeys
-
-Connect keys 1–5 and f. Ignore hotkeys outside your turn and during incantations.
-
-Support: independent. Starter: validButIncomplete.
-
-```javascript
-// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E5.1 — the spell cards: one listener, using event delegation
-const spellBar = document.querySelector("#spell-bar");
-
-spellBar.addEventListener("click", function (event) {
-  const power = event.target.dataset.power;
-
-  if (power && battle.isWizardTurn()) {
-    battle.cast(power);
-  }
-});
-
-// E5.2 — shield and potion
-const shieldButton = document.querySelector("#shield-button");
-const potionButton = document.querySelector("#potion-button");
-
-shieldButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.shield();
-  }
-});
-
-potionButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.drinkPotion();
-  }
-});
-
-// E5.3 — scry Grub's plan, by hover AND by keyboard focus
-const goblinSprite = document.querySelector("#goblin");
-const intentBubble = document.querySelector("#intent-bubble");
-
-function showPlan() {
-  intentBubble.textContent = battle.revealIntent();
-  intentBubble.hidden = false;
-}
-
-function hidePlan() {
-  intentBubble.hidden = true;
-}
-
-goblinSprite.addEventListener("mouseover", showPlan);
-goblinSprite.addEventListener("focus", showPlan);
-goblinSprite.addEventListener("mouseout", hidePlan);
-goblinSprite.addEventListener("blur", hidePlan);
-
-// E5.4 — the Fireball incantation
-const fireballButton = document.querySelector("#fireball-button");
-const incantationDisplay = document.querySelector("#incantation-display");
-let spellBuffer = "";
-
-function startFireball() {
-  if (battle.startIncantation()) {
-    spellBuffer = "";
-    incantationDisplay.textContent = "";
-  }
-}
-
-fireballButton.addEventListener("click", startFireball);
-
-document.addEventListener("keydown", function (event) {
-  if (!battle.isIncantationOpen()) {
-    return;
-  }
-  if (event.key === "Enter") {
-    battle.speakIncantation(spellBuffer);
-    spellBuffer = "";
-  } else if (event.key === "Backspace") {
-    spellBuffer = spellBuffer.slice(0, -1);
-  } else if (event.key.length === 1) {
-    if (spellBuffer.length < 12) {
-      spellBuffer = spellBuffer + event.key.toUpperCase();
-    }
-  }
-  incantationDisplay.textContent = spellBuffer;
-});
-
-// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
+// Part 5 — hotkeys: 1 fire, 2 ice, 3 storm, 4 shield, 5 potion, f Fireball
 document.addEventListener("keydown", function (event) {
   if (!battle.isWizardTurn()) {
     return;
@@ -973,251 +888,7 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-
-```
-
-Spell Trials: 1 casts fire; f opens an empty incantation; 2 during an incantation is text; Keys during Grub’s turn do nothing.
-
-## E5.6 — When the dust settles
-
-Listen for `battleEnded` and show the right ending from `event.detail.winner`.
-
-Support: gaps. Starter: error.
-
-```javascript
-// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E5.1 — the spell cards: one listener, using event delegation
-const spellBar = document.querySelector("#spell-bar");
-
-spellBar.addEventListener("click", function (event) {
-  const power = event.target.dataset.power;
-
-  if (power && battle.isWizardTurn()) {
-    battle.cast(power);
-  }
-});
-
-// E5.2 — shield and potion
-const shieldButton = document.querySelector("#shield-button");
-const potionButton = document.querySelector("#potion-button");
-
-shieldButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.shield();
-  }
-});
-
-potionButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.drinkPotion();
-  }
-});
-
-// E5.3 — scry Grub's plan, by hover AND by keyboard focus
-const goblinSprite = document.querySelector("#goblin");
-const intentBubble = document.querySelector("#intent-bubble");
-
-function showPlan() {
-  intentBubble.textContent = battle.revealIntent();
-  intentBubble.hidden = false;
-}
-
-function hidePlan() {
-  intentBubble.hidden = true;
-}
-
-goblinSprite.addEventListener("mouseover", showPlan);
-goblinSprite.addEventListener("focus", showPlan);
-goblinSprite.addEventListener("mouseout", hidePlan);
-goblinSprite.addEventListener("blur", hidePlan);
-
-// E5.4 — the Fireball incantation
-const fireballButton = document.querySelector("#fireball-button");
-const incantationDisplay = document.querySelector("#incantation-display");
-let spellBuffer = "";
-
-function startFireball() {
-  if (battle.startIncantation()) {
-    spellBuffer = "";
-    incantationDisplay.textContent = "";
-  }
-}
-
-fireballButton.addEventListener("click", startFireball);
-
-document.addEventListener("keydown", function (event) {
-  if (!battle.isIncantationOpen()) {
-    return;
-  }
-  if (event.key === "Enter") {
-    battle.speakIncantation(spellBuffer);
-    spellBuffer = "";
-  } else if (event.key === "Backspace") {
-    spellBuffer = spellBuffer.slice(0, -1);
-  } else if (event.key.length === 1) {
-    if (spellBuffer.length < 12) {
-      spellBuffer = spellBuffer + event.key.toUpperCase();
-    }
-  }
-  incantationDisplay.textContent = spellBuffer;
-});
-
-// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
-document.addEventListener("keydown", function (event) {
-  if (!battle.isWizardTurn()) {
-    return;
-  }
-  switch (event.key) {
-    case "1":
-      battle.cast("fire");
-      break;
-    case "2":
-      battle.cast("ice");
-      break;
-    case "3":
-      battle.cast("electricity");
-      break;
-    case "4":
-      battle.shield();
-      break;
-    case "5":
-      battle.drinkPotion();
-      break;
-    case "f":
-      startFireball();
-      break;
-  }
-});
-
-// E5.6 — the ending
-const ending = document.querySelector("#ending");
-
-battle.events.addEventListener("battleEnded", function (event) {
-  if (event.detail.winner === "wizard") {
-    ending.textContent = "The Rune Bell is yours!";
-  } else {
-    ending.textContent = "Grub wins this time. Try again!";
-  }
-  ending.hidden = false;
-});
-```
-
-Spell Trials: Victory shows the Rune Bell message; Defeat shows a retry message.
-
-## E5.7 — Play the battle
-
-Every control is listening. Play the battle — win or lose — then reflect.
-
-Support: independent. Starter: success.
-
-```javascript
-// ⚔️ spells.js — the Battle of Grubbledown Bridge
-
-// E5.1 — the spell cards: one listener, using event delegation
-const spellBar = document.querySelector("#spell-bar");
-
-spellBar.addEventListener("click", function (event) {
-  const power = event.target.dataset.power;
-
-  if (power && battle.isWizardTurn()) {
-    battle.cast(power);
-  }
-});
-
-// E5.2 — shield and potion
-const shieldButton = document.querySelector("#shield-button");
-const potionButton = document.querySelector("#potion-button");
-
-shieldButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.shield();
-  }
-});
-
-potionButton.addEventListener("click", function () {
-  if (battle.isWizardTurn()) {
-    battle.drinkPotion();
-  }
-});
-
-// E5.3 — scry Grub's plan, by hover AND by keyboard focus
-const goblinSprite = document.querySelector("#goblin");
-const intentBubble = document.querySelector("#intent-bubble");
-
-function showPlan() {
-  intentBubble.textContent = battle.revealIntent();
-  intentBubble.hidden = false;
-}
-
-function hidePlan() {
-  intentBubble.hidden = true;
-}
-
-goblinSprite.addEventListener("mouseover", showPlan);
-goblinSprite.addEventListener("focus", showPlan);
-goblinSprite.addEventListener("mouseout", hidePlan);
-goblinSprite.addEventListener("blur", hidePlan);
-
-// E5.4 — the Fireball incantation
-const fireballButton = document.querySelector("#fireball-button");
-const incantationDisplay = document.querySelector("#incantation-display");
-let spellBuffer = "";
-
-function startFireball() {
-  if (battle.startIncantation()) {
-    spellBuffer = "";
-    incantationDisplay.textContent = "";
-  }
-}
-
-fireballButton.addEventListener("click", startFireball);
-
-document.addEventListener("keydown", function (event) {
-  if (!battle.isIncantationOpen()) {
-    return;
-  }
-  if (event.key === "Enter") {
-    battle.speakIncantation(spellBuffer);
-    spellBuffer = "";
-  } else if (event.key === "Backspace") {
-    spellBuffer = spellBuffer.slice(0, -1);
-  } else if (event.key.length === 1) {
-    if (spellBuffer.length < 12) {
-      spellBuffer = spellBuffer + event.key.toUpperCase();
-    }
-  }
-  incantationDisplay.textContent = spellBuffer;
-});
-
-// E5.5 — hotkeys (during an incantation, isWizardTurn() is false, so they are ignored)
-document.addEventListener("keydown", function (event) {
-  if (!battle.isWizardTurn()) {
-    return;
-  }
-  switch (event.key) {
-    case "1":
-      battle.cast("fire");
-      break;
-    case "2":
-      battle.cast("ice");
-      break;
-    case "3":
-      battle.cast("electricity");
-      break;
-    case "4":
-      battle.shield();
-      break;
-    case "5":
-      battle.drinkPotion();
-      break;
-    case "f":
-      startFireball();
-      break;
-  }
-});
-
-// E5.6 — the ending
+// Part 6 — the ending: the battle engine announces a "battleEnded" event
 const ending = document.querySelector("#ending");
 
 battle.events.addEventListener("battleEnded", function (event) {
@@ -1232,7 +903,7 @@ battle.events.addEventListener("battleEnded", function (event) {
 
 Spell Trials: Every control is listening; A test player can win with your controls.
 
-Self-check: Decomposition: list every event, its source, handler and state change. Paradigms: what do objects and events each contribute? Could the battle be procedural? Compare JavaScript with Visual Basic’s Handles btnFire.Click. Evaluate usability, robustness and maintainability with evidence from your own code.
+Self-check: With your pair programmer: pick one control, such as the Fireball button. Trace what happens from the event to the change you see on the stage: which listener hears it, which handler runs, and which state is checked or changed? Why do the hotkeys do nothing during Grub’s turn? What would go wrong if a handler did not check `battle.isWizardTurn()`? Then evaluate usability, robustness and maintainability with evidence from the code.
 
 ## Section 1 review
 
@@ -1458,13 +1129,25 @@ Correct.
 
 Answer: A logic error: two listeners respond to the same key.
 
-Correct. A state check fixes it.
+Correct. The hotkey listener’s `if (!battle.isWizardTurn())` state check fixes it.
 
 ### ES5-Q6 — Which is a genuine weakness of event-driven programs?
 
 Answer: With many listeners and states, the order of events can be hard to follow and debug.
 
 Correct. Tools like the Crystal Ball help.
+
+### ES5-Q10 — `setTimeout(goblinTakesTurn, 1200);` has just run. What happens next?
+
+Answer: The rest of the code carries on now; `goblinTakesTurn` runs 1.2 seconds later.
+
+Correct. `setTimeout` schedules the function and lets the program carry on.
+
+### ES5-Q11 — The engine announces a `battleEnded` custom event instead of running your ending code itself. Why is that useful?
+
+Answer: The engine does not need to know what your code does with the news.
+
+Correct. The parts stay loosely coupled, so either can change without breaking the other.
 
 ### ES5-Q7 — Read the card's power.
 
@@ -1483,18 +1166,6 @@ Correct.
 Answer: `wizard`
 
 Correct.
-
-### ES5-Q10 — `setTimeout(goblinTakesTurn, 1200);` has just run. What happens next?
-
-Answer: The rest of the code carries on now; `goblinTakesTurn` runs 1.2 seconds later.
-
-Correct. `setTimeout` schedules the function and lets the program carry on.
-
-### ES5-Q11 — The engine announces a `battleEnded` custom event instead of running your ending code itself. Why is that useful?
-
-Answer: The engine does not need to know what your code does with the news.
-
-Correct. The parts stay loosely coupled, so either can change without breaking the other.
 
 ### ES5-Q12 — Run `startGoblinTurn` after two seconds.
 

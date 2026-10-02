@@ -126,7 +126,13 @@ export const stages = {
       element('potion-button', 'Healing potion'),
       element('fireball-button', 'Fireball (type IGNIS)'),
       element('goblin', 'Scry Grub', {hotspot: {x: 240, y: 136, w: 38, h: 52}}),
-      element('intent-bubble', '', {tag: 'DIV', hidden: true}),
+      // `speech` puts the bubble in the scene itself, its tail pointing
+      // down at Grub's head (x, y in canvas pixels).
+      element('intent-bubble', '', {
+        tag: 'DIV',
+        hidden: true,
+        speech: {x: 259, y: 132}
+      }),
       element('incantation-display', '', {tag: 'DIV'}),
       element('ending', '', {tag: 'DIV', hidden: true})
     ]

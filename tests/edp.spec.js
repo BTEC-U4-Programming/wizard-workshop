@@ -90,17 +90,51 @@ test('keyboard movement, incantations and input guards', async ({page}) => {
 test('battle controls, optional attempt gate, retry and keyboard scry', async ({
   page
 }) => {
-  await openStep(page, 'E5.7');
+  await openStep(page, 'E5.4');
   await run(page);
   await expect(page.locator('#next')).toBeDisabled();
   await page.locator('#stage-goblin').focus();
-  await expect(page.locator('#stage-intent-bubble')).toBeVisible();
+  // The plan appears as a speech bubble in the scene, not below it.
+  await expect(page.locator('.stage-art #stage-intent-bubble')).toBeVisible();
   await page.locator('#stage-fireball-button').click();
   await page.locator('.stage-frame').focus();
   await page.keyboard.type('IGNIS');
   await page.keyboard.press('Enter');
   await expect(page.locator('#goblin-summary')).toContainText('80/110');
   await expect(page.locator('#next')).toBeEnabled();
+});
+test('Section 5 ends with the complete battle: Run, play, then download the spellbook', async ({
+  page
+}) => {
+  test.setTimeout(60000);
+  // Arrive from E5.3 as a learner would, with no E5.4 draft yet.
+  await openStep(page, 'E5.3');
+  await run(page);
+  await page.locator('#next').click();
+  await expect(page.locator('#title')).toHaveText(byId['E5.4'].title);
+  // The editor opens with the whole battle, not the learner's E5.3 code.
+  await expect(page.locator('.cm-content')).toContainText('battleEnded');
+  await expect(page.locator('.lesson-card')).toContainText('pair programmer');
+  // One press of Run code, no edits, and the battle is playable.
+  await run(page);
+  await expect(page.locator('#next')).toBeDisabled();
+  await page.locator('#stage-fire-card').click();
+  await expect(page.locator('#goblin-summary')).toContainText('96/110');
+  await expect(page.locator('#next')).toBeEnabled();
+  await page.locator('#next').click();
+  await page.getByRole('button', {name: /Finish Tome II/}).click();
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page
+      .getByRole('button', {name: 'Download summary (.md)', exact: true})
+      .first()
+      .click()
+  ]);
+  const {readFile} = await import('node:fs/promises');
+  const markdown = await readFile(await download.path(), 'utf8');
+  expect(markdown).toContain('Your Tome II spellbook');
+  expect(markdown).toContain('Your final code');
+  expect(markdown).toContain('battle.events.addEventListener("battleEnded"');
 });
 test('every checkpoint solution passes in the browser worker', async ({
   page
@@ -127,7 +161,7 @@ test('phone, zoom and reduced-motion layouts fit; learner markup stays text', as
   page
 }) => {
   await page.emulateMedia({reducedMotion: 'reduce'});
-  await openStep(page, 'E5.7');
+  await openStep(page, 'E5.4');
   await page.setViewportSize({width: 390, height: 844});
   await expect(page.locator('body')).toBeVisible();
   expect(
@@ -183,7 +217,7 @@ test('keyboard battle can end, ring the bell and download evidence', async ({
   await page.addInitScript(() => {
     window.__wwTestSeed = 7;
   });
-  await openStep(page, 'E5.7');
+  await openStep(page, 'E5.4');
   await run(page);
   const hud = page.locator('#battle-hud');
   const ending = page.locator('#battle-ending');
