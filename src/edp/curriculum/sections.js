@@ -683,20 +683,38 @@ export const sections = [
       build:
         'The controls for a real battle against Grub, wired up by you and then played by you.',
       summary:
-        "The battle engine handles turns, damage and Grub's plans. You write the listeners that connect the player to it. A control that nothing listens to does nothing.",
+        'The battle engine runs turns and damage; you write the listeners. State is what is true right now, such as whose turn it is. Handlers check state before acting, and `setTimeout` runs a function later.',
       prerequisites:
-        'Everything from Sections 1–4: listeners, the event object, hover pairs and keyboard buffers.',
+        'From Tome I: `let` creates a variable whose value can change. From Sections 1–4: listeners, the event object, `if`, hover pairs and keyboard buffers.',
       assignmentLink:
         "Your report asks you to evaluate quality. Judge your battle's usability, robustness and maintainability, using your own code as evidence.",
       objectives: [
         'combine click, hover and key events in one program',
-        "use state so that controls don't clash",
+        "use state and timers so that controls don't clash",
         'evaluate how well your event-driven program works'
       ],
       concepts: [
         [
           'API',
           'The set of functions some code offers for others to use, such as `battle.cast(power)`.'
+        ],
+        [
+          'state',
+          'Information about what is true right now, such as whose turn it is. A program remembers its state in variables.'
+        ],
+        [
+          '`setTimeout`',
+          'Runs a function later, after a delay in milliseconds (1000 ms is one second). The rest of the program carries on meanwhile.'
+        ],
+        ['`&&`', '"and": true only when both sides are true.'],
+        ['`!`', '"not": turns true into false and false into true.'],
+        [
+          'custom event',
+          'An event that code creates and announces itself, rather than one from the browser such as a click.'
+        ],
+        [
+          'loosely coupled',
+          "Parts of a program that work together without depending on each other's details."
         ],
         [
           'abstraction',
@@ -716,8 +734,11 @@ export const sections = [
         ],
         check: 'dummy.health === 90',
         walkthrough: [
-          '`isMyTurn` starts as `true`. The click handler checks it before dealing five damage.',
-          'Setting `isMyTurn` to `false` immediately blocks more hits. The timer sets it back to `true` after one second.',
+          '`isMyTurn` is the **state** of this example: a variable that remembers what is true right now. It starts as `true`, so the first click passes the `if` and deals five damage.',
+          '`isMyTurn = false;` changes the state straight after the hit. Any click now fails the `if` check, so it does nothing.',
+          '`setTimeout(function () { … }, 1000)` hands over a function to run **later**. The second value is the delay in milliseconds: 1000 ms is one second. Like `addEventListener`, it does not run the function now.',
+          'The click handler finishes straight away; it does not sit and wait. The page keeps handling clicks during that second. When the second is up, the timer runs its function and `isMyTurn` becomes `true` again.',
+          'The battle engine works the same way. Its state remembers whose turn it is, and it uses `setTimeout` to start Grub’s turn shortly after yours. `battle.isWizardTurn()` lets your handlers read that state.',
           'Grub has been eating Rune Bell cake. His battle object has `maxHealth` and `health` set to 110 after balance testing: one object customised, as in Tome I.'
         ],
         result:
@@ -817,6 +838,41 @@ export const sections = [
           ],
           'E5.7'
         ),
+        choice(
+          'ES5-Q10',
+          '`setTimeout(goblinTakesTurn, 1200);` has just run. What happens next?',
+          [
+            [
+              'The rest of the code carries on now; `goblinTakesTurn` runs 1.2 seconds later.',
+              'Correct. `setTimeout` schedules the function and lets the program carry on.'
+            ],
+            [
+              'The whole program freezes for 1.2 seconds.',
+              'Nothing freezes. Clicks and key presses are still handled while the timer waits.'
+            ],
+            [
+              '`goblinTakesTurn` runs straight away, 1200 times.',
+              '1200 is the delay in milliseconds, not a count.'
+            ]
+          ],
+          'E5.1'
+        ),
+        choice(
+          'ES5-Q11',
+          'The engine announces a `battleEnded` custom event instead of running your ending code itself. Why is that useful?',
+          [
+            [
+              'The engine does not need to know what your code does with the news.',
+              'Correct. The parts stay loosely coupled, so either can change without breaking the other.'
+            ],
+            ['Custom events make the battle run faster.', 'Speed is not the reason.'],
+            [
+              'It stops the player clicking after the battle.',
+              "The engine's state does that. The event only announces the news."
+            ]
+          ],
+          'E5.6'
+        ),
         blank(
           'ES5-Q7',
           "Read the card's power.",
@@ -843,6 +899,15 @@ export const sections = [
           'Correct.',
           'Who should the Rune Bell go to?',
           'E5.6'
+        ),
+        blank(
+          'ES5-Q12',
+          'Run `startGoblinTurn` after two seconds.',
+          '____(startGoblinTurn, 2000);',
+          ['setTimeout'],
+          'Correct. 2000 milliseconds is two seconds.',
+          'Which function runs another function after a delay?',
+          'E5.1'
         )
       ]
     }

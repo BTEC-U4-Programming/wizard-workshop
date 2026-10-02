@@ -1483,3 +1483,21 @@ Correct.
 Answer: `wizard`
 
 Correct.
+
+### ES5-Q10 — `setTimeout(goblinTakesTurn, 1200);` has just run. What happens next?
+
+Answer: The rest of the code carries on now; `goblinTakesTurn` runs 1.2 seconds later.
+
+Correct. `setTimeout` schedules the function and lets the program carry on.
+
+### ES5-Q11 — The engine announces a `battleEnded` custom event instead of running your ending code itself. Why is that useful?
+
+Answer: The engine does not need to know what your code does with the news.
+
+Correct. The parts stay loosely coupled, so either can change without breaking the other.
+
+### ES5-Q12 — Run `startGoblinTurn` after two seconds.
+
+Answer: `setTimeout`
+
+Correct. 2000 milliseconds is two seconds.

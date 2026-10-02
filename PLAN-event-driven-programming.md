@@ -17,7 +17,7 @@
 | 2 | A new, independent **Event-Driven Programming (EDP) module** with the same structure as the OOP module: sections, section introductions with a worked example, supported practice, and mixed multiple-choice / fill-in-the-blank reviews | Add a parallel "Tome II" curriculum, state store, app screen and runner engine. Reuse the OOP module's section, review, recap, editor, highlighting and celebration code by generalising it, not by copying it (§1, §3–§6). |
 | 3 | Gentle, fully guided code first, then growing independence | Use the existing scaffold labels (`worked example` → `gaps` → `partial prompts` → `prompts only` → `independent`) and 3-tier hints. The mix of labels per section is specified in §8. |
 | 4 | Teach EDP principles well enough for students to write about them in **Assignment 1** (Unit 4, Learning Aim A) | Every section's `assignmentLink`, the reflections, the Tome II recap and its Markdown download target A.P1–A.D1. See §10 and Appendix B. |
-| 5 | Cover **click**, **mouseover** and **keyboard typing** events attached to wizard behaviours, ending in a **playable wizard vs goblin battle** driven by the learner's own event handlers, continuing the Tome I story | Six sections. The last one wires a battle engine to the learner's handlers, so only the controls they coded work. The goblin is **Grub** from Tome I, and the wizard keeps its Tome I look (§7–§9). |
+| 5 | Cover **click**, **mouseover** and **keyboard typing** events attached to wizard behaviours, ending in a **playable wizard vs goblin battle** driven by the learner's own event handlers, continuing the Tome I story | Five sections. The last one wires a battle engine to the learner's handlers, so only the controls they coded work. The goblin is **Grub** from Tome I, and the wizard keeps its Tome I look (§7–§9). |
 
 ### 0.2 Mandatory reading before you start
 
@@ -1366,10 +1366,10 @@ blank('ES4-Q8','Make capitals irrelevant when comparing with `"APERIO"`.','const
 |---|---|
 | hook | `Grub is on the bridge with the Rune Bell. The battle is ready, but none of its controls are listening yet.` |
 | build | `The controls for a real battle against Grub, wired up by you and then played by you.` |
-| objectives | `combine click, hover and key events in one program` · `use state so that controls don't clash` · `evaluate how well your event-driven program works` |
-| summary | `The battle engine handles turns, damage and Grub's plans. You write the listeners that connect the player to it. A control that nothing listens to does nothing.` |
-| prerequisites | `Everything from Sections 1–4: listeners, the event object, hover pairs and keyboard buffers.` |
-| concepts | `API` — The set of functions some code offers for others to use, such as \`battle.cast(power)\`. · `abstraction` — Using something by knowing what it does, without needing to know how it works inside. · `integration` — Making separate parts work together as one program. · `usability` — How easy a program is to use. |
+| objectives | `combine click, hover and key events in one program` · `use state and timers so that controls don't clash` · `evaluate how well your event-driven program works` |
+| summary | `The battle engine runs turns and damage; you write the listeners. State is what is true right now, such as whose turn it is. Handlers check state before acting, and \`setTimeout\` runs a function later.` |
+| prerequisites | `From Tome I: \`let\` creates a variable whose value can change. From Sections 1–4: listeners, the event object, \`if\`, hover pairs and keyboard buffers.` |
+| concepts | `API` — The set of functions some code offers for others to use, such as \`battle.cast(power)\`. · `state` — Information about what is true right now, such as whose turn it is. · `\`setTimeout\`` — Runs a function later, after a delay in milliseconds. · `\`&&\`` — "and". · `\`!\`` — "not". · `custom event` — An event that code creates and announces itself. · `loosely coupled` — Parts that work together without depending on each other's details. · `abstraction` — Using something by knowing what it does, without needing to know how it works inside. · `integration` — Making separate parts work together as one program. · `usability` — How easy a program is to use. |
 | example.stage / steps | `example-duel` / click `#hit-button`, click `#hit-button`, wait 1000, click `#hit-button` |
 | example.check | `dummy.health === 90` |
 | result | `Three clicks, but only two hits: the second click arrived during the one-second wait.` |
@@ -1390,6 +1390,8 @@ hitButton.addEventListener("click", function () {
   }
 });
 ```
+
+Since the old Owl's Rounds section was removed, this section now introduces state, `setTimeout`, `&&`, `!` and custom events itself. The intro walkthrough explains state and `setTimeout` using the example above; E5.1 explains `&&`, state and the engine's `setTimeout` for Grub's turn; E5.4 explains the `"incantation"` state, the 5-second timer, `!` and early `return`; E5.5 frames the turn check as a state check; E5.6 explains custom events (`new CustomEvent`, `detail`, `dispatchEvent`) and loose coupling before the gap.
 
 The intro's walkthrough disclosure includes the Grub callback: `Grub has been eating Rune Bell cake. In the battle, his object has \`maxHealth\` and \`health\` set to 130: one object customised, just like your wizard in Tome I.`
 
@@ -1565,6 +1567,9 @@ choice('ES5-Q6','Which is a genuine weakness of event-driven programs?',[['With 
 blank('ES5-Q7','Read the card\'s power.','const power = event.target.dataset.____;',['power'],'Correct. It reads `data-power`.','Look at the `data-` attribute name in `stage.html`.','E5.1'),
 blank('ES5-Q8','Let keyboard players scry Grub too.','goblinSprite.addEventListener("____", showPlan);',['focus'],'Correct.','Which event fires when Tab reaches an element?','E5.3'),
 blank('ES5-Q9','Check who won.','if (event.detail.winner === "____") {',['wizard'],'Correct.','Who should the Rune Bell go to?','E5.6'),
+choice('ES5-Q10','`setTimeout(goblinTakesTurn, 1200);` has just run. What happens next?',[['The rest of the code carries on now; `goblinTakesTurn` runs 1.2 seconds later.','Correct.'],['The whole program freezes for 1.2 seconds.','Nothing freezes.'],['`goblinTakesTurn` runs straight away, 1200 times.','1200 is the delay in milliseconds.']],'E5.1'),
+choice('ES5-Q11','The engine announces a `battleEnded` custom event instead of running your ending code itself. Why is that useful?',[['The engine does not need to know what your code does with the news.','Correct. Loosely coupled.'],['Custom events make the battle run faster.','Speed is not the reason.'],['It stops the player clicking after the battle.','The engine\'s state does that.']],'E5.6'),
+blank('ES5-Q12','Run `startGoblinTurn` after two seconds.','____(startGoblinTurn, 2000);',['setTimeout'],'Correct.','Which function runs another function after a delay?','E5.1'),
 ```
 
 ---
@@ -1903,10 +1908,10 @@ node scripts/generate-docs.mjs
 
 | Spec ref | Content | Where |
 |---|---|---|
-| A1 Decomposition, pattern recognition, abstraction, inputs/outputs | Events → handlers → state changes; spotting repeated listeners (delegation); the battle API as abstraction | E1.1, E2.3, S5 intro, E5.7 reflection |
+| A1 Decomposition, pattern recognition, abstraction, inputs/outputs | Events → handlers → state changes; spotting repeated listeners (delegation); the battle API as abstraction | E1.1, E2.3, S5 intro, E5.1, E5.7 reflection |
 | A3 Event-driven paradigm (e.g. Visual Basic); markup vs logic; hardware/software needs | Procedural vs event-driven sort; `stage.html` vs `spells.js`; the VB handler comparison | E1.5, the `stage.html` tab, E5.7, ES5-Q2/Q4 |
-| A4 Event handling, selection, iteration, string handling, functions, variables and scope | Every section. String handling in E4.2–E4.4; functions as callbacks throughout. Iteration is no longer taught (the old frozen-tower loop was removed with the old Section 5) | S1–S5 |
-| A5 Logic, truth tables, tracing | Not covered since the old Section 5 (truth table, trace table, compound `&&` and `!`) was removed | — |
-| A6 Efficiency, maintainability, portability, reliability, robustness, usability | Delegation (E2.3); hover accessibility (E3.5); robustness tests (E4.3–E4.4); listener conflicts (E5.5); the battle evaluation (E5.7) | S2–S5 |
+| A4 Event handling, selection, iteration, string handling, functions, variables and scope | Every section. String handling in E4.2–E4.4; functions as callbacks throughout. State variables and `setTimeout` (S5 intro, E5.1, E5.4); custom events with `CustomEvent`, `detail` and `dispatchEvent` (E5.6). **Not covered:** iteration (the old frozen-tower loop was removed with The Owl's Rounds) | S1–S5 |
+| A5 Logic, truth tables, tracing | Compound conditions with `&&` (E5.1) and `!` (E5.4, E5.5). **Not covered:** truth tables and trace tables, which were removed with The Owl's Rounds; teach them outside the app | E5.1, E5.4, E5.5 |
+| A6 Efficiency, maintainability, portability, reliability, robustness, usability | Delegation (E2.3); hover accessibility (E3.5); robustness tests (E4.3–E4.4); listener conflicts and state checks (E5.5); loose coupling through a custom event (E5.6, ES5-Q11); timers that do not freeze the page (ES5-Q10); the battle evaluation (E5.7). **Not covered:** the event loop and queue, and why a long-running handler freezes a program (the old frozen-UI step) | S2–S5 |
 | B2/C2 Events in design; validation; typical/extreme/erroneous test data | Trial category tags on every Spell Trial; the E4.4 sort | Throughout |
-| Assignment 1 evidence checklist: annotated code, language comparisons, logic evidence, balanced evaluation | Recap download: concept code, the VB comparison, report prompts, battle stats, their own final code | §10 |
+| Assignment 1 evidence checklist: annotated code, language comparisons, logic evidence, balanced evaluation | Recap download: concept code, the VB comparison, report prompts, battle stats, their own final code. Logic evidence (truth and trace tables) is no longer generated and must come from work outside the app | §10 |
